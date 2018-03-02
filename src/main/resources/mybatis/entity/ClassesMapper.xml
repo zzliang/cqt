@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ClassesMapper">
+	<resultMap id="BaseResultMap" type="Classes">
+		<id column="classes_id" jdbcType="BIGINT" property="classesId" />
+		<result column="classes_name" jdbcType="VARCHAR" property="classesName" />
+		<result column="year" jdbcType="VARCHAR" property="year" />
+		<result column="school_id" jdbcType="BIGINT" property="schoolId" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		classes_id, classes_name, year, school_id
+	</sql>
+
+	<!-- 分页查询班级信息列表 -->
+	<select id="classesListPage" parameterType="Page" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM t_classes
+		<where>
+			<if test="null != pd.classesId and '' != pd.classesId">
+				AND classes_id = #{pd.classesId}
+			</if>
+			<if test="null != pd.classesName and '' != pd.classesName">
+				AND classes_name = #{pd.classesName}
+			</if>
+		</where>
+		<if test="null != pd.orderCol and '' != pd.orderCol">
+			ORDER BY #{pd.orderCol}
+		</if>
+	</select>
+
+	<select id="selectById" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_classes
+		where classes_id = #{classesId,jdbcType=BIGINT}
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from t_classes
+		where classes_id = #{classesId,jdbcType=BIGINT}
+	</delete>
+
+	<delete id="deleteByIds" parameterType="java.util.List">
+		delete from t_classes
+		where classes_id in
+		<foreach collection="array" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<insert id="insert" parameterType="Classes" useGeneratedKeys="true"
+		keyProperty="classes_id">
+		insert into t_classes (classes_id, classes_name, year,
+		school_id)
+		values (#{classesId,jdbcType=BIGINT}, #{classesName,jdbcType=VARCHAR},
+		#{year,jdbcType=VARCHAR},
+		#{schoolId,jdbcType=BIGINT})
+	</insert>
+
+	<insert id="insertSelective" parameterType="Classes"
+		useGeneratedKeys="true" keyProperty="classes_id">
+		insert into t_classes
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="classesId != null">
+				classes_id,
+			</if>
+			<if test="classesName != null">
+				classes_name,
+			</if>
+			<if test="year != null">
+				year,
+			</if>
+			<if test="schoolId != null">
+				school_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="classesId != null">
+				#{classesId,jdbcType=BIGINT},
+			</if>
+			<if test="classesName != null">
+				#{classesName,jdbcType=VARCHAR},
+			</if>
+			<if test="year != null">
+				#{year,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByIdSelective" parameterType="Classes">
+		update t_classes
+		<set>
+			<if test="classesName != null">
+				classes_name = #{classesName,jdbcType=VARCHAR},
+			</if>
+			<if test="year != null">
+				year = #{year,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolId != null">
+				school_id = #{schoolId,jdbcType=BIGINT},
+			</if>
+		</set>
+		where classes_id = #{classesId,jdbcType=BIGINT}
+	</update>
+
+	<update id="updateById" parameterType="Classes">
+		update t_classes
+		set classes_name = #{classesName,jdbcType=VARCHAR},
+		year = #{year,jdbcType=VARCHAR},
+		school_id = #{schoolId,jdbcType=BIGINT}
+		where classes_id = #{classesId,jdbcType=BIGINT}
+	</update>
+</mapper>

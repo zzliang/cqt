@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SchoolMapper">
+	<resultMap id="BaseResultMap" type="School">
+		<id column="school_id" jdbcType="BIGINT" property="schoolId" />
+		<result column="school_code" jdbcType="VARCHAR" property="schoolCode" />
+		<result column="school_name" jdbcType="VARCHAR" property="schoolName" />
+		<result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
+		<result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="email1" jdbcType="VARCHAR" property="email1" />
+		<result column="email2" jdbcType="VARCHAR" property="email2" />
+		<result column="tel1" jdbcType="VARCHAR" property="tel1" />
+		<result column="tel2" jdbcType="VARCHAR" property="tel2" />
+		<result column="fax" jdbcType="VARCHAR" property="fax" />
+		<result column="post" jdbcType="VARCHAR" property="post" />
+		<result column="web" jdbcType="VARCHAR" property="web" />
+		<result column="business_license" jdbcType="VARCHAR" property="businessLicense" />
+		<result column="create_date" jdbcType="DATE" property="createDate" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		school_id, school_code, school_name, province_code, province_name, address,
+		email1,
+		email2, tel1, tel2, fax, post, web, business_license, create_date
+	</sql>
+
+	<!-- 分页查询课程表列表 -->
+	<select id="schoolListPage" parameterType="Page" resultMap="BaseResultMap">
+		SELECT
+		*
+		FROM
+		t_school ts
+		<where>
+			<if test="null != pd.schoolId and '' != pd.schoolId">
+				AND ts.school_id=#{pd.schoolId}
+			</if>
+			<if test="null != pd.schoolCode and '' != pd.schoolCode"> 		<!-- 学校编码 -->
+				AND ts.school_code=#{pd.schoolCode}
+			</if>
+			<if test="null != pd.schoolName and '' != pd.schoolName"> 			<!-- 学校名称 -->
+				AND ts.school_name=#{pd.schoolName}
+			</if>
+			<if test="null != pd.provinceName and '' != pd.provinceName"> 			<!-- 省份名称 -->
+				AND ts.province_name=#{pd.provinceName}
+			</if>
+		</where>
+		<if test="null != pd.orderCol and '' != pd.orderCol">
+			ORDER BY #{pd.orderCol}
+		</if>
+	</select>
+
+	<select id="selectById" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_school
+		where school_id = #{schoolId,jdbcType=BIGINT}
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from t_school
+		where school_id = #{schoolId,jdbcType=BIGINT}
+	</delete>
+
+	<delete id="deleteByIds" parameterType="java.util.List">
+		delete from t_school
+		where school_id in
+		<foreach collection="array" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<insert id="insert" parameterType="School" useGeneratedKeys="true"
+		keyProperty="school_id">
+		insert into t_school (school_id, school_code, school_name,
+		province_code, province_name, address,
+		email1, email2, tel1,
+		tel2, fax, post, web,
+		business_license, create_date)
+		values (#{schoolId,jdbcType=BIGINT}, #{schoolCode,jdbcType=VARCHAR},
+		#{schoolName,jdbcType=VARCHAR},
+		#{provinceCode,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+		#{email1,jdbcType=VARCHAR}, #{email2,jdbcType=VARCHAR},
+		#{tel1,jdbcType=VARCHAR},
+		#{tel2,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR},
+		#{web,jdbcType=VARCHAR},
+		#{businessLicense,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE})
+	</insert>
+
+	<insert id="insertSelective" parameterType="School"
+		useGeneratedKeys="true" keyProperty="school_id">
+		insert into t_school
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="schoolId != null">
+				school_id,
+			</if>
+			<if test="schoolCode != null">
+				school_code,
+			</if>
+			<if test="schoolName != null">
+				school_name,
+			</if>
+			<if test="provinceCode != null">
+				province_code,
+			</if>
+			<if test="provinceName != null">
+				province_name,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="email1 != null">
+				email1,
+			</if>
+			<if test="email2 != null">
+				email2,
+			</if>
+			<if test="tel1 != null">
+				tel1,
+			</if>
+			<if test="tel2 != null">
+				tel2,
+			</if>
+			<if test="fax != null">
+				fax,
+			</if>
+			<if test="post != null">
+				post,
+			</if>
+			<if test="web != null">
+				web,
+			</if>
+			<if test="businessLicense != null">
+				business_license,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=BIGINT},
+			</if>
+			<if test="schoolCode != null">
+				#{schoolCode,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolName != null">
+				#{schoolName,jdbcType=VARCHAR},
+			</if>
+			<if test="provinceCode != null">
+				#{provinceCode,jdbcType=VARCHAR},
+			</if>
+			<if test="provinceName != null">
+				#{provinceName,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="email1 != null">
+				#{email1,jdbcType=VARCHAR},
+			</if>
+			<if test="email2 != null">
+				#{email2,jdbcType=VARCHAR},
+			</if>
+			<if test="tel1 != null">
+				#{tel1,jdbcType=VARCHAR},
+			</if>
+			<if test="tel2 != null">
+				#{tel2,jdbcType=VARCHAR},
+			</if>
+			<if test="fax != null">
+				#{fax,jdbcType=VARCHAR},
+			</if>
+			<if test="post != null">
+				#{post,jdbcType=VARCHAR},
+			</if>
+			<if test="web != null">
+				#{web,jdbcType=VARCHAR},
+			</if>
+			<if test="businessLicense != null">
+				#{businessLicense,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=DATE},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByIdSelective" parameterType="School">
+		update t_school
+		<set>
+			<if test="schoolCode != null">
+				school_code = #{schoolCode,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolName != null">
+				school_name = #{schoolName,jdbcType=VARCHAR},
+			</if>
+			<if test="provinceCode != null">
+				province_code = #{provinceCode,jdbcType=VARCHAR},
+			</if>
+			<if test="provinceName != null">
+				province_name = #{provinceName,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="email1 != null">
+				email1 = #{email1,jdbcType=VARCHAR},
+			</if>
+			<if test="email2 != null">
+				email2 = #{email2,jdbcType=VARCHAR},
+			</if>
+			<if test="tel1 != null">
+				tel1 = #{tel1,jdbcType=VARCHAR},
+			</if>
+			<if test="tel2 != null">
+				tel2 = #{tel2,jdbcType=VARCHAR},
+			</if>
+			<if test="fax != null">
+				fax = #{fax,jdbcType=VARCHAR},
+			</if>
+			<if test="post != null">
+				post = #{post,jdbcType=VARCHAR},
+			</if>
+			<if test="web != null">
+				web = #{web,jdbcType=VARCHAR},
+			</if>
+			<if test="businessLicense != null">
+				business_license = #{businessLicense,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=DATE},
+			</if>
+		</set>
+		where school_id = #{schoolId,jdbcType=BIGINT}
+	</update>
+
+	<update id="updateById" parameterType="School">
+		update t_school
+		set school_code = #{schoolCode,jdbcType=VARCHAR},
+		school_name = #{schoolName,jdbcType=VARCHAR},
+		province_code = #{provinceCode,jdbcType=VARCHAR},
+		province_name = #{provinceName,jdbcType=VARCHAR},
+		address = #{address,jdbcType=VARCHAR},
+		email1 = #{email1,jdbcType=VARCHAR},
+		email2 = #{email2,jdbcType=VARCHAR},
+		tel1 = #{tel1,jdbcType=VARCHAR},
+		tel2 = #{tel2,jdbcType=VARCHAR},
+		fax = #{fax,jdbcType=VARCHAR},
+		post = #{post,jdbcType=VARCHAR},
+		web = #{web,jdbcType=VARCHAR},
+		business_license = #{businessLicense,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=DATE}
+		where school_id = #{schoolId,jdbcType=BIGINT}
+	</update>
+</mapper>

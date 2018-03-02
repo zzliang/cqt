@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CourseConfigMapper">
+	<resultMap id="BaseResultMap" type="CourseConfig">
+		<id column="course_config_id" property="courseConfigId" />
+		<result column="course_date" property="courseDate" />
+		<result column="start_date" property="startDate" />
+		<result column="end_date" property="endDate" />
+		<result column="weeks" property="weeks" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		course_config_id, course_date, start_date, end_date, weeks
+	</sql>
+
+	<select id="selectByCourseDate" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM t_course_config
+		WHERE course_date = #{courDate};
+	</select>
+
+	<select id="selectByNow" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		t_course_config tcc
+		WHERE tcc.start_date <![CDATA[  <=  ]]>
+		NOW()
+		AND tcc.end_date <![CDATA[  >=  ]]>
+		NOW()
+	</select>
+
+	<select id="selectById" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_course_config
+		where course_config_id = #{courseConfigId}
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from t_course_config
+		where course_config_id = #{courseConfigId}
+	</delete>
+
+	<insert id="insert" parameterType="CourseConfig"
+		useGeneratedKeys="true" keyProperty="course_config_id">
+		insert into t_course_config (course_date, start_date, end_date, weeks)
+		values (#{courseDate}, #{startDate}, #{endDate}, #{weeks})
+	</insert>
+
+	<insert id="insertSelective" parameterType="CourseConfig"
+		useGeneratedKeys="true" keyProperty="course_config_id">
+		insert into t_course_config
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="courseConfigId != null">
+				course_config_id,
+			</if>
+			<if test="courseDate != null">
+				course_date,
+			</if>
+			<if test="startDate != null">
+				start_date,
+			</if>
+			<if test="endDate != null">
+				end_date,
+			</if>
+			<if test="weeks != null">
+				weeks,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="courseConfigId != null">
+				#{courseConfigId},
+			</if>
+			<if test="courseDate != null">
+				#{courseDate},
+			</if>
+			<if test="startDate != null">
+				#{startDate},
+			</if>
+			<if test="endDate != null">
+				#{endDate},
+			</if>
+			<if test="weeks != null">
+				#{weeks},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByIdSelective" parameterType="CourseConfig">
+		update t_course_config
+		<set>
+			<if test="courseDate != null">
+				course_date = #{courseDate},
+			</if>
+			<if test="startDate != null">
+				start_date = #{startDate},
+			</if>
+			<if test="endDate != null">
+				end_date = #{endDate},
+			</if>
+			<if test="weeks != null">
+				weeks = #{weeks},
+			</if>
+		</set>
+		where course_config_id = #{courseConfigId}
+	</update>
+
+	<update id="updateById" parameterType="CourseConfig">
+		update t_course_config
+		set course_date = #{courseDate},
+		start_date = #{startDate},
+		end_date = #{endDate},
+		weeks = #{weeks}
+		where course_config_id = #{courseConfigId}
+	</update>
+</mapper>

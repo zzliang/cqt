@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CourseItemRunMapper">
+	<resultMap id="BaseResultMap" type="CourseItem">
+		<id column="course_item_id" property="courseItemId" />
+		<result column="course_schedule_id" property="courseScheduleId" />
+		<result column="z_index" property="zIndex" />
+		<result column="start_time" property="startTime" />
+		<result column="end_time" property="endTime" />
+		<result column="course_name" property="courseName" />
+		<result column="course_ename" property="courseEname" />
+		<result column="teacher_name" property="teacherName" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		course_item_id, course_schedule_id, z_index, start_time,
+		end_time, course_name,
+		course_ename,
+		teacher_name
+	</sql>
+
+	<select id="selectById" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_course_item_run
+		where course_item_id = #{courseItemId}
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from
+		t_course_item_run
+		where course_item_id = #{courseItemId}
+	</delete>
+
+	<insert id="insert" parameterType="CourseItem">
+		insert into t_course_item_run
+		(course_item_id, course_schedule_id, z_index,
+		start_time, end_time,
+		course_name,
+		course_ename, teacher_name)
+		values (#{courseItemId},
+		#{courseScheduleId}, #{zIndex},
+		#{startTime}, #{endTime},
+		#{courseName},
+		#{courseEname}, #{teacherName})
+	</insert>
+
+	<insert id="insertSelective" parameterType="CourseItem">
+		insert into t_course_item_run
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="courseItemId != null">
+				course_item_id,
+			</if>
+			<if test="courseScheduleId != null">
+				course_schedule_id,
+			</if>
+			<if test="zIndex != null">
+				z_index,
+			</if>
+			<if test="startTime != null">
+				start_time,
+			</if>
+			<if test="endTime != null">
+				end_time,
+			</if>
+			<if test="courseName != null">
+				course_name,
+			</if>
+			<if test="courseEname != null">
+				course_ename,
+			</if>
+			<if test="teacherName != null">
+				teacher_name,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="courseItemId != null">
+				#{courseItemId},
+			</if>
+			<if test="courseScheduleId != null">
+				#{courseScheduleId},
+			</if>
+			<if test="zIndex != null">
+				#{zIndex},
+			</if>
+			<if test="startTime != null">
+				#{startTime},
+			</if>
+			<if test="endTime != null">
+				#{endTime},
+			</if>
+			<if test="courseName != null">
+				#{courseName},
+			</if>
+			<if test="courseEname != null">
+				#{courseEname},
+			</if>
+			<if test="teacherName != null">
+				#{teacherName},
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="insertCourseItemRunList" parameterType="java.util.List">
+		INSERT INTO t_course_item_run (
+		course_item_id,course_schedule_id,z_index,start_time,end_time,course_name,course_ename,teacher_name,week
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			('${item.courseItemId}','${item.courseScheduleId}','${item.zIndex}','${item.startTime}','${item.endTime}','${item.courseName}','${item.courseEname}','${item.teacherName}','${item.week}')
+		</foreach>
+	</insert>
+
+	<update id="updateByIdSelective" parameterType="CourseItem">
+		update t_course_item_run
+		<set>
+			<if test="courseScheduleId != null">
+				course_schedule_id = #{courseScheduleId},
+			</if>
+			<if test="zIndex != null">
+				z_index = #{zIndex},
+			</if>
+			<if test="startTime != null">
+				start_time = #{startTime},
+			</if>
+			<if test="endTime != null">
+				end_time = #{endTime},
+			</if>
+			<if test="courseName != null">
+				course_name = #{courseName},
+			</if>
+			<if test="courseEname != null">
+				course_ename = #{courseEname},
+			</if>
+			<if test="teacherName != null">
+				teacher_name = #{teacherName},
+			</if>
+		</set>
+		where course_item_id = #{courseItemId}
+	</update>
+
+	<update id="updateById" parameterType="CourseItem">
+		update t_course_item_run
+		set course_schedule_id = #{courseScheduleId},
+		z_index = #{zIndex},
+		start_time = #{startTime},
+		end_time = #{endTime},
+		course_name =
+		#{courseName},
+		course_ename = #{courseEname},
+		teacher_name =
+		#{teacherName}
+		where course_item_id = #{courseItemId}
+	</update>
+</mapper>

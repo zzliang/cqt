@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StudentMapper">
+	<resultMap id="BaseResultMap" type="Student">
+		<id column="student_id" jdbcType="BIGINT" property="studentId" />
+		<result column="stu_name" jdbcType="VARCHAR" property="stuName" />
+		<result column="petname" jdbcType="VARCHAR" property="petname" />
+		<result column="birth" jdbcType="DATE" property="birth" />
+		<result column="wstg" jdbcType="INTEGER" property="wstg" />
+		<result column="sex" jdbcType="TINYINT" property="sex" />
+		<result column="height" jdbcType="INTEGER" property="height" />
+		<result column="nation" jdbcType="VARCHAR" property="nation" />
+		<result column="age" jdbcType="INTEGER" property="age" />
+		<result column="home_address" jdbcType="VARCHAR" property="homeAddress" />
+		<result column="stu_number" jdbcType="VARCHAR" property="stuNumber" />
+		<result column="school_id" jdbcType="BIGINT" property="schoolId" />
+		<result column="class_id" jdbcType="BIGINT" property="classId" />
+		<result column="left_vision" jdbcType="INTEGER" property="leftVision" />
+		<result column="right_vision" jdbcType="INTEGER" property="rightVision" />
+		<result column="nature" jdbcType="VARCHAR" property="nature" />
+		<result column="constitution" jdbcType="VARCHAR" property="constitution" />
+		<result column="contacts" jdbcType="VARCHAR" property="contacts" />
+		<result column="contacts_phone" jdbcType="VARCHAR" property="contactsPhone" />
+		<result column="contacts_email" jdbcType="VARCHAR" property="contactsEmail" />
+		<result column="shuttle_type" jdbcType="VARCHAR" property="shuttleType" />
+		<result column="shuttle_supplement" jdbcType="VARCHAR"
+			property="shuttleSupplement" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		student_id, stu_name, petname, birth, wstg, sex, height, nation, age,
+		home_address,
+		stu_number, school_id, class_id, left_vision, right_vision, nature, constitution,
+		contacts, contacts_phone, contacts_email, shuttle_type,
+		shuttle_supplement
+	</sql>
+
+	<!-- 分页查询学生信息列表 -->
+	<select id="studentListPage" parameterType="Page" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM t_student
+		<where>
+			<if test="null != pd.studentId and '' != pd.studentId">
+				AND student_id = #{pd.studentId}
+			</if>
+			<if test="null != pd.stuName and '' != pd.stuName">
+				AND stu_name = #{pd.stuName}
+			</if>
+			<if test="null != pd.schoolId and '' != pd.schoolId">
+				AND school_id = #{pd.schoolId}
+			</if>
+		</where>
+		<if test="null != pd.orderCol and '' != pd.orderCol">
+			ORDER BY #{pd.orderCol}
+		</if>
+	</select>
+
+	<!-- 根据Id查询学生信息 -->
+	<select id="selectById" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM t_student
+		WHERE student_id = #{studentId,jdbcType=BIGINT}
+	</select>
+
+	<!-- 根据Id删除学生信息 -->
+	<delete id="deleteById" parameterType="java.lang.Long">
+		DELETE FROM t_student
+		WHERE student_id = #{studentId,jdbcType=BIGINT}
+	</delete>
+
+
+	<insert id="insert" parameterType="Student">
+		insert into t_student (student_id, stu_name, petname,
+		birth, wstg, sex, height,
+		nation, age, home_address,
+		stu_number, school_id, class_id,
+		left_vision, right_vision, nature,
+		constitution, contacts, contacts_phone,
+		contacts_email, shuttle_type, shuttle_supplement
+		)
+		values (#{studentId,jdbcType=BIGINT}, #{stuName,jdbcType=VARCHAR},
+		#{petname,jdbcType=VARCHAR},
+		#{birth,jdbcType=DATE}, #{wstg,jdbcType=INTEGER}, #{sex,jdbcType=TINYINT},
+		#{height,jdbcType=INTEGER},
+		#{nation,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{homeAddress,jdbcType=VARCHAR},
+		#{stuNumber,jdbcType=VARCHAR}, #{schoolId,jdbcType=BIGINT},
+		#{classId,jdbcType=BIGINT},
+		#{leftVision,jdbcType=INTEGER}, #{rightVision,jdbcType=INTEGER}, #{nature,jdbcType=VARCHAR},
+		#{constitution,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR},
+		#{contactsPhone,jdbcType=VARCHAR},
+		#{contactsEmail,jdbcType=VARCHAR}, #{shuttleType,jdbcType=VARCHAR},
+		#{shuttleSupplement,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<insert id="insertSelective" parameterType="Student">
+		insert into t_student
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="studentId != null">
+				student_id,
+			</if>
+			<if test="stuName != null">
+				stu_name,
+			</if>
+			<if test="petname != null">
+				petname,
+			</if>
+			<if test="birth != null">
+				birth,
+			</if>
+			<if test="wstg != null">
+				wstg,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="height != null">
+				height,
+			</if>
+			<if test="nation != null">
+				nation,
+			</if>
+			<if test="age != null">
+				age,
+			</if>
+			<if test="homeAddress != null">
+				home_address,
+			</if>
+			<if test="stuNumber != null">
+				stu_number,
+			</if>
+			<if test="schoolId != null">
+				school_id,
+			</if>
+			<if test="classId != null">
+				class_id,
+			</if>
+			<if test="leftVision != null">
+				left_vision,
+			</if>
+			<if test="rightVision != null">
+				right_vision,
+			</if>
+			<if test="nature != null">
+				nature,
+			</if>
+			<if test="constitution != null">
+				constitution,
+			</if>
+			<if test="contacts != null">
+				contacts,
+			</if>
+			<if test="contactsPhone != null">
+				contacts_phone,
+			</if>
+			<if test="contactsEmail != null">
+				contacts_email,
+			</if>
+			<if test="shuttleType != null">
+				shuttle_type,
+			</if>
+			<if test="shuttleSupplement != null">
+				shuttle_supplement,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="studentId != null">
+				#{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="stuName != null">
+				#{stuName,jdbcType=VARCHAR},
+			</if>
+			<if test="petname != null">
+				#{petname,jdbcType=VARCHAR},
+			</if>
+			<if test="birth != null">
+				#{birth,jdbcType=DATE},
+			</if>
+			<if test="wstg != null">
+				#{wstg,jdbcType=INTEGER},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=TINYINT},
+			</if>
+			<if test="height != null">
+				#{height,jdbcType=INTEGER},
+			</if>
+			<if test="nation != null">
+				#{nation,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				#{age,jdbcType=INTEGER},
+			</if>
+			<if test="homeAddress != null">
+				#{homeAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="stuNumber != null">
+				#{stuNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=BIGINT},
+			</if>
+			<if test="classId != null">
+				#{classId,jdbcType=BIGINT},
+			</if>
+			<if test="leftVision != null">
+				#{leftVision,jdbcType=INTEGER},
+			</if>
+			<if test="rightVision != null">
+				#{rightVision,jdbcType=INTEGER},
+			</if>
+			<if test="nature != null">
+				#{nature,jdbcType=VARCHAR},
+			</if>
+			<if test="constitution != null">
+				#{constitution,jdbcType=VARCHAR},
+			</if>
+			<if test="contacts != null">
+				#{contacts,jdbcType=VARCHAR},
+			</if>
+			<if test="contactsPhone != null">
+				#{contactsPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="contactsEmail != null">
+				#{contactsEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="shuttleType != null">
+				#{shuttleType,jdbcType=VARCHAR},
+			</if>
+			<if test="shuttleSupplement != null">
+				#{shuttleSupplement,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByIdSelective" parameterType="Student">
+		update t_student
+		<set>
+			<if test="stuName != null">
+				stu_name = #{stuName,jdbcType=VARCHAR},
+			</if>
+			<if test="petname != null">
+				petname = #{petname,jdbcType=VARCHAR},
+			</if>
+			<if test="birth != null">
+				birth = #{birth,jdbcType=DATE},
+			</if>
+			<if test="wstg != null">
+				wstg = #{wstg,jdbcType=INTEGER},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=TINYINT},
+			</if>
+			<if test="height != null">
+				height = #{height,jdbcType=INTEGER},
+			</if>
+			<if test="nation != null">
+				nation = #{nation,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				age = #{age,jdbcType=INTEGER},
+			</if>
+			<if test="homeAddress != null">
+				home_address = #{homeAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="stuNumber != null">
+				stu_number = #{stuNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolId != null">
+				school_id = #{schoolId,jdbcType=BIGINT},
+			</if>
+			<if test="classId != null">
+				class_id = #{classId,jdbcType=BIGINT},
+			</if>
+			<if test="leftVision != null">
+				left_vision = #{leftVision,jdbcType=INTEGER},
+			</if>
+			<if test="rightVision != null">
+				right_vision = #{rightVision,jdbcType=INTEGER},
+			</if>
+			<if test="nature != null">
+				nature = #{nature,jdbcType=VARCHAR},
+			</if>
+			<if test="constitution != null">
+				constitution = #{constitution,jdbcType=VARCHAR},
+			</if>
+			<if test="contacts != null">
+				contacts = #{contacts,jdbcType=VARCHAR},
+			</if>
+			<if test="contactsPhone != null">
+				contacts_phone = #{contactsPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="contactsEmail != null">
+				contacts_email = #{contactsEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="shuttleType != null">
+				shuttle_type = #{shuttleType,jdbcType=VARCHAR},
+			</if>
+			<if test="shuttleSupplement != null">
+				shuttle_supplement = #{shuttleSupplement,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where student_id = #{studentId,jdbcType=BIGINT}
+	</update>
+
+	<update id="updateById" parameterType="Student">
+		update t_student
+		set stu_name = #{stuName,jdbcType=VARCHAR},
+		petname = #{petname,jdbcType=VARCHAR},
+		birth = #{birth,jdbcType=DATE},
+		wstg = #{wstg,jdbcType=INTEGER},
+		sex = #{sex,jdbcType=TINYINT},
+		height = #{height,jdbcType=INTEGER},
+		nation = #{nation,jdbcType=VARCHAR},
+		age = #{age,jdbcType=INTEGER},
+		home_address = #{homeAddress,jdbcType=VARCHAR},
+		stu_number = #{stuNumber,jdbcType=VARCHAR},
+		school_id = #{schoolId,jdbcType=BIGINT},
+		class_id = #{classId,jdbcType=BIGINT},
+		left_vision = #{leftVision,jdbcType=INTEGER},
+		right_vision = #{rightVision,jdbcType=INTEGER},
+		nature = #{nature,jdbcType=VARCHAR},
+		constitution = #{constitution,jdbcType=VARCHAR},
+		contacts = #{contacts,jdbcType=VARCHAR},
+		contacts_phone = #{contactsPhone,jdbcType=VARCHAR},
+		contacts_email = #{contactsEmail,jdbcType=VARCHAR},
+		shuttle_type = #{shuttleType,jdbcType=VARCHAR},
+		shuttle_supplement = #{shuttleSupplement,jdbcType=VARCHAR}
+		where student_id = #{studentId,jdbcType=BIGINT}
+	</update>
+</mapper>

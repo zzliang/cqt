@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CourseGroupMapper">
+	<resultMap id="BaseResultMap" type="CourseGroup">
+		<id column="course_group_id" property="courseGroupId" />
+		<result column="course_group_name" property="courseGroupName" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		course_group_id, course_group_name
+	</sql>
+
+	<select id="courseGroupListPage" parameterType="Page" resultMap="BaseResultMap">
+		SELECT * FROM t_course_group
+	</select>
+
+	<!-- 查询课程组列表 -->
+	<select id="selectCourseGroupList" resultMap="BaseResultMap">
+		SELECT * FROM t_course_group
+	</select>
+
+	<select id="selectById" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_course_group
+		where course_group_id = #{courseGroupId}
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from t_course_group
+		where course_group_id = #{courseGroupId}
+	</delete>
+
+	<delete id="deleteByIds" parameterType="java.util.List">
+		delete from t_course_group
+		where course_group_id in
+		<foreach collection="array" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<insert id="insert" parameterType="CourseGroup"
+		useGeneratedKeys="true" keyProperty="courseGroupId">
+		insert into t_course_group (course_group_id, course_group_name)
+		values (#{courseGroupId}, #{courseGroupName})
+	</insert>
+
+	<update id="updateById" parameterType="CourseGroup">
+		update t_course_group
+		set course_group_name = #{courseGroupName}
+		where course_group_id = #{courseGroupId}
+	</update>
+</mapper>

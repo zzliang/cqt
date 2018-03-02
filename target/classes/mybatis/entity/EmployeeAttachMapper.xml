@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EmployeeAttachMapper">
+	<resultMap id="BaseResultMap" type="EmployeeAttach">
+		<id column="employee_attach_id" jdbcType="BIGINT" property="employeeAttachId" />
+		<result column="employee_id" jdbcType="BIGINT" property="employeeId" />
+		<result column="account_address" jdbcType="VARCHAR" property="accountAddress" />
+		<result column="qualification_cert" jdbcType="VARCHAR"
+			property="qualificationCert" />
+		<result column="education" jdbcType="VARCHAR" property="education" />
+		<result column="degree" jdbcType="VARCHAR" property="degree" />
+		<result column="graduate_school" jdbcType="VARCHAR" property="graduateSchool" />
+		<result column="file_address" jdbcType="VARCHAR" property="fileAddress" />
+		<result column="major" jdbcType="VARCHAR" property="major" />
+		<result column="graduate_time" jdbcType="DATE" property="graduateTime" />
+		<result column="station_level" jdbcType="BIT" property="stationLevel" />
+		<result column="technical_title" jdbcType="VARCHAR" property="technicalTitle" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		employee_attach_id, employee_id, account_address,
+		qualification_cert, education,
+		degree, graduate_school, file_address,
+		major, graduate_time, station_level,
+		technical_title
+	</sql>
+
+	<select id="selectById" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_employee_attach
+		where employee_attach_id =
+		#{employeeAttachId,jdbcType=BIGINT}
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from
+		t_employee_attach
+		where employee_attach_id =
+		#{employeeAttachId,jdbcType=BIGINT}
+	</delete>
+
+	<insert id="insert" parameterType="EmployeeAttach">
+		insert into t_employee_attach
+		(employee_attach_id, employee_id,
+		account_address,
+		qualification_cert,
+		education, degree,
+		graduate_school, file_address, major,
+		graduate_time,
+		station_level, technical_title
+		)
+		values
+		(#{employeeAttachId,jdbcType=BIGINT}, #{employeeId,jdbcType=BIGINT},
+		#{accountAddress,jdbcType=VARCHAR},
+		#{qualificationCert,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR},
+		#{degree,jdbcType=VARCHAR},
+		#{graduateSchool,jdbcType=VARCHAR},
+		#{fileAddress,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR},
+		#{graduateTime,jdbcType=DATE}, #{stationLevel,jdbcType=BIT},
+		#{technicalTitle,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<insert id="insertSelective" parameterType="EmployeeAttach">
+		insert into t_employee_attach
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="employeeAttachId != null">
+				employee_attach_id,
+			</if>
+			<if test="employeeId != null">
+				employee_id,
+			</if>
+			<if test="accountAddress != null">
+				account_address,
+			</if>
+			<if test="qualificationCert != null">
+				qualification_cert,
+			</if>
+			<if test="education != null">
+				education,
+			</if>
+			<if test="degree != null">
+				degree,
+			</if>
+			<if test="graduateSchool != null">
+				graduate_school,
+			</if>
+			<if test="fileAddress != null">
+				file_address,
+			</if>
+			<if test="major != null">
+				major,
+			</if>
+			<if test="graduateTime != null">
+				graduate_time,
+			</if>
+			<if test="stationLevel != null">
+				station_level,
+			</if>
+			<if test="technicalTitle != null">
+				technical_title,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="employeeAttachId != null">
+				#{employeeAttachId,jdbcType=BIGINT},
+			</if>
+			<if test="employeeId != null">
+				#{employeeId,jdbcType=BIGINT},
+			</if>
+			<if test="accountAddress != null">
+				#{accountAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="qualificationCert != null">
+				#{qualificationCert,jdbcType=VARCHAR},
+			</if>
+			<if test="education != null">
+				#{education,jdbcType=VARCHAR},
+			</if>
+			<if test="degree != null">
+				#{degree,jdbcType=VARCHAR},
+			</if>
+			<if test="graduateSchool != null">
+				#{graduateSchool,jdbcType=VARCHAR},
+			</if>
+			<if test="fileAddress != null">
+				#{fileAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="major != null">
+				#{major,jdbcType=VARCHAR},
+			</if>
+			<if test="graduateTime != null">
+				#{graduateTime,jdbcType=DATE},
+			</if>
+			<if test="stationLevel != null">
+				#{stationLevel,jdbcType=BIT},
+			</if>
+			<if test="technicalTitle != null">
+				#{technicalTitle,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByIdSelective" parameterType="EmployeeAttach">
+		update t_employee_attach
+		<set>
+			<if test="employeeId != null">
+				employee_id = #{employeeId,jdbcType=BIGINT},
+			</if>
+			<if test="accountAddress != null">
+				account_address = #{accountAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="qualificationCert != null">
+				qualification_cert =
+				#{qualificationCert,jdbcType=VARCHAR},
+			</if>
+			<if test="education != null">
+				education = #{education,jdbcType=VARCHAR},
+			</if>
+			<if test="degree != null">
+				degree = #{degree,jdbcType=VARCHAR},
+			</if>
+			<if test="graduateSchool != null">
+				graduate_school = #{graduateSchool,jdbcType=VARCHAR},
+			</if>
+			<if test="fileAddress != null">
+				file_address = #{fileAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="major != null">
+				major = #{major,jdbcType=VARCHAR},
+			</if>
+			<if test="graduateTime != null">
+				graduate_time = #{graduateTime,jdbcType=DATE},
+			</if>
+			<if test="stationLevel != null">
+				station_level = #{stationLevel,jdbcType=BIT},
+			</if>
+			<if test="technicalTitle != null">
+				technical_title = #{technicalTitle,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where employee_attach_id = #{employeeAttachId,jdbcType=BIGINT}
+	</update>
+
+	<update id="updateById" parameterType="EmployeeAttach">
+		update t_employee_attach
+		set employee_id = #{employeeId,jdbcType=BIGINT},
+		account_address =
+		#{accountAddress,jdbcType=VARCHAR},
+		qualification_cert =
+		#{qualificationCert,jdbcType=VARCHAR},
+		education =
+		#{education,jdbcType=VARCHAR},
+		degree = #{degree,jdbcType=VARCHAR},
+		graduate_school = #{graduateSchool,jdbcType=VARCHAR},
+		file_address =
+		#{fileAddress,jdbcType=VARCHAR},
+		major = #{major,jdbcType=VARCHAR},
+		graduate_time = #{graduateTime,jdbcType=DATE},
+		station_level =
+		#{stationLevel,jdbcType=BIT},
+		technical_title =
+		#{technicalTitle,jdbcType=VARCHAR}
+		where employee_attach_id =
+		#{employeeAttachId,jdbcType=BIGINT}
+	</update>
+</mapper>

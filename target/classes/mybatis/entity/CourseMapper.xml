@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CourseMapper">
+	<resultMap id="BaseResultMap" type="Course">
+		<id column="course_id" property="courseId" />
+		<result column="course_name" property="courseName" />
+		<result column="school_id" property="schoolId" />
+		<association property="courseGroup" javaType="CourseGroup">
+			<id column="course_group_id" property="courseGroupId" />
+			<result column="course_group_name" property="courseGroupName" />
+		</association>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		course_id, course_name, school_id
+	</sql>
+
+	<!-- 分页查询课程信息列表 -->
+	<select id="courseListPage" parameterType="Page" resultMap="BaseResultMap">
+		SELECT
+		tc.course_id, tc.course_name, tc.school_id, tcg.course_group_id,
+		tcg.course_group_name
+		FROM
+		t_course tc
+		LEFT JOIN t_course_group tcg ON
+		tc.course_group_id = tcg.course_group_id
+		<where>
+			<if test="null != pd.courseId and '' != pd.courseId">
+				AND tc.course_id = #{courseId}
+			</if>
+			<if test="null != pd.courseName and '' != pd.courseName">
+				AND tc.course_name = #{courseName}
+			</if>
+			<if test="null != pd.schoolId and '' != pd.schoolId">
+				AND tc.school_id = #{schoolId}
+			</if>
+			<if test="null != pd.courseGroupId and '' != pd.courseGroupId">
+				AND tc.course_group_id = #{courseGroupId}
+			</if>
+		</where>
+		<if test="null != pd.orderCol and '' != pd.orderCol">
+			ORDER BY #{orderCol}
+		</if>
+	</select>
+
+	<select id="selectById" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_course
+		where course_id = #{courseId}
+	</select>
+
+	<select id="selectCourseWithGroupById" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		SELECT
+		tc.course_id, tc.course_name, tc.school_id,
+		tcg.course_group_id,
+		tcg.course_group_name
+		FROM
+		t_course tc
+		LEFT JOIN
+		t_course_group tcg ON tc.course_group_id = tcg.course_group_id
+		WHERE
+		tc.course_id = #{courseId}
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from t_course
+		where
+		course_id = #{courseId}
+	</delete>
+
+	<delete id="deleteByIds" parameterType="java.util.List">
+		delete from t_course
+		where course_id in
+		<foreach collection="array" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<insert id="insert" parameterType="Course" keyProperty="courseId"
+		useGeneratedKeys="true">
+		insert into t_course (course_name, course_group_id,
+		school_id)
+		values (#{courseName},
+		#{courseGroup.courseGroupId},#{schoolId})
+	</insert>
+
+	<insert id="insertSelective" keyProperty="courseId"
+		useGeneratedKeys="true" parameterType="Course">
+		insert into t_course
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="courseName != null">
+				course_name,
+			</if>
+			<if test="courseGroupId != null">
+				course_group_id,
+			</if>
+			<if test="schoolId != null">
+				school_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="courseName != null">
+				#{courseName},
+			</if>
+			<if test="courseGroupId != null">
+				#{courseGroupId},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByIdSelective" parameterType="Course">
+		update t_course
+		<set>
+			<if test="courseName != null">
+				course_name = #{courseName},
+			</if>
+			<if test="courseGroupId != null">
+				course_group_id = #{courseGroupId},
+			</if>
+			<if test="schoolId != null">
+				school_id = #{schoolId},
+			</if>
+		</set>
+		where course_id = #{courseId}
+	</update>
+
+	<update id="updateById" parameterType="Course">
+		update t_course
+		set
+		course_name = #{courseName},
+		course_group_id = #{courseGroupId},
+		school_id = #{schoolId}
+		where course_id = #{courseId}
+	</update>
+</mapper>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CourseItemMapper">
+	<resultMap id="BaseResultMap" type="CourseItem">
+		<id column="course_item_id" jdbcType="VARCHAR" property="courseItemId" />
+		<result column="course_schedule_id" jdbcType="VARCHAR"
+			property="courseScheduleId" />
+		<result column="z_index" jdbcType="INTEGER" property="zIndex" />
+		<result column="start_time" jdbcType="VARCHAR" property="startTime" />
+		<result column="end_time" jdbcType="VARCHAR" property="endTime" />
+		<result column="course_name" jdbcType="VARCHAR" property="courseName" />
+		<result column="course_ename" jdbcType="VARCHAR" property="courseEname" />
+		<result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		course_item_id, course_schedule_id, z_index, start_time,
+		end_time, course_name,
+		course_ename,
+		teacher_name
+	</sql>
+
+	<select id="selectById" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_course_item
+		where course_item_id =
+		#{courseItemId,jdbcType=VARCHAR}
+	</select>
+
+	<select id="listCourseItemByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_course_item
+		<where>
+			<if test="null != courseScheduleId and '' != courseScheduleId">
+				and tcs.course_schedule_id = courseScheduleId
+			</if>
+			<if test="null != courseDate and '' != courseDate"> 		<!-- 通过年月查询某年某月的课程表 -->
+				and tcs.course_date=#{courseDate}
+			</if>
+			<if test="null != schoolId and '' != schoolId"> 			<!-- 添加学校Id -->
+				and tcs.school_id=#{schoolId}
+			</if>
+			<if test="null != classesId and '' != classesId"> 			<!-- 添加班级Id -->
+				and tcs.classes_id=#{classesId}
+			</if>
+			<if test="null != teacherName and '' != teacherName"> 		<!-- 以教师名字模糊查找 -->
+				and INSTR(tci.teacher_name,#{teacherName})
+			</if>
+		</where>
+		<if test="null != orderCol and '' != orderCol">
+			order by #{orderCol}
+		</if>
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from t_course_item
+		where course_item_id = #{courseItemId,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="insert" parameterType="CourseItem">
+		insert into t_course_item
+		(course_item_id, course_schedule_id, z_index,
+		start_time, end_time,
+		course_name,
+		course_ename, teacher_name)
+		values
+		(#{courseItemId,jdbcType=VARCHAR},
+		#{courseScheduleId,jdbcType=VARCHAR}, #{zIndex,jdbcType=INTEGER},
+		#{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR},
+		#{courseName,jdbcType=VARCHAR},
+		#{courseEname,jdbcType=VARCHAR},
+		#{teacherName,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="insertSelective" parameterType="CourseItem">
+		insert into t_course_item
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="courseItemId != null">
+				course_item_id,
+			</if>
+			<if test="courseScheduleId != null">
+				course_schedule_id,
+			</if>
+			<if test="zIndex != null">
+				z_index,
+			</if>
+			<if test="startTime != null">
+				start_time,
+			</if>
+			<if test="endTime != null">
+				end_time,
+			</if>
+			<if test="courseName != null">
+				course_name,
+			</if>
+			<if test="courseEname != null">
+				course_ename,
+			</if>
+			<if test="teacherName != null">
+				teacher_name,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="courseItemId != null">
+				#{courseItemId,jdbcType=VARCHAR},
+			</if>
+			<if test="courseScheduleId != null">
+				#{courseScheduleId,jdbcType=VARCHAR},
+			</if>
+			<if test="zIndex != null">
+				#{zIndex,jdbcType=INTEGER},
+			</if>
+			<if test="startTime != null">
+				#{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endTime != null">
+				#{endTime,jdbcType=VARCHAR},
+			</if>
+			<if test="courseName != null">
+				#{courseName,jdbcType=VARCHAR},
+			</if>
+			<if test="courseEname != null">
+				#{courseEname,jdbcType=VARCHAR},
+			</if>
+			<if test="teacherName != null">
+				#{teacherName,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByIdSelective" parameterType="CourseItem">
+		update t_course_item
+		<set>
+			<if test="courseScheduleId != null">
+				course_schedule_id =
+				#{courseScheduleId,jdbcType=VARCHAR},
+			</if>
+			<if test="zIndex != null">
+				z_index = #{zIndex,jdbcType=INTEGER},
+			</if>
+			<if test="startTime != null">
+				start_time = #{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endTime != null">
+				end_time = #{endTime,jdbcType=VARCHAR},
+			</if>
+			<if test="courseName != null">
+				course_name = #{courseName,jdbcType=VARCHAR},
+			</if>
+			<if test="courseEname != null">
+				course_ename = #{courseEname,jdbcType=VARCHAR},
+			</if>
+			<if test="teacherName != null">
+				teacher_name = #{teacherName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where course_item_id = #{courseItemId,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateById" parameterType="CourseItem">
+		update t_course_item
+		set
+		course_schedule_id = #{courseScheduleId,jdbcType=VARCHAR},
+		z_index =
+		#{zIndex,jdbcType=INTEGER},
+		start_time = #{startTime,jdbcType=VARCHAR},
+		end_time = #{endTime,jdbcType=VARCHAR},
+		course_name =
+		#{courseName,jdbcType=VARCHAR},
+		course_ename =
+		#{courseEname,jdbcType=VARCHAR},
+		teacher_name =
+		#{teacherName,jdbcType=VARCHAR}
+		where course_item_id =
+		#{courseItemId,jdbcType=VARCHAR}
+	</update>
+</mapper>

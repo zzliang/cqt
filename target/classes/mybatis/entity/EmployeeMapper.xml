@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EmployeeMapper">
+	<resultMap id="BaseResultMap" type="Employee">
+		<id column="employee_id" property="employeeId" />
+		<result column="emp_number" property="empNumber" />
+		<result column="rel_name" property="relName" />
+		<result column="id_number" property="idNumber" />
+		<result column="time_card" property="timeCard" />
+		<result column="sex" property="sex" />
+		<result column="birth" property="birth" />
+		<result column="nation" property="nation" />
+		<result column="political" property="political" />
+		<result column="marriage" property="marriage" />
+		<result column="native_place" property="nativePlace" />
+		<result column="home_address" property="homeAddress" />
+		<result column="contacts" property="contacts" />
+		<result column="contacts_phone" property="contactsPhone" />
+		<result column="personal_hobby" property="personalHobby" />
+		<result column="phone" property="phone" />
+		<result column="email" property="email" />
+		<result column="worker_type" property="workerType" />
+		<result column="post" property="post" />
+		<result column="status" property="status" />
+		<result column="remarks" property="remarks" />
+		<result column="school_id" property="schoolId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		employee_id, emp_number, rel_name, id_number, time_card,
+		sex, birth, nation,
+		political,
+		marriage, native_place, home_address,
+		contacts, contacts_phone, personal_hobby,
+		phone, email, worker_type,
+		post, status, remarks, school_id
+	</sql>
+
+	<!-- 分页查询员工信息列表 -->
+	<select id="employeeListPage" parameterType="Page" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_employee
+		<where>
+			<if test="null != pd.employeeId and '' != pd.employeeId">
+				AND employee_id = #{pd.employeeId}
+			</if>
+			<if test="null != pd.employeeId and '' != pd.employeeId">
+				AND emp_number = #{pd.empNumber}
+			</if>
+			<if test="null != pd.idNumber and '' != pd.idNumber">
+				AND id_number = #{pd.idNumber}
+			</if>
+		</where>
+		<if test="null != pd.orderCol and '' != pd.orderCol">
+			ORDER BY #{pd.orderCol}
+		</if>
+	</select>
+
+	<select id="selectById" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM t_employee
+		WHERE employee_id = #{employeeId}
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		DELETE FROM t_employee
+		WHERE employee_id = #{employeeId}
+	</delete>
+
+	<delete id="deleteByIds" parameterType="java.util.List">
+		delete from t_employee
+		where employee_id in
+		<foreach collection="array" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<insert id="insert" parameterType="Employee" useGeneratedKeys="true"
+		keyProperty="employee_id">
+		INSERT INTO t_employee (emp_number, rel_name,
+		id_number,
+		time_card, sex,
+		birth, nation, political,
+		marriage, native_place,
+		home_address,
+		contacts, contacts_phone, personal_hobby, phone,
+		email,
+		worker_type, post,
+		status, remarks, school_id
+		)
+		VALUES (#{empNumber},
+		#{relName},
+		#{idNumber}, #{timeCard}, #{sex},
+		#{birth}, #{nation},
+		#{political},
+		#{marriage}, #{nativePlace}, #{homeAddress},
+		#{contacts},
+		#{contactsPhone}, #{personalHobby}, #{phone},
+		#{email}, #{workerType},
+		#{post},
+		#{status}, #{remarks}, #{schoolId}
+		)
+	</insert>
+
+	<insert id="insertSelective" parameterType="Employee"
+		useGeneratedKeys="true" keyProperty="employee_id">
+		INSERT INTO t_employee
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="employeeId != null">
+				employee_id,
+			</if>
+			<if test="empNumber != null">
+				emp_number,
+			</if>
+			<if test="relName != null">
+				rel_name,
+			</if>
+			<if test="idNumber != null">
+				id_number,
+			</if>
+			<if test="timeCard != null">
+				time_card,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="birth != null">
+				birth,
+			</if>
+			<if test="nation != null">
+				nation,
+			</if>
+			<if test="political != null">
+				political,
+			</if>
+			<if test="marriage != null">
+				marriage,
+			</if>
+			<if test="nativePlace != null">
+				native_place,
+			</if>
+			<if test="homeAddress != null">
+				home_address,
+			</if>
+			<if test="contacts != null">
+				contacts,
+			</if>
+			<if test="contactsPhone != null">
+				contacts_phone,
+			</if>
+			<if test="personalHobby != null">
+				personal_hobby,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="workerType != null">
+				worker_type,
+			</if>
+			<if test="post != null">
+				post,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="remarks != null">
+				remarks,
+			</if>
+			<if test="schoolId != null">
+				school_id,
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="employeeId != null">
+				#{employeeId},
+			</if>
+			<if test="empNumber != null">
+				#{empNumber},
+			</if>
+			<if test="relName != null">
+				#{relName},
+			</if>
+			<if test="idNumber != null">
+				#{idNumber},
+			</if>
+			<if test="timeCard != null">
+				#{timeCard},
+			</if>
+			<if test="sex != null">
+				#{sex},
+			</if>
+			<if test="birth != null">
+				#{birth},
+			</if>
+			<if test="nation != null">
+				#{nation},
+			</if>
+			<if test="political != null">
+				#{political},
+			</if>
+			<if test="marriage != null">
+				#{marriage},
+			</if>
+			<if test="nativePlace != null">
+				#{nativePlace},
+			</if>
+			<if test="homeAddress != null">
+				#{homeAddress},
+			</if>
+			<if test="contacts != null">
+				#{contacts},
+			</if>
+			<if test="contactsPhone != null">
+				#{contactsPhone},
+			</if>
+			<if test="personalHobby != null">
+				#{personalHobby},
+			</if>
+			<if test="phone != null">
+				#{phone},
+			</if>
+			<if test="email != null">
+				#{email},
+			</if>
+			<if test="workerType != null">
+				#{workerType},
+			</if>
+			<if test="post != null">
+				#{post},
+			</if>
+			<if test="status != null">
+				#{status},
+			</if>
+			<if test="remarks != null">
+				#{remarks},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByIdSelective" parameterType="Employee">
+		UPDATE t_employee
+		<set>
+			<if test="empNumber != null">
+				emp_number = #{empNumber},
+			</if>
+			<if test="relName != null">
+				rel_name = #{relName},
+			</if>
+			<if test="idNumber != null">
+				id_number = #{idNumber},
+			</if>
+			<if test="timeCard != null">
+				time_card = #{timeCard},
+			</if>
+			<if test="sex != null">
+				sex = #{sex},
+			</if>
+			<if test="birth != null">
+				birth = #{birth},
+			</if>
+			<if test="nation != null">
+				nation = #{nation},
+			</if>
+			<if test="political != null">
+				political = #{political},
+			</if>
+			<if test="marriage != null">
+				marriage = #{marriage},
+			</if>
+			<if test="nativePlace != null">
+				native_place = #{nativePlace},
+			</if>
+			<if test="homeAddress != null">
+				home_address = #{homeAddress},
+			</if>
+			<if test="contacts != null">
+				contacts = #{contacts},
+			</if>
+			<if test="contactsPhone != null">
+				contacts_phone = #{contactsPhone},
+			</if>
+			<if test="personalHobby != null">
+				personal_hobby = #{personalHobby},
+			</if>
+			<if test="phone != null">
+				phone = #{phone},
+			</if>
+			<if test="email != null">
+				email = #{email},
+			</if>
+			<if test="workerType != null">
+				worker_type = #{workerType},
+			</if>
+			<if test="post != null">
+				post = #{post},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="remarks != null">
+				remarks = #{remarks},
+			</if>
+			<if test="schoolId != null">
+				school_id = #{schoolId},
+			</if>
+		</set>
+		WHERE employee_id = #{employeeId}
+	</update>
+
+	<update id="updateById" parameterType="Employee">
+		UPDATE t_employee
+		SET
+		emp_number = #{empNumber},
+		rel_name = #{relName},
+		id_number =
+		#{idNumber},
+		time_card = #{timeCard},
+		sex = #{sex},
+		birth = #{birth},
+		nation = #{nation},
+		political = #{political},
+		marriage = #{marriage},
+		native_place = #{nativePlace},
+		home_address = #{homeAddress},
+		contacts =
+		#{contacts},
+		contacts_phone = #{contactsPhone},
+		personal_hobby =
+		#{personalHobby},
+		phone = #{phone},
+		email = #{email},
+		worker_type =
+		#{workerType},
+		post = #{post},
+		status = #{status},
+		remarks = #{remarks},
+		school_id = #{schoolId}
+		WHERE employee_id = #{employeeId}
+	</update>
+</mapper>

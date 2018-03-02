@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RoleMapper">
+
+	<resultMap type="Role" id="roleMap">
+		<id column="ROLE_ID" property="roleId" />
+		<result column="ROLE_NAME" property="roleName" />
+		<result column="RIGHTS" property="rights" />
+		<result column="PARENT_ID" property="parentId" />
+		<result column="LEVEL" property="level" />
+		<result column="PARENT_NAME" property="parentName" />
+	</resultMap>
+
+	<select id="listAllRoles" resultMap="roleMap">
+		select
+		ROLE_ID,
+		ROLE_NAME,
+		RIGHTS,
+		PARENT_ID,
+		LEVEL
+		from SYS_ROLE
+		where PARENT_ID = '0'
+		ORDER BY
+		ROLE_ID
+	</select>
+
+	<select id="listAllRolesByLevel" parameterType="pd" resultType="Role">
+		SELECT
+		sr1.ROLE_ID AS roleId,
+		sr1.ROLE_NAME AS roleName,
+		sr1.RIGHTS AS
+		rigths,
+		sr1.PARENT_ID AS parentId,
+		sr1.LEVEL AS level,
+		sr2.ROLE_NAME AS
+		parentName
+		FROM
+		SYS_ROLE sr1,SYS_ROLE sr2
+		WHERE sr1.PARENT_ID=sr2.ROLE_ID
+		AND sr1.LEVEL >
+		#{level}
+		ORDER BY sr1.LEVEL
+	</select>
+
+	<!-- 列出下级角色信息 -->
+	<select id="listAllERRoles" parameterType="String" resultMap="roleMap">
+		select
+		ROLE_ID,
+		ROLE_NAME,
+		RIGHTS,
+		PARENT_ID,
+		LEVEL
+		from SYS_ROLE
+		where
+		PARENT_ID = #{PARENT_ID}
+	</select>
+
+	<!-- 列出用户已拥有的角色信息 -->
+	<select id="listSelectRoles" parameterType="String" resultMap="roleMap">
+		SELECT
+		sr.*
+		FROM
+		sys_user_role sur
+		LEFT JOIN sys_role sr
+		ON sr.ROLE_ID =
+		sur.ROLE_ID
+		WHERE sur.USER_ID = #{userId} ;
+	</select>
+
+	<!-- 列出此角色下的所有用户 -->
+	<select id="listAllUserByRid" parameterType="String" resultType="pd">
+		select USER_ID
+		from SYS_USER_ROLE
+		where
+		ROLE_ID = #{roleId}
+	</select>
+
+	<select id="getRoleById" parameterType="String" resultMap="roleMap">
+		select * from SYS_ROLE
+		where ROLE_ID=#{roleId}
+	</select>
+
+	<!-- 编辑角色 -->
+	<update id="edit" parameterType="pd">
+		update SYS_ROLE
+		set ROLE_NAME =
+		#{ROLE_NAME}
+		where ROLE_ID = #{ROLE_ID}
+	</update>
+
+	<!-- 权限 -->
+	<update id="c1" parameterType="pd">
+		update SYS_USER_QX
+		set C1=#{value}
+		where U_ID=#{kefu_id}
+	</update>
+
+	<!-- 给全部子职位加菜单权限 -->
+	<update id="setAllRights" parameterType="pd">
+		update SYS_ROLE
+		set
+		RIGHTS=#{rights}
+		where PARENT_ID=#{roleId}
+	</update>
+
+	<update id="add_qx" parameterType="pd">
+		update SYS_ROLE
+		set
+		ADD_QX=#{value}
+		where ROLE_ID=#{ROLE_ID}
+	</update>
+
+	<update id="del_qx" parameterType="pd">
+		update SYS_ROLE
+		set
+		DEL_QX=#{value}
+		where ROLE_ID=#{ROLE_ID}
+	</update>
+
+	<update id="edit_qx" parameterType="pd">
+		update SYS_ROLE
+		set
+		EDIT_QX=#{value}
+		where ROLE_ID=#{ROLE_ID}
+	</update>
+
+	<update id="cha_qx" parameterType="pd">
+		update SYS_ROLE
+		set
+		CHA_QX=#{value}
+		where ROLE_ID=#{ROLE_ID}
+	</update>
+
+	<update id="kfqx1" parameterType="pd">
+		update SYS_GL_QX
+		set
+		QX1=#{value}
+		where GL_ID=#{kefu_id}
+	</update>
+
+	<update id="kfqx2" parameterType="pd">
+		update SYS_GL_QX
+		set
+		QX2=#{value}
+		where GL_ID=#{kefu_id}
+	</update>
+
+	<update id="fxqx" parameterType="pd">
+		update SYS_GL_QX
+		set
+		FX_QX=#{value}
+		where GL_ID=#{kefu_id}
+	</update>
+
+	<update id="fwqx" parameterType="pd">
+		update SYS_GL_QX
+		set
+		FW_QX=#{value}
+		where GL_ID=#{kefu_id}
+	</update>
+
+	<update id="updateRoleRights" parameterType="Role">
+		update SYS_ROLE
+		set
+		RIGHTS=#{rights}
+		where ROLE_ID=#{roleId}
+	</update>
+
+	<delete id="deleteRoleById" parameterType="String">
+		delete from SYS_ROLE
+		where ROLE_ID=#{ROLE_ID}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="saveRole" parameterType="pd">
+		insert into SYS_ROLE (
+		ROLE_ID,
+		ROLE_NAME,
+		PARENT_ID,
+		LEVEL
+		) values (
+		#{roleId},
+		#{roleName},
+		#{parentId},
+		#{level}
+		)
+	</insert>
+</mapper>

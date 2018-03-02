@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CourseScheduleRunMapper">
+	<resultMap id="BaseResultMap" type="CourseSchedule">
+		<id column="course_schedule_id" property="courseScheduleId" />
+		<result column="title" property="title" />
+		<result column="e_title" property="eTitle" />
+		<result column="class_name" property="className" />
+		<result column="course_date" property="courseDate" />
+		<result column="school_id" property="schoolId" />
+		<result column="classes_id" property="classesId" />
+	</resultMap>
+
+	<resultMap id="CourseScheduleWithItemRun" type="CourseSchedule"
+		extends="BaseResultMap">
+		<collection property="lstCourseItem" ofType="CourseItem">
+			<id column="course_item_id" property="courseItemId" />
+			<result column="course_schedule_id" property="courseScheduleId" />
+			<result column="z_index" property="zIndex" />
+			<result column="start_time" property="startTime" />
+			<result column="end_time" property="endTime" />
+			<result column="course_name" property="courseName" />
+			<result column="course_ename" property="courseEname" />
+			<result column="teacher_name" property="teacherName" />
+			<result column="week" property="week" />
+		</collection>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		course_schedule_id, title, e_title, class_name,
+		course_date, school_id, classes_id
+	</sql>
+
+	<!-- 查询课程表列表，课程表不包含课程表项内容 -->
+	<select id="listCourseScheduleRunByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		SELECT
+		*
+		FROM
+		t_course_schedule_run tcs
+		<where>
+			<if test="null != courseDate and '' != courseDate"> 		<!-- 通过年月查询某年某月的课程表 -->
+				and tcs.course_date=#{courseDate}
+			</if>
+			<if test="null != schoolId and '' != schoolId"> 			<!-- 添加学校Id -->
+				and tcs.school_id=#{schoolId}
+			</if>
+			<if test="null != classesId and '' != classesId"> 			<!-- 添加班级Id -->
+				and tcs.classes_id=#{classesId}
+			</if>
+		</where>
+		<if test="null != orderCol and '' != orderCol">
+			order by #{orderCol}
+		</if>
+	</select>
+
+	<select id="listCourseScheduleRunWithItemByMap" parameterType="java.util.Map"
+		resultMap="CourseScheduleWithItemRun">
+		SELECT
+		*
+		FROM
+		t_course_schedule_run tcsr,
+		t_course_item_run tcir
+		<where>
+			tcsr.course_schedule_id = tcir.course_schedule_id
+			<if test="null != courseScheduleId and '' != courseScheduleId">
+				and tcsr.course_schedule_id=#{courseScheduleId}
+			</if>
+			<if test="null != courseDate and '' != courseDate"> 		<!-- 通过年月查询某年某月的课程表 -->
+				and tcsr.course_date=#{courseDate}
+			</if>
+			<if test="null != schoolId and '' != schoolId"> 			<!-- 添加学校Id -->
+				and tcsr.school_id=#{schoolId}
+			</if>
+			<if test="null != classesId and '' != classesId"> 			<!-- 添加班级Id -->
+				and tcsr.classes_id=#{classesId}
+			</if>
+			<if test="null != teacherName and '' != teacherName"> 		<!-- 第几周 -->
+				and INSTR(tcir.teacher_name, #{teacherName})
+			</if>
+			<if test="null != week and '' != week"> 					<!-- 第几周 -->
+				and tcir.week=#{week}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectCourseScheduleRunWithItemByMap" parameterType="java.util.Map"
+		resultMap="CourseScheduleWithItemRun">
+		SELECT
+		*
+		FROM
+		t_course_schedule_run tcsr,
+		t_course_item_run tcir
+		<where>
+			tcsr.course_schedule_id = tcir.course_schedule_id
+			<if test="null != courseScheduleId and '' != courseScheduleId">
+				and tcsr.course_schedule_id=#{courseScheduleId}
+			</if>
+			<if test="null != courseDate and '' != courseDate"> 		<!-- 通过年月查询某年某月的课程表 -->
+				and tcsr.course_date=#{courseDate}
+			</if>
+			<if test="null != schoolId and '' != schoolId"> 			<!-- 添加学校Id -->
+				and tcsr.school_id=#{schoolId}
+			</if>
+			<if test="null != classesId and '' != classesId"> 			<!-- 添加班级Id -->
+				and tcsr.classes_id=#{classesId}
+			</if>
+			<if test="null != teacherName and '' != teacherName"> 		<!-- 第几周 -->
+				and INSTR(tcir.teacher_name, #{teacherName})
+			</if>
+			<if test="null != week and '' != week"> 					<!-- 第几周 -->
+				and tcir.week=#{week}
+			</if>
+		</where>
+	</select>
+
+	<select id="listCourseScheduleRunWithItemForTeacher"
+		parameterType="java.util.Map" resultMap="CourseScheduleWithItemRun">
+		SELECT
+		*
+		FROM
+		t_course_schedule_run tcsr,
+		t_course_item_run tcir
+		<where>
+			tcsr.course_schedule_id = tcir.course_schedule_id
+			<if test="null != courseScheduleId and '' != courseScheduleId">
+				and tcsr.course_schedule_id=#{courseScheduleId}
+			</if>
+			<if test="null != courseDate and '' != courseDate"> 		<!-- 通过年月查询某年某月的课程表 -->
+				and tcsr.course_date=#{courseDate}
+			</if>
+			<if test="null != schoolId and '' != schoolId"> 			<!-- 添加学校Id -->
+				and tcsr.school_id=#{schoolId}
+			</if>
+			<if test="null != classesId and '' != classesId"> 			<!-- 添加班级Id -->
+				and tcsr.classes_id=#{classesId}
+			</if>
+			<if test="null != teacherName and '' != teacherName"> 		<!-- 第几周 -->
+				and INSTR(tcir.teacher_name, #{teacherName})
+			</if>
+			<if test="null != week and '' != week"> 					<!-- 第几周 -->
+				and tcir.week=#{week}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectById" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_course_schedule_run
+		where course_schedule_id =
+		#{courseScheduleId}
+	</select>
+
+
+	<!-- 查询最大的年月的课程表 -->
+	<select id="selectMaxCourseDate" resultType="java.lang.String">
+		SELECT
+		MAX(course_date) FROM t_course_schedule_run
+	</select>
+
+	<!-- 根据班级名称与课程表年月查询班级不同月份的课程表 -->
+	<select id="selectNewCourseSchedule" resultType="java.util.Map"
+		resultMap="BaseResultMap">
+		SELECT
+		*
+		FROM
+		t_course_schedule_run
+		WHERE course_date =
+		#{courseDate}
+		AND class_name IN (SELECT class_name FROM
+		t_course_schedule WHERE
+		course_schedule_id = #{courseScheduleId})
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from
+		t_course_schedule_run
+		where course_schedule_id = #{courseScheduleId}
+	</delete>
+
+	<insert id="insert" parameterType="CourseSchedule">
+		insert into
+		t_course_schedule_run (course_schedule_id, title, e_title,
+		class_name,
+		course_date, school_id, classes_id)
+		values (#{courseScheduleId},
+		#{title}, #{eTitle},
+		#{className}, #{courseDate}, #{schoolId},
+		#{classesId})
+	</insert>
+
+	<insert id="insertSelective" parameterType="CourseSchedule">
+		insert into t_course_schedule_run
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="courseScheduleId != null">
+				course_schedule_id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="eTitle != null">
+				e_title,
+			</if>
+			<if test="className != null">
+				class_name,
+			</if>
+			<if test="courseDate != null">
+				course_date,
+			</if>
+			<if test="schoolId != null">
+				school_id,
+			</if>
+			<if test="classesId != null">
+				classes_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="courseScheduleId != null">
+				#{courseScheduleId},
+			</if>
+			<if test="title != null">
+				#{title},
+			</if>
+			<if test="eTitle != null">
+				#{eTitle},
+			</if>
+			<if test="className != null">
+				#{className},
+			</if>
+			<if test="courseDate != null">
+				#{courseDate},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId},
+			</if>
+			<if test="classesId != null">
+				#{classesId},
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="insertCourseScheduleList" parameterType="java.util.List">
+		INSERT INTO t_course_schedule_run (
+		course_schedule_id, title, e_title,
+		class_name, course_date, school_id, classes_id)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			('${item.courseScheduleId}','${item.title}','${item.eTitle}','${item.className}','${item.courseDate}','${item.schoolId}','${item.classesId}')
+		</foreach>
+	</insert>
+
+
+	<update id="updateByIdSelective" parameterType="CourseSchedule">
+		update t_course_schedule_run
+		<set>
+			<if test="title != null">
+				title = #{title},
+			</if>
+			<if test="eTitle != null">
+				e_title = #{eTitle},
+			</if>
+			<if test="className != null">
+				class_name = #{className},
+			</if>
+			<if test="courseDate != null">
+				course_date = #{courseDate},
+			</if>
+			<if test="schoolId != null">
+				school_id = #{schoolId},
+			</if>
+			<if test="classesId != null">
+				classes_id = #{classesId},
+			</if>
+		</set>
+		where course_schedule_id = #{courseScheduleId}
+	</update>
+
+	<update id="updateById" parameterType="CourseSchedule">
+		update
+		t_course_schedule_run
+		set title = #{title},
+		e_title = #{eTitle},
+		class_name = #{className},
+		course_date = #{courseDate},
+		school_id =
+		#{schoolId},
+		classes_id = #{classesId}
+		where course_schedule_id =
+		#{courseScheduleId}
+	</update>
+</mapper>

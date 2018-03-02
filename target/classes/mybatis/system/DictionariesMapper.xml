@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DictionariesMapper">
+
+	<resultMap id="DictMap" type="Dict">
+		<id column="ZD_ID" property="zdId" />
+		<result column="ZD_NAME" property="zdName" />
+		<result column="BIANMA" property="bianma" />
+		<result column="ORDER_BY" property="orderBy" />
+		<result column="PARENT_ID" property="parentId" />
+		<result column="JB" property="jb" />
+		<result column="P_BM" property="pBm" />
+	</resultMap>
+
+	<sql id="DICT_Column">ZD_ID AS zdId, ZD_NAME AS zdName, BIANMA AS bianma,
+		ORDER_BY AS orderBy, PARENT_ID AS parentId, JB AS jb, P_BM AS pBm
+	</sql>
+
+	<!-- 列表 -->
+	<select id="dictListPage" parameterType="page" resultType="pd">
+		SELECT
+		z1.ZD_ID AS zdId,
+		z1.ZD_NAME AS zdName,
+		z1.BIANMA AS bianma,
+		z1.ORDER_BY AS orderBy,
+		z1.PARENT_ID AS parentId,
+		z1.JB AS jb,
+		z1.P_BM AS
+		pBm,
+		z2.ZD_NAME AS pName
+		FROM
+		SYS_DICTIONARIES z1
+		LEFT JOIN
+		SYS_DICTIONARIES z2
+		ON z1.PARENT_ID = z2.ZD_ID
+		WHERE z1.PARENT_ID =
+		#{pd.parentId}
+		<if test="pd.zdName != null and pd.zdName != ''">
+			AND z1.ZD_NAME LIKE CONCAT(CONCAT('%',#{pd.zdName}),'%')
+		</if>
+		ORDER BY z1.ORDER_BY
+	</select>
+
+	<!-- 查询总数 -->
+	<select id="findCount" parameterType="pd" resultType="pd">
+		SELECT
+		COUNT(ZD_ID) ZS
+		FROM
+		SYS_DICTIONARIES
+		WHERE PARENT_ID = #{zdId}
+	</select>
+
+	<!-- 通过ParentId获取下级数据 -->
+	<select id="listByPid" parameterType="pd" resultType="pd">
+		SELECT
+		<include refid="DICT_Column" />
+		FROM
+		SYS_DICTIONARIES
+		WHERE PARENT_ID = #{parentId}
+	</select>
+
+	<!-- 通过ZD_ID获取上级数据 -->
+	<select id="listByid" parameterType="pd" resultType="pd">
+		SELECT
+		<include refid="DICT_Column" />
+		FROM
+		SYS_DICTIONARIES
+		WHERE ZD_ID = #{zdId}
+	</select>
+
+	<!-- 通过id获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		SELECT
+		<include refid="DICT_Column" />
+		FROM
+		SYS_DICTIONARIES
+		WHERE ZD_ID = #{zdId}
+	</select>
+
+	<!-- 查询某编码 -->
+	<select id="findBmCount" parameterType="pd" resultType="pd">
+		SELECT
+		ZD_ID
+		FROM
+		SYS_DICTIONARIES
+		WHERE BIANMA = #{bianma}
+		<if test="zdId != null and zdId != ''">
+			AND ZD_ID != #{zdId}
+		</if>
+	</select>
+
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		UPDATE
+		SYS_DICTIONARIES
+		SET
+		ZD_NAME = #{zdName},
+		ORDER_BY = #{orderBy},
+		BIANMA = #{bianma},
+		P_BM =
+		#{pBm}
+		WHERE ZD_ID = #{zdId}
+	</update>
+
+	<!-- 新增 -->
+	<insert id="save" parameterType="pd">
+		INSERT INTO SYS_DICTIONARIES (
+		ZD_ID,
+		ZD_NAME,
+		BIANMA,
+		ORDER_BY,
+		PARENT_ID,
+		JB,
+		P_BM
+		)
+		VALUES
+		(
+		#{zdId},
+		#{zdName},
+		#{bianma},
+		#{orderBy},
+		#{parentId},
+		#{jb},
+		#{pBm}
+		)
+	</insert>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="pd">
+		DELETE
+		FROM
+		SYS_DICTIONARIES
+		WHERE ZD_ID = #{zdId}
+	</delete>
+
+
+	<!-- 省份代码 start -->
+
+	<!-- 查询某编码 -->
+	<select id="sfdmList" parameterType="java.lang.String"
+		resultType="java.util.Map">
+		SELECT sd.ZD_NAME AS zdName,sd.BIANMA AS bianma FROM
+		sys_dictionaries sd
+		WHERE INSTR(sd.P_BM,#{bm}) ORDER BY sd.BIANMA
+	</select>
+
+	<!-- 省份代码 end -->
+
+
+	<!-- 公司代码 start -->
+
+	<!-- 查询某编码 -->
+	<select id="companyList" parameterType="java.lang.String"
+		resultType="java.util.Map">
+		SELECT sd.ZD_NAME AS zdName,sd.BIANMA AS bianma FROM
+		sys_dictionaries sd
+		WHERE INSTR(sd.P_BM,#{bm}) ORDER BY sd.BIANMA
+	</select>
+
+	<!-- 公司代码 end -->
+
+	<!-- 人员分类 start -->
+	<select id="personTypeList" parameterType="java.lang.String"
+		resultType="java.util.Map">
+		SELECT * FROM sys_dictionaries sd WHERE
+		INSTR(sd.`P_BM`,"RYFL_") AND
+		INSTR(sd.`BIANMA`,"FY") ORDER BY
+		sd.ORDER_BY
+	</select>
+
+	<!-- 人员分类 end -->
+
+
+
+</mapper>

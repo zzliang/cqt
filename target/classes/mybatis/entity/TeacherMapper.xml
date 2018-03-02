@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TeacherMapper">
+	<resultMap id="BaseResultMap" type="Teacher">
+		<id column="teacher_id" property="teacherId" />
+		<result column="employee_id" property="employeeId" />
+		<result column="teacher_name" property="teacherName" />
+		<result column="is_headmaster" jdbcType="BIT" property="isHeadmaster" />
+		<result column="school_id" property="schoolId" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		teacher_id, employee_id, teacher_name, is_headmaster,
+		school_id
+	</sql>
+
+	<!-- 分页查询教师信息列表 -->
+	<select id="teacherListPage" parameterType="Page" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM t_teacher
+		<where>
+			<if test="null != pd.teacherId and '' != pd.teacherId">
+				AND teacher_id = #{teacherId}
+			</if>
+			<if test="null != pd.teacherName and '' != pd.teacherName">
+				AND teacher_id = #{teacherName}
+			</if>
+			<if test="null != pd.schoolId and '' != pd.schoolId">
+				AND teacher_id = #{schoolId}
+			</if>
+		</where>
+		<if test="null != pd.orderCol and '' != pd.orderCol">
+			ORDER BY #{orderCol}
+		</if>
+	</select>
+
+	<!-- 根据教师Id查询单个教师信息 -->
+	<select id="selectById" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM t_teacher
+		WHERE teacher_id = #{teacherId}
+	</select>
+
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		DELETE FROM t_teacher
+		WHERE teacher_id = #{teacherId}
+	</delete>
+
+	<delete id="deleteByIds" parameterType="java.util.List">
+		delete from t_teacher
+		where teacher_id in
+		<foreach collection="array" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<insert id="insert" parameterType="Teacher" useGeneratedKeys="true"
+		keyProperty="teacher_id">
+		INSERT INTO t_teacher (teacher_id, employee_id,
+		teacher_name, is_headmaster,
+		school_id)
+		VALUES (#{teacherId},
+		#{employeeId}, #{teacherName},
+		#{isHeadmaster}, #{schoolId})
+	</insert>
+
+
+	<insert id="insertSelective" parameterType="Teacher"
+		useGeneratedKeys="true" keyProperty="teacher_id">
+		INSERT INTO t_teacher
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="teacherId != null">
+				teacher_id,
+			</if>
+			<if test="employeeId != null">
+				employee_id,
+			</if>
+			<if test="teacherName != null">
+				teacher_name,
+			</if>
+			<if test="isHeadmaster != null">
+				is_headmaster,
+			</if>
+			<if test="schoolId != null">
+				school_id,
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="teacherId != null">
+				#{teacherId},
+			</if>
+			<if test="employeeId != null">
+				#{employeeId},
+			</if>
+			<if test="teacherName != null">
+				#{teacherName},
+			</if>
+			<if test="isHeadmaster != null">
+				#{isHeadmaster},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId},
+			</if>
+		</trim>
+	</insert>
+
+
+	<update id="updateByIdSelective" parameterType="Teacher">
+		UPDATE t_teacher
+		<set>
+			<if test="employeeId != null">
+				employee_id = #{employeeId},
+			</if>
+			<if test="teacherName != null">
+				teacher_name = #{teacherName},
+			</if>
+			<if test="isHeadmaster != null">
+				is_headmaster = #{isHeadmaster},
+			</if>
+			<if test="schoolId != null">
+				school_id = #{schoolId},
+			</if>
+		</set>
+		WHERE teacher_id = #{teacherId}
+	</update>
+
+	<update id="updateById" parameterType="Teacher">
+		UPDATE t_teacher
+		SET
+		employee_id = #{employeeId},
+		teacher_name = #{teacherName},
+		is_headmaster = #{isHeadmaster},
+		school_id = #{schoolId}
+		WHERE
+		teacher_id = #{teacherId}
+	</update>
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD SQL Map Config 3.0//EN"  
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<setting name="cacheEnabled" value="true" /><!-- 全局映射器启用缓存 -->
+		<setting name="useGeneratedKeys" value="true" />
+		<setting name="defaultExecutorType" value="REUSE" />
+		<!-- SLF4J|LOG4J|LOG4J2|JDK_LOGGING|COMMONS_LOGGING|STDOUT_LOGGINGNO_LOGGING -->
+		<setting name="logImpl" value="STDOUT_LOGGING" />
+	</settings>
+
+	<typeAliases>
+		<typeAlias type="com.cqt.entity.system.User" alias="User" />
+		<typeAlias type="com.cqt.entity.system.Role" alias="Role" />
+		<typeAlias type="com.cqt.entity.system.Menu" alias="Menu" />
+		<typeAlias type="com.cqt.entity.system.Dictionaries" alias="Dict" />
+
+		<typeAlias type="com.cqt.entity.Course" alias="Course" />
+		<typeAlias type="com.cqt.entity.CourseConfig" alias="CourseConfig" />
+		<typeAlias type="com.cqt.entity.CourseGroup" alias="CourseGroup" />
+		<typeAlias type="com.cqt.entity.CourseSchedule" alias="CourseSchedule" />
+		<typeAlias type="com.cqt.entity.CourseItem" alias="CourseItem" />
+		<typeAlias type="com.cqt.entity.School" alias="School" />
+		<typeAlias type="com.cqt.entity.Classes" alias="Classes" />
+		<typeAlias type="com.cqt.entity.Employee" alias="Employee" />
+		<typeAlias type="com.cqt.entity.EmployeeAttach" alias="EmployeeAttach" />
+		<typeAlias type="com.cqt.entity.EmployeeExtend" alias="EmployeeExtend" />
+		<typeAlias type="com.cqt.entity.Teacher" alias="Teacher" />
+		<typeAlias type="com.cqt.entity.Student" alias="Student" />
+
+
+
+
+		<!-- 分页 -->
+		<typeAlias type="com.cqt.plugin.paging.PageData" alias="pd" />
+		<typeAlias type="com.cqt.plugin.paging.Page" alias="Page" />
+	</typeAliases>
+
+	<plugins>
+		<plugin interceptor="com.cqt.plugin.paging.PagePlugin">
+			<property name="dialect" value="mysql" />
+			<property name="pageSqlId" value=".*istPage.*" />
+		</plugin>
+	</plugins>
+
+</configuration>
