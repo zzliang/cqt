@@ -26,16 +26,13 @@
 		z1.ORDER_BY AS orderBy,
 		z1.PARENT_ID AS parentId,
 		z1.JB AS jb,
-		z1.P_BM AS
-		pBm,
+		z1.P_BM AS pBm,
 		z2.ZD_NAME AS pName
 		FROM
 		SYS_DICTIONARIES z1
-		LEFT JOIN
-		SYS_DICTIONARIES z2
+		LEFT JOIN SYS_DICTIONARIES z2
 		ON z1.PARENT_ID = z2.ZD_ID
-		WHERE z1.PARENT_ID =
-		#{pd.parentId}
+		WHERE z1.PARENT_ID = #{pd.parentId}
 		<if test="pd.zdName != null and pd.zdName != ''">
 			AND z1.ZD_NAME LIKE CONCAT(CONCAT('%',#{pd.zdName}),'%')
 		</if>
@@ -98,8 +95,7 @@
 		ZD_NAME = #{zdName},
 		ORDER_BY = #{orderBy},
 		BIANMA = #{bianma},
-		P_BM =
-		#{pBm}
+		P_BM = #{pBm}
 		WHERE ZD_ID = #{zdId}
 	</update>
 
@@ -140,8 +136,7 @@
 	<!-- 查询某编码 -->
 	<select id="sfdmList" parameterType="java.lang.String"
 		resultType="java.util.Map">
-		SELECT sd.ZD_NAME AS zdName,sd.BIANMA AS bianma FROM
-		sys_dictionaries sd
+		SELECT sd.ZD_NAME AS zdName,sd.BIANMA AS bianma FROM sys_dictionaries sd
 		WHERE INSTR(sd.P_BM,#{bm}) ORDER BY sd.BIANMA
 	</select>
 
@@ -153,8 +148,7 @@
 	<!-- 查询某编码 -->
 	<select id="companyList" parameterType="java.lang.String"
 		resultType="java.util.Map">
-		SELECT sd.ZD_NAME AS zdName,sd.BIANMA AS bianma FROM
-		sys_dictionaries sd
+		SELECT sd.ZD_NAME AS zdName,sd.BIANMA AS bianma FROM sys_dictionaries sd
 		WHERE INSTR(sd.P_BM,#{bm}) ORDER BY sd.BIANMA
 	</select>
 
@@ -163,10 +157,8 @@
 	<!-- 人员分类 start -->
 	<select id="personTypeList" parameterType="java.lang.String"
 		resultType="java.util.Map">
-		SELECT * FROM sys_dictionaries sd WHERE
-		INSTR(sd.`P_BM`,"RYFL_") AND
-		INSTR(sd.`BIANMA`,"FY") ORDER BY
-		sd.ORDER_BY
+		SELECT * FROM sys_dictionaries sd WHERE INSTR(sd.`P_BM`,"RYFL_") AND
+		INSTR(sd.`BIANMA`,"FY") ORDER BY sd.ORDER_BY
 	</select>
 
 	<!-- 人员分类 end -->

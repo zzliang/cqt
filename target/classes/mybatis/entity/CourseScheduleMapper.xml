@@ -165,10 +165,8 @@
 		*
 		FROM
 		t_course_schedule
-		WHERE course_date =
-		#{courseDate}
-		AND class_name IN (SELECT class_name FROM
-		t_course_schedule WHERE
+		WHERE course_date = #{courseDate}
+		AND class_name IN (SELECT class_name FROM t_course_schedule WHERE
 		course_schedule_id = #{courseScheduleId})
 	</select>
 
@@ -183,8 +181,7 @@
 				AND course_date = #{courseDate}
 			</if>
 			<if test="null != courseScheduleId and '' != courseScheduleId">
-				AND class_name IN (SELECT class_name FROM
-				t_course_schedule WHERE
+				AND class_name IN (SELECT class_name FROM t_course_schedule WHERE
 				course_schedule_id = #{courseScheduleId})
 			</if>
 		</where>
@@ -216,8 +213,7 @@
 	<insert id="insertCourseScheduleList" parameterType="java.util.List"
 		useGeneratedKeys="true" keyProperty="course_schedule_id">
 		INSERT INTO t_course_schedule (
-		course_schedule_id, title, e_title,
-		class_name, course_date, school_id, classes_id)
+		course_schedule_id, title, e_title, class_name, course_date, school_id, classes_id)
 		VALUES
 		<!-- <foreach collection="list" item="item" index="index" separator=","> 
 			(#{item.courseScheduleId},#{item.title},#{item.eTitle},#{item.className},#{item.courseDate},#{item.schoolId},#{item.classesId}) 

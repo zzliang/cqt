@@ -20,13 +20,10 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		employee_extend_id, employee_id, internship_start,
-		internship_end, trial_start,
+		employee_extend_id, employee_id, internship_start, internship_end, trial_start,
 		trial_end,
-		correction_date, entry_date,
-		posts_date, title_date, contract_start, contract_end,
-		leave_date,
-		leave_type, leave_reasons
+		correction_date, entry_date, posts_date, title_date, contract_start, contract_end,
+		leave_date, leave_type, leave_reasons
 	</sql>
 
 	<select id="selectById" parameterType="java.lang.Long"
@@ -34,40 +31,29 @@
 		select
 		<include refid="Base_Column_List" />
 		from t_employee_extend
-		where employee_extend_id =
-		#{employeeExtendId,jdbcType=BIGINT}
+		where employee_extend_id = #{employeeExtendId,jdbcType=BIGINT}
 	</select>
 
 	<delete id="deleteById" parameterType="java.lang.Long">
-		delete from
-		t_employee_extend
-		where employee_extend_id =
-		#{employeeExtendId,jdbcType=BIGINT}
+		delete from t_employee_extend
+		where employee_extend_id = #{employeeExtendId,jdbcType=BIGINT}
 	</delete>
 
 	<insert id="insert" parameterType="EmployeeExtend">
-		insert into t_employee_extend
-		(employee_extend_id, employee_id,
+		insert into t_employee_extend (employee_extend_id, employee_id,
 		internship_start,
-		internship_end,
-		trial_start, trial_end,
+		internship_end, trial_start, trial_end,
 		correction_date, entry_date, posts_date,
 		title_date, contract_start, contract_end,
-		leave_date, leave_type,
-		leave_reasons
+		leave_date, leave_type, leave_reasons
 		)
-		values (#{employeeExtendId,jdbcType=BIGINT},
-		#{employeeId,jdbcType=BIGINT},
+		values (#{employeeExtendId,jdbcType=BIGINT}, #{employeeId,jdbcType=BIGINT},
 		#{internshipStart,jdbcType=DATE},
-		#{internshipEnd,jdbcType=DATE}, #{trialStart,jdbcType=DATE},
-		#{trialEnd,jdbcType=DATE},
-		#{correctionDate,jdbcType=DATE},
-		#{entryDate,jdbcType=DATE},
+		#{internshipEnd,jdbcType=DATE}, #{trialStart,jdbcType=DATE}, #{trialEnd,jdbcType=DATE},
+		#{correctionDate,jdbcType=DATE}, #{entryDate,jdbcType=DATE},
 		#{postsDate,jdbcType=DATE},
-		#{titleDate,jdbcType=DATE}, #{contractStart,jdbcType=DATE},
-		#{contractEnd,jdbcType=DATE},
-		#{leaveDate,jdbcType=DATE},
-		#{leaveType,jdbcType=VARCHAR},
+		#{titleDate,jdbcType=DATE}, #{contractStart,jdbcType=DATE}, #{contractEnd,jdbcType=DATE},
+		#{leaveDate,jdbcType=DATE}, #{leaveType,jdbcType=VARCHAR},
 		#{leaveReasons,jdbcType=VARCHAR}
 		)
 	</insert>
@@ -222,27 +208,19 @@
 	<update id="updateById" parameterType="EmployeeExtend">
 		update t_employee_extend
 		set employee_id = #{employeeId,jdbcType=BIGINT},
-		internship_start =
-		#{internshipStart,jdbcType=DATE},
-		internship_end =
-		#{internshipEnd,jdbcType=DATE},
-		trial_start =
-		#{trialStart,jdbcType=DATE},
+		internship_start = #{internshipStart,jdbcType=DATE},
+		internship_end = #{internshipEnd,jdbcType=DATE},
+		trial_start = #{trialStart,jdbcType=DATE},
 		trial_end = #{trialEnd,jdbcType=DATE},
 		correction_date = #{correctionDate,jdbcType=DATE},
-		entry_date =
-		#{entryDate,jdbcType=DATE},
+		entry_date = #{entryDate,jdbcType=DATE},
 		posts_date = #{postsDate,jdbcType=DATE},
 		title_date = #{titleDate,jdbcType=DATE},
-		contract_start =
-		#{contractStart,jdbcType=DATE},
-		contract_end =
-		#{contractEnd,jdbcType=DATE},
+		contract_start = #{contractStart,jdbcType=DATE},
+		contract_end = #{contractEnd,jdbcType=DATE},
 		leave_date = #{leaveDate,jdbcType=DATE},
 		leave_type = #{leaveType,jdbcType=VARCHAR},
-		leave_reasons =
-		#{leaveReasons,jdbcType=VARCHAR}
-		where employee_extend_id =
-		#{employeeExtendId,jdbcType=BIGINT}
+		leave_reasons = #{leaveReasons,jdbcType=VARCHAR}
+		where employee_extend_id = #{employeeExtendId,jdbcType=BIGINT}
 	</update>
 </mapper>

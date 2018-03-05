@@ -22,8 +22,7 @@
 		tcg.course_group_name
 		FROM
 		t_course tc
-		LEFT JOIN t_course_group tcg ON
-		tc.course_group_id = tcg.course_group_id
+		LEFT JOIN t_course_group tcg ON tc.course_group_id = tcg.course_group_id
 		<where>
 			<if test="null != pd.courseId and '' != pd.courseId">
 				AND tc.course_id = #{courseId}
@@ -54,21 +53,17 @@
 	<select id="selectCourseWithGroupById" parameterType="java.lang.Long"
 		resultMap="BaseResultMap">
 		SELECT
-		tc.course_id, tc.course_name, tc.school_id,
-		tcg.course_group_id,
+		tc.course_id, tc.course_name, tc.school_id, tcg.course_group_id,
 		tcg.course_group_name
 		FROM
 		t_course tc
-		LEFT JOIN
-		t_course_group tcg ON tc.course_group_id = tcg.course_group_id
-		WHERE
-		tc.course_id = #{courseId}
+		LEFT JOIN t_course_group tcg ON tc.course_group_id = tcg.course_group_id
+		WHERE tc.course_id = #{courseId}
 	</select>
 
 	<delete id="deleteById" parameterType="java.lang.Long">
 		delete from t_course
-		where
-		course_id = #{courseId}
+		where course_id = #{courseId}
 	</delete>
 
 	<delete id="deleteByIds" parameterType="java.util.List">
@@ -82,10 +77,8 @@
 
 	<insert id="insert" parameterType="Course" keyProperty="courseId"
 		useGeneratedKeys="true">
-		insert into t_course (course_name, course_group_id,
-		school_id)
-		values (#{courseName},
-		#{courseGroup.courseGroupId},#{schoolId})
+		insert into t_course (course_name, course_group_id, school_id)
+		values (#{courseName}, #{courseGroup.courseGroupId},#{schoolId})
 	</insert>
 
 	<insert id="insertSelective" keyProperty="courseId"
@@ -133,8 +126,7 @@
 
 	<update id="updateById" parameterType="Course">
 		update t_course
-		set
-		course_name = #{courseName},
+		set course_name = #{courseName},
 		course_group_id = #{courseGroupId},
 		school_id = #{schoolId}
 		where course_id = #{courseId}

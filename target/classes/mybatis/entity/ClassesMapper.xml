@@ -56,8 +56,7 @@
 		keyProperty="classes_id">
 		insert into t_classes (classes_id, classes_name, year,
 		school_id)
-		values (#{classesId,jdbcType=BIGINT},
-		#{classesName,jdbcType=VARCHAR},
+		values (#{classesId,jdbcType=BIGINT}, #{classesName,jdbcType=VARCHAR},
 		#{year,jdbcType=VARCHAR},
 		#{schoolId,jdbcType=BIGINT})
 	</insert>
@@ -113,12 +112,9 @@
 
 	<update id="updateById" parameterType="Classes">
 		update t_classes
-		set
-		classes_name = #{classesName,jdbcType=VARCHAR},
-		year =
-		#{year,jdbcType=VARCHAR},
+		set classes_name = #{classesName,jdbcType=VARCHAR},
+		year = #{year,jdbcType=VARCHAR},
 		school_id = #{schoolId,jdbcType=BIGINT}
-		where
-		classes_id = #{classesId,jdbcType=BIGINT}
+		where classes_id = #{classesId,jdbcType=BIGINT}
 	</update>
 </mapper>

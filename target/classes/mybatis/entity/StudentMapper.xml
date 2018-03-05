@@ -27,13 +27,10 @@
 			property="shuttleSupplement" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		student_id, stu_name, petname, birth, wstg, sex, height,
-		nation, age,
+		student_id, stu_name, petname, birth, wstg, sex, height, nation, age,
 		home_address,
-		stu_number, school_id, class_id, left_vision,
-		right_vision, nature, constitution,
-		contacts, contacts_phone,
-		contacts_email, shuttle_type,
+		stu_number, school_id, class_id, left_vision, right_vision, nature, constitution,
+		contacts, contacts_phone, contacts_email, shuttle_type,
 		shuttle_supplement
 	</sql>
 
@@ -75,33 +72,25 @@
 
 
 	<insert id="insert" parameterType="Student">
-		insert into t_student
-		(student_id, stu_name, petname,
+		insert into t_student (student_id, stu_name, petname,
 		birth, wstg, sex, height,
-		nation, age,
-		home_address,
+		nation, age, home_address,
 		stu_number, school_id, class_id,
-		left_vision,
-		right_vision, nature,
+		left_vision, right_vision, nature,
 		constitution, contacts, contacts_phone,
 		contacts_email, shuttle_type, shuttle_supplement
 		)
-		values
-		(#{studentId,jdbcType=BIGINT}, #{stuName,jdbcType=VARCHAR},
+		values (#{studentId,jdbcType=BIGINT}, #{stuName,jdbcType=VARCHAR},
 		#{petname,jdbcType=VARCHAR},
-		#{birth,jdbcType=DATE},
-		#{wstg,jdbcType=INTEGER}, #{sex,jdbcType=TINYINT},
+		#{birth,jdbcType=DATE}, #{wstg,jdbcType=INTEGER}, #{sex,jdbcType=TINYINT},
 		#{height,jdbcType=INTEGER},
-		#{nation,jdbcType=VARCHAR},
-		#{age,jdbcType=INTEGER}, #{homeAddress,jdbcType=VARCHAR},
+		#{nation,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{homeAddress,jdbcType=VARCHAR},
 		#{stuNumber,jdbcType=VARCHAR}, #{schoolId,jdbcType=BIGINT},
 		#{classId,jdbcType=BIGINT},
-		#{leftVision,jdbcType=INTEGER},
-		#{rightVision,jdbcType=INTEGER}, #{nature,jdbcType=VARCHAR},
+		#{leftVision,jdbcType=INTEGER}, #{rightVision,jdbcType=INTEGER}, #{nature,jdbcType=VARCHAR},
 		#{constitution,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR},
 		#{contactsPhone,jdbcType=VARCHAR},
-		#{contactsEmail,jdbcType=VARCHAR},
-		#{shuttleType,jdbcType=VARCHAR},
+		#{contactsEmail,jdbcType=VARCHAR}, #{shuttleType,jdbcType=VARCHAR},
 		#{shuttleSupplement,jdbcType=VARCHAR}
 		)
 	</insert>
@@ -310,8 +299,7 @@
 				shuttle_type = #{shuttleType,jdbcType=VARCHAR},
 			</if>
 			<if test="shuttleSupplement != null">
-				shuttle_supplement =
-				#{shuttleSupplement,jdbcType=VARCHAR},
+				shuttle_supplement = #{shuttleSupplement,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where student_id = #{studentId,jdbcType=BIGINT}
@@ -319,42 +307,27 @@
 
 	<update id="updateById" parameterType="Student">
 		update t_student
-		set
-		stu_name = #{stuName,jdbcType=VARCHAR},
-		petname =
-		#{petname,jdbcType=VARCHAR},
+		set stu_name = #{stuName,jdbcType=VARCHAR},
+		petname = #{petname,jdbcType=VARCHAR},
 		birth = #{birth,jdbcType=DATE},
-		wstg =
-		#{wstg,jdbcType=INTEGER},
+		wstg = #{wstg,jdbcType=INTEGER},
 		sex = #{sex,jdbcType=TINYINT},
-		height =
-		#{height,jdbcType=INTEGER},
+		height = #{height,jdbcType=INTEGER},
 		nation = #{nation,jdbcType=VARCHAR},
-		age =
-		#{age,jdbcType=INTEGER},
-		home_address =
-		#{homeAddress,jdbcType=VARCHAR},
-		stu_number =
-		#{stuNumber,jdbcType=VARCHAR},
+		age = #{age,jdbcType=INTEGER},
+		home_address = #{homeAddress,jdbcType=VARCHAR},
+		stu_number = #{stuNumber,jdbcType=VARCHAR},
 		school_id = #{schoolId,jdbcType=BIGINT},
 		class_id = #{classId,jdbcType=BIGINT},
-		left_vision =
-		#{leftVision,jdbcType=INTEGER},
-		right_vision =
-		#{rightVision,jdbcType=INTEGER},
+		left_vision = #{leftVision,jdbcType=INTEGER},
+		right_vision = #{rightVision,jdbcType=INTEGER},
 		nature = #{nature,jdbcType=VARCHAR},
 		constitution = #{constitution,jdbcType=VARCHAR},
-		contacts =
-		#{contacts,jdbcType=VARCHAR},
-		contacts_phone =
-		#{contactsPhone,jdbcType=VARCHAR},
-		contacts_email =
-		#{contactsEmail,jdbcType=VARCHAR},
-		shuttle_type =
-		#{shuttleType,jdbcType=VARCHAR},
-		shuttle_supplement =
-		#{shuttleSupplement,jdbcType=VARCHAR}
-		where student_id =
-		#{studentId,jdbcType=BIGINT}
+		contacts = #{contacts,jdbcType=VARCHAR},
+		contacts_phone = #{contactsPhone,jdbcType=VARCHAR},
+		contacts_email = #{contactsEmail,jdbcType=VARCHAR},
+		shuttle_type = #{shuttleType,jdbcType=VARCHAR},
+		shuttle_supplement = #{shuttleSupplement,jdbcType=VARCHAR}
+		where student_id = #{studentId,jdbcType=BIGINT}
 	</update>
 </mapper>

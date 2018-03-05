@@ -21,24 +21,20 @@
 		LEVEL
 		from SYS_ROLE
 		where PARENT_ID = '0'
-		ORDER BY
-		ROLE_ID
+		ORDER BY ROLE_ID
 	</select>
 
 	<select id="listAllRolesByLevel" parameterType="pd" resultType="Role">
 		SELECT
 		sr1.ROLE_ID AS roleId,
 		sr1.ROLE_NAME AS roleName,
-		sr1.RIGHTS AS
-		rigths,
+		sr1.RIGHTS AS rigths,
 		sr1.PARENT_ID AS parentId,
 		sr1.LEVEL AS level,
-		sr2.ROLE_NAME AS
-		parentName
+		sr2.ROLE_NAME AS parentName
 		FROM
 		SYS_ROLE sr1,SYS_ROLE sr2
-		WHERE sr1.PARENT_ID=sr2.ROLE_ID
-		AND sr1.LEVEL >
+		WHERE sr1.PARENT_ID=sr2.ROLE_ID AND sr1.LEVEL >
 		#{level}
 		ORDER BY sr1.LEVEL
 	</select>
@@ -63,8 +59,7 @@
 		FROM
 		sys_user_role sur
 		LEFT JOIN sys_role sr
-		ON sr.ROLE_ID =
-		sur.ROLE_ID
+		ON sr.ROLE_ID = sur.ROLE_ID
 		WHERE sur.USER_ID = #{userId} ;
 	</select>
 
@@ -84,8 +79,7 @@
 	<!-- 编辑角色 -->
 	<update id="edit" parameterType="pd">
 		update SYS_ROLE
-		set ROLE_NAME =
-		#{ROLE_NAME}
+		set ROLE_NAME = #{ROLE_NAME}
 		where ROLE_ID = #{ROLE_ID}
 	</update>
 
@@ -99,71 +93,61 @@
 	<!-- 给全部子职位加菜单权限 -->
 	<update id="setAllRights" parameterType="pd">
 		update SYS_ROLE
-		set
-		RIGHTS=#{rights}
+		set RIGHTS=#{rights}
 		where PARENT_ID=#{roleId}
 	</update>
 
 	<update id="add_qx" parameterType="pd">
 		update SYS_ROLE
-		set
-		ADD_QX=#{value}
+		set ADD_QX=#{value}
 		where ROLE_ID=#{ROLE_ID}
 	</update>
 
 	<update id="del_qx" parameterType="pd">
 		update SYS_ROLE
-		set
-		DEL_QX=#{value}
+		set DEL_QX=#{value}
 		where ROLE_ID=#{ROLE_ID}
 	</update>
 
 	<update id="edit_qx" parameterType="pd">
 		update SYS_ROLE
-		set
-		EDIT_QX=#{value}
+		set EDIT_QX=#{value}
 		where ROLE_ID=#{ROLE_ID}
 	</update>
 
 	<update id="cha_qx" parameterType="pd">
 		update SYS_ROLE
-		set
-		CHA_QX=#{value}
+		set CHA_QX=#{value}
 		where ROLE_ID=#{ROLE_ID}
 	</update>
 
 	<update id="kfqx1" parameterType="pd">
 		update SYS_GL_QX
-		set
-		QX1=#{value}
+		set QX1=#{value}
 		where GL_ID=#{kefu_id}
 	</update>
 
 	<update id="kfqx2" parameterType="pd">
 		update SYS_GL_QX
-		set
-		QX2=#{value}
+		set QX2=#{value}
 		where GL_ID=#{kefu_id}
 	</update>
 
 	<update id="fxqx" parameterType="pd">
 		update SYS_GL_QX
-		set
-		FX_QX=#{value}
+		set FX_QX=#{value}
 		where GL_ID=#{kefu_id}
 	</update>
 
 	<update id="fwqx" parameterType="pd">
 		update SYS_GL_QX
-		set
-		FW_QX=#{value}
+		set FW_QX=#{value}
 		where GL_ID=#{kefu_id}
 	</update>
 
 	<update id="updateRoleRights" parameterType="Role">
 		update SYS_ROLE
-		set
-		RIGHTS=#{rights}
+		set RIGHTS=#{rights}
 		where ROLE_ID=#{roleId}
 	</update>
 

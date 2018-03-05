@@ -27,8 +27,7 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		course_schedule_id, title, e_title, class_name,
-		course_date, school_id, classes_id
+		course_schedule_id, title, e_title, class_name, course_date, school_id, classes_id
 	</sql>
 
 	<!-- 查询课程表列表，课程表不包含课程表项内容 -->
@@ -149,8 +148,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from t_course_schedule_run
-		where course_schedule_id =
-		#{courseScheduleId}
+		where course_schedule_id = #{courseScheduleId}
 	</select>
 
 
@@ -167,26 +165,20 @@
 		*
 		FROM
 		t_course_schedule_run
-		WHERE course_date =
-		#{courseDate}
-		AND class_name IN (SELECT class_name FROM
-		t_course_schedule WHERE
+		WHERE course_date = #{courseDate}
+		AND class_name IN (SELECT class_name FROM t_course_schedule WHERE
 		course_schedule_id = #{courseScheduleId})
 	</select>
 
 	<delete id="deleteById" parameterType="java.lang.String">
-		delete from
-		t_course_schedule_run
+		delete from t_course_schedule_run
 		where course_schedule_id = #{courseScheduleId}
 	</delete>
 
 	<insert id="insert" parameterType="CourseSchedule">
-		insert into
-		t_course_schedule_run (course_schedule_id, title, e_title,
-		class_name,
-		course_date, school_id, classes_id)
-		values (#{courseScheduleId},
-		#{title}, #{eTitle},
+		insert into t_course_schedule_run (course_schedule_id, title, e_title,
+		class_name, course_date, school_id, classes_id)
+		values (#{courseScheduleId}, #{title}, #{eTitle},
 		#{className}, #{courseDate}, #{schoolId},
 		#{classesId})
 	</insert>
@@ -243,8 +235,7 @@
 
 	<insert id="insertCourseScheduleList" parameterType="java.util.List">
 		INSERT INTO t_course_schedule_run (
-		course_schedule_id, title, e_title,
-		class_name, course_date, school_id, classes_id)
+		course_schedule_id, title, e_title, class_name, course_date, school_id, classes_id)
 		VALUES
 		<foreach collection="list" item="item" index="index"
 			separator=",">
@@ -279,16 +270,13 @@
 	</update>
 
 	<update id="updateById" parameterType="CourseSchedule">
-		update
-		t_course_schedule_run
+		update t_course_schedule_run
 		set title = #{title},
 		e_title = #{eTitle},
 		class_name = #{className},
 		course_date = #{courseDate},
-		school_id =
-		#{schoolId},
+		school_id = #{schoolId},
 		classes_id = #{classesId}
-		where course_schedule_id =
-		#{courseScheduleId}
+		where course_schedule_id = #{courseScheduleId}
 	</update>
 </mapper>

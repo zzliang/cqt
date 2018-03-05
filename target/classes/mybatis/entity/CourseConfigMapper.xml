@@ -40,17 +40,14 @@
 	</select>
 
 	<delete id="deleteById" parameterType="java.lang.Long">
-		delete from
-		t_course_config
+		delete from t_course_config
 		where course_config_id = #{courseConfigId}
 	</delete>
 
 	<insert id="insert" parameterType="CourseConfig"
 		useGeneratedKeys="true" keyProperty="course_config_id">
-		insert into t_course_config
-		(course_date, start_date, end_date, weeks)
-		values (#{courseDate},
-		#{startDate}, #{endDate}, #{weeks})
+		insert into t_course_config (course_date, start_date, end_date, weeks)
+		values (#{courseDate}, #{startDate}, #{endDate}, #{weeks})
 	</insert>
 
 	<insert id="insertSelective" parameterType="CourseConfig"
@@ -113,11 +110,9 @@
 
 	<update id="updateById" parameterType="CourseConfig">
 		update t_course_config
-		set
-		course_date = #{courseDate},
+		set course_date = #{courseDate},
 		start_date = #{startDate},
-		end_date =
-		#{endDate},
+		end_date = #{endDate},
 		weeks = #{weeks}
 		where course_config_id = #{courseConfigId}
 	</update>

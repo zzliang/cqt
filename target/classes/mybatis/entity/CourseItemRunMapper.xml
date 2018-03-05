@@ -12,8 +12,7 @@
 		<result column="teacher_name" property="teacherName" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		course_item_id, course_schedule_id, z_index, start_time,
-		end_time, course_name,
+		course_item_id, course_schedule_id, z_index, start_time, end_time, course_name,
 		course_ename,
 		teacher_name
 	</sql>
@@ -27,21 +26,16 @@
 	</select>
 
 	<delete id="deleteById" parameterType="java.lang.String">
-		delete from
-		t_course_item_run
+		delete from t_course_item_run
 		where course_item_id = #{courseItemId}
 	</delete>
 
 	<insert id="insert" parameterType="CourseItem">
-		insert into t_course_item_run
-		(course_item_id, course_schedule_id, z_index,
-		start_time, end_time,
-		course_name,
+		insert into t_course_item_run (course_item_id, course_schedule_id, z_index,
+		start_time, end_time, course_name,
 		course_ename, teacher_name)
-		values (#{courseItemId},
-		#{courseScheduleId}, #{zIndex},
-		#{startTime}, #{endTime},
-		#{courseName},
+		values (#{courseItemId}, #{courseScheduleId}, #{zIndex},
+		#{startTime}, #{endTime}, #{courseName},
 		#{courseEname}, #{teacherName})
 	</insert>
 
@@ -146,11 +140,9 @@
 		z_index = #{zIndex},
 		start_time = #{startTime},
 		end_time = #{endTime},
-		course_name =
-		#{courseName},
+		course_name = #{courseName},
 		course_ename = #{courseEname},
-		teacher_name =
-		#{teacherName}
+		teacher_name = #{teacherName}
 		where course_item_id = #{courseItemId}
 	</update>
 </mapper>

@@ -45,8 +45,7 @@
 			<choose>
 				<when test="USER_NAME != null and PASSWORD != null">
 					(
-					(USER_NAME = #{USER_NAME} and PASSWORD =
-					#{PASSWORD})
+					(USER_NAME = #{USER_NAME} and PASSWORD = #{PASSWORD})
 					or
 					(EMAIL = #{USER_NAME} and PASSWORD = #{PASSWORD})
 					or
@@ -68,8 +67,7 @@
 			<choose>
 				<when test="USER_NAME != null and PASSWORD != null">
 					(
-					(USER_NAME = #{USER_NAME} and PASSWORD =
-					#{PASSWORD})
+					(USER_NAME = #{USER_NAME} and PASSWORD = #{PASSWORD})
 					or
 					(EMAIL = #{USER_NAME} and PASSWORD = #{PASSWORD})
 					or
@@ -102,8 +100,7 @@
 		FROM
 		sys_user u
 		LEFT JOIN sys_user_role sur
-		ON
-		u.USER_ID = sur.USER_ID
+		ON u.USER_ID = sur.USER_ID
 		LEFT JOIN sys_role sr
 		ON sur.ROLE_ID=sr.ROLE_ID
 		where u.STATUS=0
@@ -150,8 +147,7 @@
 				or
 				(EMAIL = #{userName} and ID_NUMBER = #{idNumber})
 				or
-				(PHONE =
-				#{userName} and ID_NUMBER = #{idNumber})
+				(PHONE = #{userName} and ID_NUMBER = #{idNumber})
 				)
 			</if>
 			<if test="email != null and idNumber != null">
@@ -160,8 +156,7 @@
 				or
 				(EMAIL = #{email} and ID_NUMBER = #{idNumber})
 				or
-				(PHONE = #{email}
-				and ID_NUMBER = #{idNumber})
+				(PHONE = #{email} and ID_NUMBER = #{idNumber})
 				)
 			</if>
 			<if test="phone != null and idNumber != null">
@@ -170,8 +165,7 @@
 				or
 				(EMAIL = #{phone} and ID_NUMBER = #{idNumber})
 				or
-				(PHONE = #{phone}
-				and ID_NUMBER = #{idNumber})
+				(PHONE = #{phone} and ID_NUMBER = #{idNumber})
 				)
 			</if>
 		</where>
@@ -186,8 +180,7 @@
 		FROM
 		sys_user u
 		LEFT JOIN sys_user_role sur
-		ON u.USER_ID =
-		sur.USER_ID
+		ON u.USER_ID = sur.USER_ID
 		LEFT JOIN sys_role sr
 		ON sur.ROLE_ID=sr.ROLE_ID
 		where 1=1
@@ -198,11 +191,9 @@
 			or
 			u.EMAIL LIKE CONCAT(CONCAT('%', #{pd.USER_NAME}),'%')
 			or
-			u.USER_NAME
-			LIKE CONCAT(CONCAT('%', #{pd.USER_NAME}),'%')
+			u.USER_NAME LIKE CONCAT(CONCAT('%', #{pd.USER_NAME}),'%')
 			or
-			u.PHONE LIKE
-			CONCAT(CONCAT('%', #{pd.USER_NAME}),'%')
+			u.PHONE LIKE CONCAT(CONCAT('%', #{pd.USER_NAME}),'%')
 			)
 		</if>
 		<if test="pd.lastLoginStart!=null and pd.lastLoginStart!=''"><!-- 登录时间检索 -->
@@ -245,21 +236,16 @@
 				SELECT
 				a.ZD_ID AS fxId,
 				b.ZD_ID AS bmId,
-				c.ZD_ID
-				AS ksId,
+				c.ZD_ID AS ksId,
 				d.ZD_ID AS xzId
 				FROM
 				sys_dictionaries a
-				LEFT JOIN
-				sys_dictionaries b ON a.ZD_ID=b.PARENT_ID
-				LEFT JOIN sys_dictionaries
-				c ON b.ZD_ID=c.PARENT_ID
-				LEFT JOIN sys_dictionaries d ON
-				c.ZD_ID=d.PARENT_ID
+				LEFT JOIN sys_dictionaries b ON a.ZD_ID=b.PARENT_ID
+				LEFT JOIN sys_dictionaries c ON b.ZD_ID=c.PARENT_ID
+				LEFT JOIN sys_dictionaries d ON c.ZD_ID=d.PARENT_ID
 				WHERE a.ZD_ID = #{pd.orgId}
 				) AS d1
-				WHERE
-				su.STATUS=0 AND (su.ORG_ID=d1.bmId OR su.ORG_ID=d1.ksId OR
+				WHERE su.STATUS=0 AND (su.ORG_ID=d1.bmId OR su.ORG_ID=d1.ksId OR
 				su.ORG_ID=d1.xzId)
 			</when>
 			<when test="pd.userType=='super'">
@@ -277,8 +263,7 @@
 				or
 				su.EMAIL LIKE CONCAT(CONCAT('%', #{pd.userName}),'%')
 				or
-				su.PHONE LIKE
-				CONCAT(CONCAT('%', #{pd.userName}),'%')
+				su.PHONE LIKE CONCAT(CONCAT('%', #{pd.userName}),'%')
 				)
 			</if>
 			<if test="pd.lastLoginStart!=null and pd.lastLoginStart!=''"><!-- 登录时间检索 -->
@@ -299,24 +284,19 @@
 		r.ROLE_ID,
 		r.ROLE_USER_NAME
 		from SYS_USER u, SYS_ROLE r
-		where u.ROLE_ID
-		= r.ROLE_ID
+		where u.ROLE_ID = r.ROLE_ID
 		and u.USER_NAME != 'admin'
-		and (r.ROLE_ID != '7' and
-		r.PARENT_ID != '7')
+		and (r.ROLE_ID != '7' and r.PARENT_ID != '7')
 		<if test="USER_NAME != null and USER_NAME != ''"><!-- 关键词检索 -->
 			and
 			(
 			u.USER_NAME LIKE CONCAT(CONCAT('%', #{USER_NAME}),'%')
 			or
-			u.EMAIL
-			LIKE CONCAT(CONCAT('%', #{USER_NAME}),'%')
+			u.EMAIL LIKE CONCAT(CONCAT('%', #{USER_NAME}),'%')
 			or
-			u.USER_NAME LIKE
-			CONCAT(CONCAT('%', #{USER_NAME}),'%')
+			u.USER_NAME LIKE CONCAT(CONCAT('%', #{USER_NAME}),'%')
 			or
-			u.PHONE LIKE
-			CONCAT(CONCAT('%', #{USER_NAME}),'%')
+			u.PHONE LIKE CONCAT(CONCAT('%', #{USER_NAME}),'%')
 			)
 		</if>
 		<if test="lastLoginStart!=null and lastLoginStart!=''"><!-- 登录时间检索 -->

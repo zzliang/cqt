@@ -26,11 +26,9 @@
 		<result column="school_id" property="schoolId" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		employee_id, emp_number, rel_name, id_number, time_card,
-		sex, birth, nation,
+		employee_id, emp_number, rel_name, id_number, time_card, sex, birth, nation,
 		political,
-		marriage, native_place, home_address,
-		contacts, contacts_phone, personal_hobby,
+		marriage, native_place, home_address, contacts, contacts_phone, personal_hobby,
 		phone, email, worker_type,
 		post, status, remarks, school_id
 	</sql>
@@ -81,26 +79,19 @@
 	<insert id="insert" parameterType="Employee" useGeneratedKeys="true"
 		keyProperty="employee_id">
 		INSERT INTO t_employee (emp_number, rel_name,
-		id_number,
-		time_card, sex,
+		id_number, time_card, sex,
 		birth, nation, political,
-		marriage, native_place,
-		home_address,
+		marriage, native_place, home_address,
 		contacts, contacts_phone, personal_hobby, phone,
-		email,
-		worker_type, post,
+		email, worker_type, post,
 		status, remarks, school_id
 		)
-		VALUES (#{empNumber},
-		#{relName},
+		VALUES (#{empNumber}, #{relName},
 		#{idNumber}, #{timeCard}, #{sex},
-		#{birth}, #{nation},
-		#{political},
+		#{birth}, #{nation}, #{political},
 		#{marriage}, #{nativePlace}, #{homeAddress},
-		#{contacts},
-		#{contactsPhone}, #{personalHobby}, #{phone},
-		#{email}, #{workerType},
-		#{post},
+		#{contacts}, #{contactsPhone}, #{personalHobby}, #{phone},
+		#{email}, #{workerType}, #{post},
 		#{status}, #{remarks}, #{schoolId}
 		)
 	</insert>
@@ -318,11 +309,9 @@
 
 	<update id="updateById" parameterType="Employee">
 		UPDATE t_employee
-		SET
-		emp_number = #{empNumber},
+		SET emp_number = #{empNumber},
 		rel_name = #{relName},
-		id_number =
-		#{idNumber},
+		id_number = #{idNumber},
 		time_card = #{timeCard},
 		sex = #{sex},
 		birth = #{birth},
@@ -331,15 +320,12 @@
 		marriage = #{marriage},
 		native_place = #{nativePlace},
 		home_address = #{homeAddress},
-		contacts =
-		#{contacts},
+		contacts = #{contacts},
 		contacts_phone = #{contactsPhone},
-		personal_hobby =
-		#{personalHobby},
+		personal_hobby = #{personalHobby},
 		phone = #{phone},
 		email = #{email},
-		worker_type =
-		#{workerType},
+		worker_type = #{workerType},
 		post = #{post},
 		status = #{status},
 		remarks = #{remarks},

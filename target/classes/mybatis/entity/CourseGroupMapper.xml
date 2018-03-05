@@ -16,8 +16,7 @@
 
 	<!-- 查询课程组列表 -->
 	<select id="selectCourseGroupList" resultMap="BaseResultMap">
-		SELECT * FROM
-		t_course_group
+		SELECT * FROM t_course_group
 	</select>
 
 	<select id="selectById" parameterType="java.lang.Long"
@@ -44,17 +43,13 @@
 
 	<insert id="insert" parameterType="CourseGroup"
 		useGeneratedKeys="true" keyProperty="courseGroupId">
-		insert into t_course_group
-		(course_group_id, course_group_name)
-		values (#{courseGroupId},
-		#{courseGroupName})
+		insert into t_course_group (course_group_id, course_group_name)
+		values (#{courseGroupId}, #{courseGroupName})
 	</insert>
 
 	<update id="updateById" parameterType="CourseGroup">
 		update t_course_group
-		set
-		course_group_name = #{courseGroupName}
-		where course_group_id =
-		#{courseGroupId}
+		set course_group_name = #{courseGroupName}
+		where course_group_id = #{courseGroupId}
 	</update>
 </mapper>

@@ -13,8 +13,7 @@
 		<result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		course_item_id, course_schedule_id, z_index, start_time,
-		end_time, course_name,
+		course_item_id, course_schedule_id, z_index, start_time, end_time, course_name,
 		course_ename,
 		teacher_name
 	</sql>
@@ -24,8 +23,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from t_course_item
-		where course_item_id =
-		#{courseItemId,jdbcType=VARCHAR}
+		where course_item_id = #{courseItemId,jdbcType=VARCHAR}
 	</select>
 
 	<select id="listCourseItemByMap" parameterType="java.util.Map"
@@ -61,18 +59,14 @@
 	</delete>
 
 	<insert id="insert" parameterType="CourseItem">
-		insert into t_course_item
-		(course_item_id, course_schedule_id, z_index,
-		start_time, end_time,
-		course_name,
+		insert into t_course_item (course_item_id, course_schedule_id, z_index,
+		start_time, end_time, course_name,
 		course_ename, teacher_name)
-		values
-		(#{courseItemId,jdbcType=VARCHAR},
+		values (#{courseItemId,jdbcType=VARCHAR},
 		#{courseScheduleId,jdbcType=VARCHAR}, #{zIndex,jdbcType=INTEGER},
 		#{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR},
 		#{courseName,jdbcType=VARCHAR},
-		#{courseEname,jdbcType=VARCHAR},
-		#{teacherName,jdbcType=VARCHAR})
+		#{courseEname,jdbcType=VARCHAR}, #{teacherName,jdbcType=VARCHAR})
 	</insert>
 
 	<insert id="insertSelective" parameterType="CourseItem">
@@ -135,8 +129,7 @@
 		update t_course_item
 		<set>
 			<if test="courseScheduleId != null">
-				course_schedule_id =
-				#{courseScheduleId,jdbcType=VARCHAR},
+				course_schedule_id = #{courseScheduleId,jdbcType=VARCHAR},
 			</if>
 			<if test="zIndex != null">
 				z_index = #{zIndex,jdbcType=INTEGER},
@@ -162,19 +155,13 @@
 
 	<update id="updateById" parameterType="CourseItem">
 		update t_course_item
-		set
-		course_schedule_id = #{courseScheduleId,jdbcType=VARCHAR},
-		z_index =
-		#{zIndex,jdbcType=INTEGER},
+		set course_schedule_id = #{courseScheduleId,jdbcType=VARCHAR},
+		z_index = #{zIndex,jdbcType=INTEGER},
 		start_time = #{startTime,jdbcType=VARCHAR},
 		end_time = #{endTime,jdbcType=VARCHAR},
-		course_name =
-		#{courseName,jdbcType=VARCHAR},
-		course_ename =
-		#{courseEname,jdbcType=VARCHAR},
-		teacher_name =
-		#{teacherName,jdbcType=VARCHAR}
-		where course_item_id =
-		#{courseItemId,jdbcType=VARCHAR}
+		course_name = #{courseName,jdbcType=VARCHAR},
+		course_ename = #{courseEname,jdbcType=VARCHAR},
+		teacher_name = #{teacherName,jdbcType=VARCHAR}
+		where course_item_id = #{courseItemId,jdbcType=VARCHAR}
 	</update>
 </mapper>

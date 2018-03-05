@@ -10,8 +10,7 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		teacher_id, employee_id, teacher_name, is_headmaster,
-		school_id
+		teacher_id, employee_id, teacher_name, is_headmaster, school_id
 	</sql>
 
 	<!-- 分页查询教师信息列表 -->
@@ -61,11 +60,9 @@
 
 	<insert id="insert" parameterType="Teacher" useGeneratedKeys="true"
 		keyProperty="teacher_id">
-		INSERT INTO t_teacher (teacher_id, employee_id,
-		teacher_name, is_headmaster,
+		INSERT INTO t_teacher (teacher_id, employee_id, teacher_name, is_headmaster,
 		school_id)
-		VALUES (#{teacherId},
-		#{employeeId}, #{teacherName},
+		VALUES (#{teacherId}, #{employeeId}, #{teacherName},
 		#{isHeadmaster}, #{schoolId})
 	</insert>
 
@@ -131,12 +128,10 @@
 
 	<update id="updateById" parameterType="Teacher">
 		UPDATE t_teacher
-		SET
-		employee_id = #{employeeId},
+		SET employee_id = #{employeeId},
 		teacher_name = #{teacherName},
 		is_headmaster = #{isHeadmaster},
 		school_id = #{schoolId}
-		WHERE
-		teacher_id = #{teacherId}
+		WHERE teacher_id = #{teacherId}
 	</update>
 </mapper>

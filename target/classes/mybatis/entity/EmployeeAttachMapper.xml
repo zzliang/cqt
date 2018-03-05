@@ -18,10 +18,8 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		employee_attach_id, employee_id, account_address,
-		qualification_cert, education,
-		degree, graduate_school, file_address,
-		major, graduate_time, station_level,
+		employee_attach_id, employee_id, account_address, qualification_cert, education,
+		degree, graduate_school, file_address, major, graduate_time, station_level,
 		technical_title
 	</sql>
 
@@ -30,34 +28,26 @@
 		select
 		<include refid="Base_Column_List" />
 		from t_employee_attach
-		where employee_attach_id =
-		#{employeeAttachId,jdbcType=BIGINT}
+		where employee_attach_id = #{employeeAttachId,jdbcType=BIGINT}
 	</select>
 
 	<delete id="deleteById" parameterType="java.lang.Long">
-		delete from
-		t_employee_attach
-		where employee_attach_id =
-		#{employeeAttachId,jdbcType=BIGINT}
+		delete from t_employee_attach
+		where employee_attach_id = #{employeeAttachId,jdbcType=BIGINT}
 	</delete>
 
 	<insert id="insert" parameterType="EmployeeAttach">
-		insert into t_employee_attach
-		(employee_attach_id, employee_id,
+		insert into t_employee_attach (employee_attach_id, employee_id,
 		account_address,
-		qualification_cert,
-		education, degree,
+		qualification_cert, education, degree,
 		graduate_school, file_address, major,
-		graduate_time,
-		station_level, technical_title
+		graduate_time, station_level, technical_title
 		)
-		values
-		(#{employeeAttachId,jdbcType=BIGINT}, #{employeeId,jdbcType=BIGINT},
+		values (#{employeeAttachId,jdbcType=BIGINT}, #{employeeId,jdbcType=BIGINT},
 		#{accountAddress,jdbcType=VARCHAR},
 		#{qualificationCert,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR},
 		#{degree,jdbcType=VARCHAR},
-		#{graduateSchool,jdbcType=VARCHAR},
-		#{fileAddress,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR},
+		#{graduateSchool,jdbcType=VARCHAR}, #{fileAddress,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR},
 		#{graduateTime,jdbcType=DATE}, #{stationLevel,jdbcType=BIT},
 		#{technicalTitle,jdbcType=VARCHAR}
 		)
@@ -153,8 +143,7 @@
 				account_address = #{accountAddress,jdbcType=VARCHAR},
 			</if>
 			<if test="qualificationCert != null">
-				qualification_cert =
-				#{qualificationCert,jdbcType=VARCHAR},
+				qualification_cert = #{qualificationCert,jdbcType=VARCHAR},
 			</if>
 			<if test="education != null">
 				education = #{education,jdbcType=VARCHAR},
@@ -187,23 +176,16 @@
 	<update id="updateById" parameterType="EmployeeAttach">
 		update t_employee_attach
 		set employee_id = #{employeeId,jdbcType=BIGINT},
-		account_address =
-		#{accountAddress,jdbcType=VARCHAR},
-		qualification_cert =
-		#{qualificationCert,jdbcType=VARCHAR},
-		education =
-		#{education,jdbcType=VARCHAR},
+		account_address = #{accountAddress,jdbcType=VARCHAR},
+		qualification_cert = #{qualificationCert,jdbcType=VARCHAR},
+		education = #{education,jdbcType=VARCHAR},
 		degree = #{degree,jdbcType=VARCHAR},
 		graduate_school = #{graduateSchool,jdbcType=VARCHAR},
-		file_address =
-		#{fileAddress,jdbcType=VARCHAR},
+		file_address = #{fileAddress,jdbcType=VARCHAR},
 		major = #{major,jdbcType=VARCHAR},
 		graduate_time = #{graduateTime,jdbcType=DATE},
-		station_level =
-		#{stationLevel,jdbcType=BIT},
-		technical_title =
-		#{technicalTitle,jdbcType=VARCHAR}
-		where employee_attach_id =
-		#{employeeAttachId,jdbcType=BIGINT}
+		station_level = #{stationLevel,jdbcType=BIT},
+		technical_title = #{technicalTitle,jdbcType=VARCHAR}
+		where employee_attach_id = #{employeeAttachId,jdbcType=BIGINT}
 	</update>
 </mapper>
