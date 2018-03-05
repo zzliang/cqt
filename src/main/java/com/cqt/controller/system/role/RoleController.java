@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.accept.ServletPathExtensionContentNegotiationStrategy;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,10 +20,12 @@ import com.cqt.commons.E;
 import com.cqt.commons.Jurisdiction;
 import com.cqt.commons.SessionContext;
 import com.cqt.controller.base.BaseController;
+import com.cqt.entity.system.Identity;
 import com.cqt.entity.system.Menu;
 import com.cqt.entity.system.Role;
 import com.cqt.plugin.paging.Page;
 import com.cqt.plugin.paging.PageData;
+import com.cqt.service.system.identity.IdentityService;
 import com.cqt.service.system.menu.MenuService;
 import com.cqt.service.system.role.RoleService;
 import com.cqt.util.RightsHelper;
@@ -43,6 +44,8 @@ import net.sf.json.JSONArray;
 public class RoleController extends BaseController {
 	
 	String menuUrl = "role.do"; //菜单地址(权限用)
+	@Resource(name="identityService")
+	private IdentityService identityService;
 	@Resource(name="menuService")
 	private MenuService menuService;
 	@Resource(name="roleService")
@@ -170,6 +173,34 @@ public class RoleController extends BaseController {
 	}
 	
 	/**
+	 * 删除
+	 */
+	@RequestMapping(value="/delete")
+	@ResponseBody
+	public Object deleteRole(@RequestParam String roleId)throws Exception{
+		Map<String,String> map = new HashMap<String,String>();
+		String errInfo = "";
+		try{
+			List<Role> roleList_z = roleService.listAllERRoles(roleId);		//列出此部门的所有下级
+			if(roleList_z.size() > 0){
+				errInfo = "false1";	//此角色存在下级不允许删除
+			}else{
+				List<PageData> userlist = roleService.listAllUserByRid(roleId);	//查询使用此角色的用户Id
+				if(userlist.size() > 0){
+					errInfo = "false2";	//此角色有用户使用不允许删除
+				}else{
+					if(Jurisdiction.hasJurisdiction(menuUrl)){roleService.deleteRoleById(roleId);};
+					errInfo = "success";
+				}
+			}
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		map.put("result", errInfo);
+		return map;
+	}
+	
+	/**
 	 * 请求角色菜单授权页面
 	 */
 	@RequestMapping(value="/auth")
@@ -226,30 +257,55 @@ public class RoleController extends BaseController {
 	}
 	
 	/**
-	 * 删除
+	 * 请求角色身份授权页面
 	 */
-	@RequestMapping(value="/delete")
-	@ResponseBody
-	public Object deleteRole(@RequestParam String roleId)throws Exception{
-		Map<String,String> map = new HashMap<String,String>();
-		String errInfo = "";
+	@RequestMapping(value="/identity")
+	public String identity(@RequestParam String roleId,Model model)throws Exception{
 		try{
-			List<Role> roleList_z = roleService.listAllERRoles(roleId);		//列出此部门的所有下级
-			if(roleList_z.size() > 0){
-				errInfo = "false1";	//此角色存在下级不允许删除
-			}else{
-				List<PageData> userlist = roleService.listAllUserByRid(roleId);	//查询使用此角色的用户Id
-				if(userlist.size() > 0){
-					errInfo = "false2";	//此角色有用户使用不允许删除
-				}else{
-					if(Jurisdiction.hasJurisdiction(menuUrl)){roleService.deleteRoleById(roleId);};
-					errInfo = "success";
-				}
-			}
+			List<Identity> identityList = identityService.listAllIdentity();
+			Role role = roleService.getRoleById(roleId);
+			String roleIdentityRights = role.getIdentityRights();
+			Jurisdiction.handlerIdentityList(identityList, roleIdentityRights);
+			JSONArray arr = JSONArray.fromObject(identityList);
+			String json = arr.toString();
+			json = json.replaceAll("identityName", "name").replaceAll("hasIdentity", "checked");
+			model.addAttribute("zTreeNodes", json);
+			model.addAttribute("roleId", roleId);
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
-		map.put("result", errInfo);
-		return map;
+		
+		return "system/identity";
+	}
+	
+	
+	/**
+	 * 保存角色身份
+	 */
+	@RequestMapping(value="/identity/save")
+	public void saveIdentity(@RequestParam String roleId,@RequestParam String identityIds,PrintWriter out)throws Exception{
+		PageData pd = new PageData();
+		try{
+			if(Jurisdiction.hasJurisdiction(menuUrl)){
+				if(null != identityIds && !"".equals(identityIds.trim())){
+					BigInteger identityRights = RightsHelper.sumRights(Tools.str2StrArray(identityIds));
+					Role role = roleService.getRoleById(roleId);
+					role.setIdentityRights(identityRights.toString());
+					roleService.updateRoleIdentityRights(role);
+					pd.put("rights",identityRights.toString());
+				}else{
+					Role role = new Role();
+					role.setRights("");
+					role.setRoleId(roleId);
+					roleService.updateRoleIdentityRights(role);
+					pd.put("rights","");
+				}
+			}
+			out.write("success");
+			out.flush();
+			out.close();
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
 	}
 }

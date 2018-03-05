@@ -29,10 +29,12 @@ import com.cqt.commons.IO;
 import com.cqt.commons.Jurisdiction;
 import com.cqt.commons.SessionContext;
 import com.cqt.controller.base.BaseController;
+import com.cqt.entity.School;
 import com.cqt.entity.system.Role;
 import com.cqt.entity.system.User;
 import com.cqt.plugin.paging.Page;
 import com.cqt.plugin.paging.PageData;
+import com.cqt.service.school.SchoolService;
 import com.cqt.service.system.dictionaries.DictionariesService;
 import com.cqt.service.system.menu.MenuService;
 import com.cqt.service.system.role.RoleService;
@@ -64,6 +66,8 @@ public class UserController extends BaseController {
 	private MenuService menuService;
 	@Resource(name="dictionariesService")
 	private DictionariesService dictionariesService;
+	@Resource(name="schoolService")
+	private SchoolService schoolService;
 	
 	
 	/**
@@ -119,13 +123,10 @@ public class UserController extends BaseController {
 	@RequestMapping(value="/goAddU")
 	public ModelAndView goAddU()throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		String userOrgId = SessionContext.getUser().getOrgId();
-		PageData pd = new PageData();
-		pd.put("parentId", userOrgId);
-		List<PageData> schoolOrgList = dictionariesService.listByPid(pd); //获取学校的第一级机构
-		
+		List<School> listSchool = schoolService.listSchool();
 		mv.setViewName("system/user/user_edit");
-		mv.addObject("schoolOrgList",schoolOrgList);
+		mv.addObject("listSchool",listSchool);
+		mv.addObject("schoolId","");
 		mv.addObject("msg", "saveU");
 		return mv;
 	}
@@ -192,10 +193,13 @@ public class UserController extends BaseController {
 		if(Tools.notEmpty(userId)){
 			user = userService.getUserById(userId);	//根据ID读取
 		}
+		
+		List<School> listSchool = schoolService.listSchool();
 		mv.setViewName("system/user/user_edit");
 		mv.addObject("msg", "editU");
-		mv.addObject("pd", user);
-		//mv.addObject("roleList", roleList);
+		mv.addObject("user", user);
+		mv.addObject("schoolId", user.getSchoolId());
+		mv.addObject("listSchool", listSchool);
 		
 		return mv;
 	}

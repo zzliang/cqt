@@ -28,8 +28,8 @@
 		<tr>
 			<th class="center">序号</th>
 			<th>角色</th>
-			<th class="center" bgcolor="#FFBF00">父角色</th>
-			<th class="center" bgcolor="#EFFFBF">级别</th>
+			<!-- <th class="center" bgcolor="#FFBF00">父角色</th>
+			<th class="center" bgcolor="#EFFFBF">级别</th> -->
 			<!-- <th class="center" bgcolor="#BFEFFF">邮件</th>
 			<th class="center" bgcolor="#EFBFFF">短信</th>
 			<th class="center" bgcolor="#BFEFFF" title="每天可发条数">站内信</th>
@@ -37,7 +37,7 @@
 			<th class="center">删</th>
 			<th class="center">改</th>
 			<th class="center">查</th> -->
-			<th style="width:155px;"  class="center">操作</th>
+			<th style="width:255px;"  class="center">操作</th>
 		</tr>
 		</thead>
 		<c:choose>
@@ -46,11 +46,12 @@
 				<tr>
 				<td class='center' style="width:30px;">${vs.index+1}</td>
 				<td>${var.roleName }</td>
-				<td style="width:60px;" class="center"><label>${var.parentName }</label></td>
-				<td style="width:60px;" class="center"><label>${var.level }</label></td>
+				<%-- <td style="width:60px;" class="center"><label>${var.parentName }</label></td>
+				<td style="width:60px;" class="center"><label>${var.level }</label></td> --%>
 				
 				<td style="width:155px;">
 					<a class="btn btn-mini btn-purple" onclick="editRights('${var.roleId }');"><i class="icon-pencil"></i>菜单权限</a>
+					<a class="btn btn-mini btn-purple" onclick="editIdentityRights('${var.roleId }');"><i class="icon-pencil"></i>身份权限</a>
 					<a class='btn btn-mini btn-info' title="编辑" onclick="editRole('${var.roleId }');"><i class='icon-edit'></i></a>
 					<a class='btn btn-mini btn-danger' title="删除" onclick="delRole('${var.roleId }','c','${var.roleName }');"><i class='icon-trash'></i></a>
 				</td>
@@ -196,6 +197,21 @@
 			 diag.Drag = true;
 			 diag.Title = "菜单权限";
 			 diag.URL = '<%=basePath%>role/auth.do?roleId='+roleId;
+			 diag.Width = 280;
+			 diag.Height = 400;
+			 diag.CancelEvent = function(){ //关闭事件
+				diag.close();
+			 };
+			 diag.show();
+		}
+		
+		//身份权限
+		function editIdentityRights(roleId){
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag = true;
+			 diag.Title = "身份权限";
+			 diag.URL = '<%=basePath%>role/identity.do?roleId='+roleId;
 			 diag.Width = 280;
 			 diag.Height = 400;
 			 diag.CancelEvent = function(){ //关闭事件

@@ -15,6 +15,7 @@
 		<typeAlias type="com.cqt.entity.system.User" alias="User" />
 		<typeAlias type="com.cqt.entity.system.Role" alias="Role" />
 		<typeAlias type="com.cqt.entity.system.Menu" alias="Menu" />
+		<typeAlias type="com.cqt.entity.system.Identity" alias="Identity" />
 		<typeAlias type="com.cqt.entity.system.Dictionaries" alias="Dict" />
 
 		<typeAlias type="com.cqt.entity.Course" alias="Course" />

@@ -21,6 +21,7 @@
 		<result property="lastLogin" column="LAST_LOGIN" />
 		<result property="skin" column="SKIN" />
 		<result property="bz" column="BZ" />
+		<result property="schoolId" column="SCHOOL_ID" />
 		<result property="orgId" column="ORG_ID" />
 		<result property="orgBm" column="ORG_BM" />
 		<result property="orgName" column="ORG_NAME" />
@@ -344,6 +345,9 @@
 			<if test="loginIp != null">
 				LOGIN_IP = #{loginIp},
 			</if>
+			<if test="schoolId != null">
+				SCHOOL_ID = #{schoolId},
+			</if>
 			<if test="orgId != null">
 				ORG_ID = #{orgId},
 			</if>
@@ -378,7 +382,8 @@
 		REl_NAME,
 		PHONE,
 		EMAIL,
-		BZ
+		BZ,
+		SCHOOL_ID
 		) values (
 		#{userId},
 		#{userName},
@@ -388,7 +393,8 @@
 		#{relName},
 		#{phone},
 		#{email},
-		#{bz}
+		#{bz},
+		#{schoolId}
 		)
 	</insert>
 

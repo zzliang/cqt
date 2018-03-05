@@ -80,6 +80,11 @@ public class RoleService{
 		dao.update("RoleMapper.updateRoleRights", role);
 	}
 	
+
+	public void updateRoleIdentityRights(Role role) throws Exception {
+		dao.update("RoleMapper.updateRoleIdentityRights", role);
+	}
+	
 	/**
 	 * Gc权限
 	 */
@@ -143,5 +148,4 @@ public class RoleService{
 	public void updateKFQx(String msg,PageData pd) throws Exception {
 		dao.update("RoleMapper."+msg, pd);
 	}
-
 }

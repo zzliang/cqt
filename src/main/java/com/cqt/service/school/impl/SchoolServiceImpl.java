@@ -23,6 +23,12 @@ public class SchoolServiceImpl implements SchoolService {
 	}
 	
 	@Override
+	public List<School> listSchool() throws Exception {
+		List<School> schoolList = (List<School>)dao.findForList("SchoolMapper.listSchool", null);
+		return schoolList;
+	}
+	
+	@Override
 	public School findById(Long schoolId) throws Exception {
 		School school = (School)dao.findForObject("SchoolMapper.selectById", schoolId);
 		return school;

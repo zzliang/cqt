@@ -13,6 +13,7 @@ public class Role implements Serializable{
 	private String roleId;
 	private String roleName;
 	private String rights;
+	private String identityRights;
 	private String parentId;
 	private int level;
 	
@@ -35,6 +36,12 @@ public class Role implements Serializable{
 	}
 	public void setRights(String rights) {
 		this.rights = rights;
+	}
+	public String getIdentityRights() {
+		return identityRights;
+	}
+	public void setIdentityRights(String identityRights) {
+		this.identityRights = identityRights;
 	}
 	public String getParentId() {
 		return parentId;

@@ -1,12 +1,10 @@
 package com.cqt.commons;
 
 import java.util.List;
-import java.util.Map;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 
+import com.cqt.entity.system.Identity;
 import com.cqt.entity.system.Menu;
 import com.cqt.util.RightsHelper;
 import com.cqt.util.Tools;
@@ -65,6 +63,22 @@ public class Jurisdiction {
 			}
 		}
 		return menuList;
+	}
+	
+	/**
+	 * <p>Title: handlerIdentityList</p>  
+	 * <p>Description: 使用权限值来初始化身份的权限</p>  
+	 * @param identityList
+	 * @param rights
+	 * @return
+	 */
+	public static List<Identity> handlerIdentityList(List<Identity> identityList,String rights){
+		if(Tools.notEmpty(rights)){
+			for(Identity identity : identityList){
+				identity.setHasIdentity(RightsHelper.testRights(rights, identity.getId().intValue()));
+			}
+		}
+		return identityList;
 	}
 	
 }

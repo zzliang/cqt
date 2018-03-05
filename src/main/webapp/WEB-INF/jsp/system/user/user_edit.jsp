@@ -207,11 +207,11 @@
 	</head>
 <body>
 	<form action="user/${msg }.do" name="userForm" id="userForm" method="post">
-		<input type="hidden" name="userId" id="user_id" value="${pd.userId }"/>
+		<input type="hidden" name="userId" id="user_id" value="${user.userId }"/>
 		<div id="cqtwindow" style="margin:10px">
 		<table>
 			<tr>
-				<td><input type="text" name="userName" id="user_name" value="${pd.userName }" maxlength="32" placeholder="这里输入用户名" title="用户名"/></td>
+				<td><input type="text" name="userName" id="user_name" value="${user.userName }" maxlength="32" placeholder="这里输入用户名" title="用户名"/></td>
 			</tr>
 			<tr>
 				<td><input type="password" name="password" id="password"  maxlength="32" placeholder="输入密码" title="密码"/></td>
@@ -220,25 +220,25 @@
 				<td><input type="password" name="chkpwd" id="chkpwd"  maxlength="32" placeholder="确认密码" title="确认密码" /></td>
 			</tr>
 			<tr>
-				<td><input type="text" name="relName" id="rel_name"  value="${pd.relName }"  maxlength="32" placeholder="这里输入姓名" title="姓名"/></td>
+				<td><input type="text" name="relName" id="rel_name"  value="${user.relName }"  maxlength="32" placeholder="这里输入姓名" title="姓名"/></td>
 			</tr>
 			<tr>
-				<td><input type="text" name="idNumber" id="id_number"  value="${pd.idNumber }"  maxlength="20" placeholder="这里输入身份证号" title="身份证号"/></td>
+				<td><input type="text" name="idNumber" id="id_number"  value="${user.idNumber }"  maxlength="20" placeholder="这里输入身份证号" title="身份证号"/></td>
 			</tr>
 			<tr>
-				<td><input type="number" name="phone" id="phone"  value="${pd.phone }"  maxlength="20" placeholder="这里输入手机号" title="手机号"/></td>
+				<td><input type="number" name="phone" id="phone"  value="${user.phone }"  maxlength="20" placeholder="这里输入手机号" title="手机号"/></td>
 			</tr>
 			<tr>
-				<td><input type="email" name="email" id="email"  value="${pd.email }" maxlength="32" placeholder="这里输入邮箱" title="邮箱" onblur="hasE()"/></td>
+				<td><input type="email" name="email" id="email"  value="${user.email }" maxlength="32" placeholder="这里输入邮箱" title="邮箱" onblur="hasE()"/></td>
 			</tr>
-			<tr>
+			<%-- <tr>
 				<td>
 					<select id="schoolOrg" name="orgId">
 						<option value="0">请选择机构</option>
 						<c:if test="${not empty schoolOrgList }">
 							<c:forEach items="${schoolOrgList }" var="map" varStatus="st">
 								<c:choose>
-									<c:when test="${pd.orgId==map.zdId }">
+									<c:when test="${user.orgId==map.zdId }">
 										<option value="${map.zdId }" selected="selected">${map.zdName }</option>
 									</c:when>
 									<c:otherwise>
@@ -249,9 +249,28 @@
 						</c:if>
 					</select>
 				</td>
+			</tr> --%>
+			<tr>
+				<td>
+					<select id="schoolOrg" name="orgId">
+						<option value="0">请选择所属学校</option>
+						<c:if test="${not empty listSchool }">
+							<c:forEach items="${listSchool }" var="school" varStatus="st">
+								<c:choose>
+									<c:when test="${school.schoolId==schoolId }">
+										<option value="${school.schoolCode }" selected="selected">${school.schoolName }</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${school.schoolCode }">${school.schoolName }</option>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</c:if>
+					</select>
+				</td>
 			</tr>
 			<tr>
-				<td><input type="text" name="bz" id="bz"value="${pd.bz }" placeholder="这里输入备注" maxlength="64" title="备注"/></td>
+				<td><input type="text" name="bz" id="bz"value="${user.bz }" placeholder="这里输入备注" maxlength="64" title="备注"/></td>
 			</tr>
 			<tr>
 				<td style="text-align: center;">

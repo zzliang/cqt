@@ -280,8 +280,8 @@
 			 diag.Drag=true;
 			 diag.Title ="资料";
 			 diag.URL = '<%=basePath%>user/goEditU.do?userId='+userId;
-			 diag.Width = 225;
-			 diag.Height = 415;
+			 diag.Width = 250;
+			 diag.Height = 450;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('cqtwindow').style.display == 'none'){
 					nextPage('${page.currentPage}');

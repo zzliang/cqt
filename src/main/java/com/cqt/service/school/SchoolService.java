@@ -23,5 +23,7 @@ public interface SchoolService{
 
 	List<School> listSchool(Page page) throws Exception;
 
+	List<School> listSchool() throws Exception;
+
 
 }
