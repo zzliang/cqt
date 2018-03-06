@@ -15,7 +15,8 @@ public class CourseConfig implements Serializable{
     private Date endDate;
 
     private Integer weeks;
-
+    
+    private boolean isEdit;
     public Long getCourseConfigId() {
         return courseConfigId;
     }
@@ -55,4 +56,12 @@ public class CourseConfig implements Serializable{
     public void setWeeks(Integer weeks) {
         this.weeks = weeks;
     }
+
+	public boolean isEdit() {
+		return isEdit;
+	}
+
+	public void setEdit(boolean isEdit) {
+		this.isEdit = isEdit;
+	}
 }

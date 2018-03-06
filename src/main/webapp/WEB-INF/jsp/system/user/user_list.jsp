@@ -100,7 +100,7 @@
 								<td>${user.loginIp}</td>
 								<td style="width: 60px;">
 									<div class='hidden-phone visible-desktop btn-group'>
-										<c:if test="${user.userName != 'admin'}"><a class='btn btn-mini btn-purple' onclick="editOrg('${user.userId }');"><i class='icon-pencil'></i>机构分配</a></c:if>
+										<%-- <c:if test="${user.userName != 'admin'}"><a class='btn btn-mini btn-purple' onclick="editOrg('${user.userId }');"><i class='icon-pencil'></i>机构分配</a></c:if> --%>
 										<c:if test="${user.userName != 'admin'}"><a class='btn btn-mini btn-purple' onclick="editRole('${user.userId }','${user.userType }');"><i class='icon-pencil'></i>角色分配</a></c:if>
 										<c:if test="${user.userName != 'admin'}"><a class='btn btn-mini btn-info' title="编辑" onclick="editUser('${user.userId }');"><i class='icon-edit'></i></a></c:if>
 										<c:choose>

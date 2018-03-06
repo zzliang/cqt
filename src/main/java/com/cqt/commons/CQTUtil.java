@@ -189,6 +189,19 @@ public class CQTUtil {
 		return weeks;
 	}
 	
+	public static List<WeekInfo> getWeekInfo2() throws ParseException {
+		List<WeekInfo> weeks = new ArrayList<WeekInfo>();
+		weeks.add(new WeekInfo("星期一"));
+		weeks.add(new WeekInfo("星期二"));
+		weeks.add(new WeekInfo("星期三"));
+		weeks.add(new WeekInfo("星期四"));
+		weeks.add(new WeekInfo("星期五"));
+		weeks.add(new WeekInfo("星期六"));
+		weeks.add(new WeekInfo("星期日"));
+		
+		return weeks;
+	}
+	
 	//===============================================================================================
 	
 	/**

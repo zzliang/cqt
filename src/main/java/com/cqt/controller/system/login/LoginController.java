@@ -133,7 +133,7 @@ public class LoginController extends BaseController {
 				}
 			}
 		}else{
-			errInfo = "error";	//缺少参数
+			errInfo = "error";								//缺少参数
 		}
 		map.put("result", errInfo);
 		return map;
@@ -155,7 +155,7 @@ public class LoginController extends BaseController {
 			User user = (User)SessionContext.getUser();
 			if(null != user && changeMenu.equals(Const.M_USER_LIST)){
 				List<User> mUserList = SessionContext.getMUserList(); 	//当前登录账号的所有用户身份
-				List<User> _mUserList = new ArrayList<User>();			//当前登录账号的能切换的用户身份
+				List<User> _mUserList = new ArrayList<User>();			//当前登录账号的能切换的用户身份（所有身份减去在使用的身份）
 				//userId:为当前要切换的用户id.从所有用户身份中获取切换的用户对象并存入当前会话，并将其它用户对象身份存入到多用户列表中
 				if(Tools.notEmpty(userId) && null!=mUserList && !mUserList.isEmpty()){
 					for(User u : mUserList){
@@ -187,16 +187,18 @@ public class LoginController extends BaseController {
 				}
 				
 				String roleRights = SessionContext.getUserSumRights();			//获取用户多角色的权限叠加权限
-				//避免每次拦截用户操作时查询数据库，以下将用户所属角色权限、用户权限限都存入session
 				SessionContext.set(Const.SESSION_ROLE_RIGHTS, roleRights); 		//将角色权限存入session
+				
+				String roleIdentity = SessionContext.getUserSumIdentity();		//获取用户多角色的身份叠加
+				SessionContext.set(Const.SESSION_ROLE_IDENTITY, roleIdentity); 	//将角色身份存入session
+				
 				SessionContext.set(Const.SESSION_USERNAME, user.getUserName());	//放入用户名
 				
 				List<Menu> allmenuList = new ArrayList<Menu>();
-				
 				if(null == SessionContext.get(Const.SESSION_allmenuList)){
 					allmenuList = menuService.listAllMenu();
 					Jurisdiction.handlerMenuList(allmenuList, roleRights);
-					SessionContext.set(Const.SESSION_allmenuList, allmenuList);			//菜单权限放入session中
+					SessionContext.set(Const.SESSION_allmenuList, allmenuList);	//菜单权限放入session中
 				}else{
 					allmenuList = (List<Menu>)SessionContext.get(Const.SESSION_allmenuList);
 				}
@@ -263,6 +265,7 @@ public class LoginController extends BaseController {
 					}
 				}
 			 	//读取websocket配置
+			 	
 				mv.setViewName("system/admin/index");
 				mv.addObject("user", user);
 				mv.addObject("menuList", menuList);

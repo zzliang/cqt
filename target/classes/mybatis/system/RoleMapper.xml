@@ -7,7 +7,7 @@
 		<id column="ROLE_ID" property="roleId" />
 		<result column="ROLE_NAME" property="roleName" />
 		<result column="RIGHTS" property="rights" />
-		<result column="IDENTITY_RIGHTS" property="identityRights" />
+		<result column="IDENTITY" property="identity" />
 		<result column="PARENT_ID" property="parentId" />
 		<result column="LEVEL" property="level" />
 		<result column="PARENT_NAME" property="parentName" />
@@ -18,7 +18,7 @@
 		ROLE_ID,
 		ROLE_NAME,
 		RIGHTS,
-		IDENTITY_RIGHTS,
+		IDENTITY,
 		PARENT_ID,
 		LEVEL
 		from SYS_ROLE
@@ -31,7 +31,7 @@
 		sr1.ROLE_ID AS roleId,
 		sr1.ROLE_NAME AS roleName,
 		sr1.RIGHTS AS rigths,
-		sr1.IDENTITY_RIGHTS as identityRights,
+		sr1.IDENTITY as identity,
 		sr1.PARENT_ID AS parentId,
 		sr1.LEVEL AS level,
 		sr2.ROLE_NAME AS parentName
@@ -48,7 +48,7 @@
 		ROLE_ID,
 		ROLE_NAME,
 		RIGHTS,
-		IDENTITY_RIGHTS,
+		IDENTITY,
 		PARENT_ID,
 		LEVEL
 		from SYS_ROLE
@@ -155,9 +155,9 @@
 		where ROLE_ID=#{roleId}
 	</update>
 	
-	<update id="updateRoleIdentityRights" parameterType="Role">
+	<update id="updateRoleIdentity" parameterType="Role">
 		update SYS_ROLE
-		set IDENTITY_RIGHTS=#{identityRights}
+		set IDENTITY=#{identity}
 		where ROLE_ID=#{roleId}
 	</update>
 

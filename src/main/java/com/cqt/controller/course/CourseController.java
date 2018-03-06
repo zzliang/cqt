@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cqt.controller.base.BaseController;
-import com.cqt.entity.Classes;
 import com.cqt.entity.Course;
 import com.cqt.entity.CourseGroup;
 import com.cqt.plugin.paging.Page;

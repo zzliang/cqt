@@ -87,12 +87,31 @@ public class SessionContext {
 			for(Role r : userRole.getRoles()){
 				String rights = r.getRights();
 				if(null!=rights && !"".equals(rights)){
-					b = b.or(new BigInteger(r.getRights()));
+					b = b.or(new BigInteger(rights));
 				}
 			}
 		}
 		return b.toString();
 	}
+	
+	/**
+	 * <p>Title: getUserRoleRights</p>  
+	 * <p>Description: 获取用户中的多个角色的身份叠加</p>  
+	 * @return
+	 */
+	public static String getUserSumIdentity() {
+		User userRole = getUserRole();
+		BigInteger b = new BigInteger("0");
+		if(null != userRole.getRoles()){
+			for(Role r : userRole.getRoles()){
+				String identity = r.getIdentity();
+				if(null!=identity && !"".equals(identity)){
+					b = b.or(new BigInteger(identity));
+				}
+			}
+		}
+		return b.toString();
+	}	
 	
 	/**
 	 * <p>Title: getUserRoleRight</p>  

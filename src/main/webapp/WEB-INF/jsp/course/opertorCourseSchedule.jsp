@@ -37,7 +37,6 @@
 				<span>【时间】</span><span id="csCourseDate"></span>
 			</p>
 			<p><span>【课表安排】</span></p>
-			<p>本月第<span id="month_week_No"></span>周</p>
 		</div>
 		<div id="courseSchduleDiv" style="text-align: center">
 	        <table id="courseSchduleTable" border="1" style="margin:auto">
@@ -91,10 +90,10 @@
 	    			//查询月周
 	    			$("#month_week_No").html(data.weekNum);
 	    			$('table thead').empty();
-	    			var heads = "<tr><th align='center'><p><span>时间</span></p><p><span>Time</span></p></th>";
+	    			var heads = "<tr><th align='center'><p><span>时间</span></p></th>";
 	    			$.each(data.lstWeekInfo,function (hindex,head){
 	    				if(hindex<5){
-		    				heads+="<th align='center'><p><span>"+head.weekDesc+"</span></p><p><span>"+head.weekDate+"</span></p></th>";
+		    				heads+="<th align='center'><p><span>"+head.weekDesc+"</span></p></th>";
 	    				}else{
 	    					return false;
 	    				}

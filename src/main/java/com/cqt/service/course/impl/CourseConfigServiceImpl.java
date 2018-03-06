@@ -18,7 +18,7 @@ public class CourseConfigServiceImpl implements CourseConfigService {
 	
 	@Override
 	public List<CourseConfig> listCourseConfig(Page page) throws Exception {
-		List<CourseConfig> listCourseConfig = (List<CourseConfig>)dao.findForList("CourseConfigMapper.courseListPage", page);
+		List<CourseConfig> listCourseConfig = (List<CourseConfig>)dao.findForList("CourseConfigMapper.courseConfigListPage", page);
 		return listCourseConfig;
 	}
 	
@@ -35,14 +35,14 @@ public class CourseConfigServiceImpl implements CourseConfigService {
 	}
 
 	@Override
-	public CourseConfig findById(Long courseId) throws Exception {
-		CourseConfig course = (CourseConfig)dao.findForObject("CourseConfigMapper.selectById", courseId);
+	public CourseConfig findById(Long courseConfigId) throws Exception {
+		CourseConfig course = (CourseConfig)dao.findForObject("CourseConfigMapper.selectById", courseConfigId);
 		return course;
 	}
 
 	@Override
-	public int deleteById(Long courseId) throws Exception {
-		return (Integer)dao.delete("CourseConfigMapper.deleteById", courseId);
+	public int deleteById(Long courseConnfigId) throws Exception {
+		return (Integer)dao.delete("CourseConfigMapper.deleteById", courseConnfigId);
 	}
 	
 	@Override
@@ -51,22 +51,22 @@ public class CourseConfigServiceImpl implements CourseConfigService {
 	}
 
 	@Override
-	public int add(CourseConfig course) throws Exception {
-		return (Integer)dao.save("CourseConfigMapper.insert", course);
+	public int add(CourseConfig courseConfig) throws Exception {
+		return (Integer)dao.save("CourseConfigMapper.insert", courseConfig);
 	}
 
 	@Override
-	public int addSelective(CourseConfig course) throws Exception {
-		return (Integer)dao.save("CourseConfigMapper.insertSelective", course);
+	public int addSelective(CourseConfig courseConfig) throws Exception {
+		return (Integer)dao.save("CourseConfigMapper.insertSelective", courseConfig);
 	}
 
 	@Override
-	public int updateByIdSelective(CourseConfig course) throws Exception {
-		return (Integer)dao.update("CourseConfigMapper.updateByIdSelective", course);
+	public int updateByIdSelective(CourseConfig courseConfig) throws Exception {
+		return (Integer)dao.update("CourseConfigMapper.updateByIdSelective", courseConfig);
 	}
 
 	@Override
-	public int updateById(CourseConfig course) throws Exception {
-		return (Integer)dao.update("CourseConfigMapper.updateById", course);
+	public int updateById(CourseConfig courseConfig) throws Exception {
+		return (Integer)dao.update("CourseConfigMapper.updateById", courseConfig);
 	}
 }

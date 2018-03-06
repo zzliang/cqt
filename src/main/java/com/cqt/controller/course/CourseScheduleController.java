@@ -294,7 +294,7 @@ public class CourseScheduleController extends BaseController{
 		ModelAndView mv = this.getModelAndView();
 		//教师默认查看课程表是按当前时间所在的周查,如果当前日期没有课程表查看最新课程表
 		String[] ymw = this.getYMW(null, null, "today");
-		mv.setViewName("course/personCourseSchedule");
+		mv.setViewName("course/teacherCourseSchedule");
 		mv.addObject("courseDate", ymw[0]);
 		mv.addObject("week", ymw[1]);
 		return mv;
@@ -323,13 +323,15 @@ public class CourseScheduleController extends BaseController{
 		}
 		
 		//计算课程表的表头时间，以查看的课程内容时间来处理
-		String ymw[] = DateUtil.getYearMonthWeekDown(courseDate);				//如果只有年月，按月的第一个星期一为第一周返回周次
+		/*String ymw[] = DateUtil.getYearMonthWeekDown(courseDate);				//如果只有年月，按月的第一个星期一为第一周返回周次
 		String[] seDate = DateUtil.getWeekStartandEndDateExt(ymw[0],ymw[1]);	//获取指定月份和当月的周次计算一周的开始与结束时间	
 		String weekNum = "1"; 
 		String sDate = seDate[0];
 		String eDate = seDate[1];
 		List<WeekInfo> lstWeekInfo = CQTUtil.getWeekInfo(sDate,eDate);		//根据一周的开始与结束时间计算出一周的具体每天的日期与星期几
-		result.put("weekNum", weekNum);
+		 */		
+		List<WeekInfo> lstWeekInfo = CQTUtil.getWeekInfo2();
+		//result.put("weekNum", weekNum);
 		result.put("lstWeekInfo", lstWeekInfo);
 		
 		return result;
@@ -357,9 +359,6 @@ public class CourseScheduleController extends BaseController{
 			mv.addObject("courseScheduleId", csId);
 			mv.addObject("courseDate", cDate);
 		}
-		//年月指定的课程表是否已设置
-		CourseConfig courseConfig = courseConfigService.findByCourseDate(cDate);
-		mv.addObject("courseConfig", courseConfig);
 		
 		mv.addObject("listCourseSchedule", listCourseSchedule);
 		mv.setViewName("course/opertorCourseSchedule");

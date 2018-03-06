@@ -11,9 +11,33 @@
 	<sql id="Base_Column_List">
 		course_config_id, course_date, start_date, end_date, weeks
 	</sql>
+	
+	<!-- 分页查询课程信息列表 -->
+	<select id="courseConfigListPage" parameterType="Page" resultType="CourseConfig">
+		SELECT
+			course_config_id as courseConfigId, course_date as courseDate, start_date as startDate, end_date as endDate, weeks,end_date <![CDATA[ > ]]> CURDATE() as isEdit
+		FROM
+		t_course_config
+		<where>
+			<if test="null != pd.courseConfigId and '' != pd.pd.courseConfigId">
+				AND course_id = #{courseId}
+			</if>
+			<if test="null != pd.courseDate and '' != pd.courseDate">
+				AND course_date = #{courseDate}
+			</if>
+			<if test="null != pd.startDate and '' != pd.startDate">
+				AND start_date = #{startDate}
+			</if>
+			<if test="null != pd.endDate and '' != pd.endDate">
+				AND end_date = #{endDate}
+			</if>
+		</where>
+		<if test="null != pd.orderCol and '' != pd.orderCol">
+			ORDER BY #{orderCol}
+		</if>
+	</select>
 
-	<select id="selectByCourseDate" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
+	<select id="selectByCourseDate" parameterType="java.lang.String" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM t_course_config
@@ -31,8 +55,7 @@
 		NOW()
 	</select>
 
-	<select id="selectById" parameterType="java.lang.Long"
-		resultMap="BaseResultMap">
+	<select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from t_course_config
@@ -44,8 +67,7 @@
 		where course_config_id = #{courseConfigId}
 	</delete>
 
-	<insert id="insert" parameterType="CourseConfig"
-		useGeneratedKeys="true" keyProperty="course_config_id">
+	<insert id="insert" parameterType="CourseConfig" useGeneratedKeys="true" keyProperty="course_config_id">
 		insert into t_course_config (course_date, start_date, end_date, weeks)
 		values (#{courseDate}, #{startDate}, #{endDate}, #{weeks})
 	</insert>

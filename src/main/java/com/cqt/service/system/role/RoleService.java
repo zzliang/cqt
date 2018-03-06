@@ -81,8 +81,8 @@ public class RoleService{
 	}
 	
 
-	public void updateRoleIdentityRights(Role role) throws Exception {
-		dao.update("RoleMapper.updateRoleIdentityRights", role);
+	public void updateRoleIdentity(Role role) throws Exception {
+		dao.update("RoleMapper.updateRoleIdentity", role);
 	}
 	
 	/**

@@ -32,6 +32,7 @@
 			<id property="roleId" column="ROLE_ID" />
 			<result property="roleName" column="ROLE_NAME" />
 			<result property="rights" column="RIGHTS" />
+			<result property="identityRights" column="IDENTITY_RIGHTS" />
 			<result property="parentId" column="PARENT_ID" />
 			<result property="level" column="LEVEL" />
 		</collection>
@@ -94,8 +95,7 @@
 	</select>
 
 	<!-- 关链查询包含角色列表信息的User对象 -->
-	<select id="getUserAndRoleById" parameterType="String"
-		resultMap="userRoleMap">
+	<select id="getUserAndRoleById" parameterType="String" resultMap="userRoleMap">
 		SELECT
 		u.*,sr.*
 		FROM

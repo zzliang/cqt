@@ -264,8 +264,8 @@ public class RoleController extends BaseController {
 		try{
 			List<Identity> identityList = identityService.listAllIdentity();
 			Role role = roleService.getRoleById(roleId);
-			String roleIdentityRights = role.getIdentityRights();
-			Jurisdiction.handlerIdentityList(identityList, roleIdentityRights);
+			String roleIdentity = role.getIdentity();
+			Jurisdiction.handlerIdentityList(identityList, roleIdentity);
 			JSONArray arr = JSONArray.fromObject(identityList);
 			String json = arr.toString();
 			json = json.replaceAll("identityName", "name").replaceAll("hasIdentity", "checked");
@@ -288,16 +288,16 @@ public class RoleController extends BaseController {
 		try{
 			if(Jurisdiction.hasJurisdiction(menuUrl)){
 				if(null != identityIds && !"".equals(identityIds.trim())){
-					BigInteger identityRights = RightsHelper.sumRights(Tools.str2StrArray(identityIds));
+					BigInteger identity = RightsHelper.sumRights(Tools.str2StrArray(identityIds));
 					Role role = roleService.getRoleById(roleId);
-					role.setIdentityRights(identityRights.toString());
-					roleService.updateRoleIdentityRights(role);
-					pd.put("rights",identityRights.toString());
+					role.setIdentity(identity.toString());
+					roleService.updateRoleIdentity(role);
+					pd.put("rights",identity.toString());
 				}else{
 					Role role = new Role();
 					role.setRights("");
 					role.setRoleId(roleId);
-					roleService.updateRoleIdentityRights(role);
+					roleService.updateRoleIdentity(role);
 					pd.put("rights","");
 				}
 			}
