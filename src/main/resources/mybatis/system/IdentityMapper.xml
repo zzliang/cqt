@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="IdentityMapper">
+  <resultMap id="BaseResultMap" type="Identity">
+    <id column="id" property="id" />
+    <result column="identity_name" property="identityName" />
+    <result column="identity_code" property="identityCode" />
+    <result column="type" property="type" />
+    <result column="remarks" property="remarks" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, identity_name, identity_code, type, remarks
+  </sql>
+  
+  <select id="listAllIdentity" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_identity
+  </select>
+  
+  <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_identity
+    where id = #{id}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long">
+    delete from sys_identity
+    where id = #{id}
+  </delete>
+  
+  <insert id="insert" parameterType="Identity">
+    insert into sys_identity (id, identity_name, identity_code, 
+      type, remarks)
+    values (#{id}, #{identityName}, #{identityCode}, 
+      #{type}, #{remarks})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="Identity">
+    insert into sys_identity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="identityName != null">
+        identity_name,
+      </if>
+      <if test="identityCode != null">
+        identity_code,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="identityName != null">
+        #{identityName},
+      </if>
+      <if test="identityCode != null">
+        #{identityCode},
+      </if>
+      <if test="type != null">
+        #{type},
+      </if>
+      <if test="remarks != null">
+        #{remarks},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByIdSelective" parameterType="Identity">
+    update sys_identity
+    <set>
+      <if test="identityName != null">
+        identity_name = #{identityName},
+      </if>
+      <if test="identityCode != null">
+        identity_code = #{identityCode},
+      </if>
+      <if test="type != null">
+        type = #{type},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  
+  <update id="updateById" parameterType="Identity">
+    update sys_identity
+    set identity_name = #{identityName},
+      identity_code = #{identityCode},
+      type = #{type},
+      remarks = #{remarks}
+    where id = #{id}
+  </update>
+</mapper>
