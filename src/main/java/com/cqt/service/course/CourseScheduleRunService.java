@@ -36,4 +36,6 @@ public interface CourseScheduleRunService {
 	int updateByIdSelective(CourseSchedule courseSche) throws Exception;
 
 	int updateById(CourseSchedule courseSche) throws Exception;
+
+	int deleteCourseItemRunByIds(List<CourseSchedule> listCourseSchedule) throws Exception;
 }

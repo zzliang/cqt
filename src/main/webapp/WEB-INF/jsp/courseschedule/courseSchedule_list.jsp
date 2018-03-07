@@ -19,7 +19,7 @@
   <div class="row-fluid">
 	<div class="row-fluid">
 			<!-- 检索  -->
-			<form action="course/listCourseConfig.do" name="courseConfigForm" id="courseConfigForm" method="post" >
+			<form action="courseSchedule/listCourseSchedule.do" name="courseScheduleForm" id="courseScheduleForm" method="post" >
 			<table>
 				<tr>
 					<td>
@@ -37,9 +37,6 @@
 						<th></th>
 						<th>序号</th>
 						<th>年月份</th>
-						<th>开始日期</th>
-						<th>结束日期</th>
-						<th>周数</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -48,23 +45,21 @@
 					
 				<!-- 开始循环 -->	
 				<c:choose>
-					<c:when test="${not empty courseConfigList}">
-						<c:forEach items="${courseConfigList}" var="courseConfig" varStatus="vs">
+					<c:when test="${not empty courseScheduleList}">
+						<c:forEach items="${courseScheduleList}" var="courseSchedule" varStatus="vs">
 							<tr>
 								<td class='center' style="width: 30px;">
-									<label><input type='checkbox' name='ids' value="${courseConfig.courseConfigId }"/><span class="lbl"></span></label>
+									<label><input type='checkbox' name='ids' value="${courseSchedule.courseScheduleId }"/><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-								<td>${courseConfig.courseDate}</td>
-								<td><fmt:formatDate value="${courseConfig.startDate }" pattern="yyyy-MM-dd"/></td>
-								<td><fmt:formatDate value="${courseConfig.endDate }" pattern="yyyy-MM-dd"/></td>
-								<td>${courseConfig.weeks}</td>
+								<td>${courseSchedule.courseDate}</td>
+								
 								<td style="width: 60px;">
 									<div class='hidden-phone visible-desktop btn-group'>
-										<c:if test="${courseConfig.edit }">
-										<a class='btn btn-mini btn-info' title="编辑" onclick="editCourseConfig('${courseConfig.courseConfigId  }');"><i class='icon-edit'></i></a>
+										<c:if test="${courseSchedule.configStatus==0 }">
+										<a class='btn btn-mini btn-info' title="设置" onclick="setCourseSchedule('${courseSchedule.courseDate }');"><i class='icon-edit'></i></a>
+										<a class='btn btn-mini btn-danger' title="删除" onclick="delCourseSchedule('${courseSchedule.courseDate }','${courseSchedule.courseDate }');"><i class='icon-trash'></i></a>
 										</c:if>
-										<a class='btn btn-mini btn-danger' title="删除" onclick="delCourseConfig('${courseConfig.courseConfigId  }','${courseConfig.courseDate }');"><i class='icon-trash'></i></a>
 									</div>
 								</td>
 							</tr>
@@ -123,22 +118,22 @@
 		}
 		
 		//新增
-		function addCourse(){
-			 $(location).attr('href', '<%=basePath%>course/goAddCourseConfig.do');
+		function addCourseSchedule(){
+			 $(location).attr('href', '<%=basePath%>course/goAddCourseSchedule.do');
 		}
 		
 		
 		//查看详情
-		function viewCourseConfig(courseConfigId){
+		function viewCourseSchedule(courseScheduleId){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="查看";
-			 diag.URL = '<%=basePath%>course/goViewCourseConfig.do?courseConfigId='+courseConfigId;
+			 diag.URL = '<%=basePath%>course/goViewCourseSchedule.do?courseScheduleId='+courseScheduleId;
 			 diag.Width = 225;
 			 diag.Height = 415;
 			 diag.CancelEvent = function(){ //关闭事件
-				 if(diag.innerFrame.contentWindow.document.getElementById('cqtwindow').style.display == 'none'){
+				if(diag.innerFrame.contentWindow.document.getElementById('cqtwindow').style.display == 'none'){
 					//nextPage('${page.currentPage}');
 				}
 				diag.close();
@@ -146,18 +141,23 @@
 			 diag.show();
 		}
 		
-		//修改
-		function editCourseConfig(courseConfigId){
+		//设置课程表
+		function setCourseSchedule(courseDate){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>course/goEditCourseConfig.do?courseConfigId='+courseConfigId;
+			 diag.Title ="设置";
+			 diag.URL = '<%=basePath%>courseSchedule/goSetCourseSchedule.do?courseDate='+courseDate;
 			 diag.Width = 400;
 			 diag.Height = 415;
 			 diag.CancelEvent = function(){ //关闭事件
-				 if(diag.innerFrame.contentWindow.document.getElementById('cqtwindow').style.display == 'none'){
-					//nextPage('${page.currentPage}');
+				if(diag.innerFrame.contentWindow.document.getElementById('cqtwindow').style.display == 'none'){
+					if('${page.currentPage}' == '0'){
+						 top.jzts();
+						 setTimeout("self.location=self.location",100);
+					 }else{
+						 nextPage('${page.currentPage}');
+					 }
 				}
 				diag.close();
 			 };
@@ -165,11 +165,11 @@
 		}
 		
 		//删除
-		function delCourseConfig(courseConfigId,msg){
+		function delCourseSchedule(courseScheduleId,msg){
 			bootbox.confirm("确定要删除["+msg+"]吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>course/deleteCourseConfig.do?courseConfigId="+courseConfigId+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>course/deleteCourseSchedule.do?courseScheduleId="+courseScheduleId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						nextPage('${page.currentPage}');
 					});
@@ -211,8 +211,8 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>course/deleteAllCourseConfig.do?tm='+new Date().getTime(),
-						    	data: {courseConfigIds:ids},
+								url: '<%=basePath%>course/deleteAllCourseSchedule.do?tm='+new Date().getTime(),
+						    	data: {courseScheduleIds:ids},
 								dataType:'json',
 								cache: false,
 								success: function(data){

@@ -1,4 +1,4 @@
-package com.cqt.controller.course;
+package com.cqt.controller.courseSchedule;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ import com.cqt.entity.CourseConfig;
 import com.cqt.entity.CourseItem;
 import com.cqt.entity.CourseSchedule;
 import com.cqt.entity.util.WeekInfo;
+import com.cqt.plugin.paging.Page;
 import com.cqt.plugin.paging.PageData;
 import com.cqt.service.course.CourseConfigService;
 import com.cqt.service.course.CourseScheduleRunService;
@@ -40,7 +41,7 @@ import com.cqt.util.Tools;
 import com.cqt.util.UuidUtil;
 
 @Controller
-@RequestMapping(value="/course")
+@RequestMapping(value="/courseSchedule")
 public class CourseScheduleController extends BaseController{
 	
 	String menuUrl = "courseSchedule.do"; //菜单地址(权限用)
@@ -48,32 +49,40 @@ public class CourseScheduleController extends BaseController{
 	public CourseService courseService;
 	@Resource
 	public CourseScheduleService courseScheduleService;
-	
 	@Resource
 	public CourseScheduleRunService courseScheduleRunService;
-	
 	@Resource
 	public CourseConfigService courseConfigService;
 	
 	/**
-	 * <p>Title: importExcel</p>  
-	 * <p>Description: 导入外部Excel课程表</p>  
+	 * 去导入课程表页面
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/importCourseSchedule")
+	@RequestMapping(value="/goImport")
+	public ModelAndView goImport()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		mv.setViewName("courseschedule/importCourseSchedule");
+		return mv;
+	}
+	
+	/**
+	 * 导入课程表Excel
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/importExcel")
 	@ResponseBody
 	public Map<String,Object> importExcel(@RequestParam(value="excel",required=false) MultipartFile file) throws Exception{
-		//ModelAndView mv = this.getModelAndView();
 		Map<String,Object> map = new HashMap<String,Object>();
 		PageData pd = new PageData();
 		//if(!Jurisdiction.hasJurisdiction(menuUrl)){return null;}
 		if (null != file && !file.isEmpty()) {
-			
 			String filePath = PathUtil.getClasspath() + Const.EXCELPATHFILE;							//excel文件上传路径
 			String fileName =  FileUpload.fileUp(file, filePath, "courseSchedule");						//执行上传
 			
-			Map<String,Object> parms = this.getMap();
+			PageData parms = this.getPd();
 			parms.put("schoolId", new Long(1L));
 			parms.put("classesId", new Long(1L));
 			
@@ -81,17 +90,55 @@ public class CourseScheduleController extends BaseController{
 			List<String> errors = new ArrayList<String>();
 			//courseSchedules = ParseExcel.readExcel(filePath, fileName, parms, errors);
 			courseSchedules = ParseExcel.readExcel(filePath, fileName, parms);
-			courseScheduleService.add(courseSchedules);
+			//判断指定月份的课程表是否已上传
+			String courseDate = courseSchedules.get(0).getCourseDate();
+			PageData p1 = this.getPd();
+			p1.put("courseDate", courseDate);
+			int count = courseScheduleService.findCount(p1);
+			if(count>0){
+				map.put("msg", "fail");
+				errors.add(courseDate+"的课程表已存在！");
+				map.put("errors", errors);
+			}else{
+				courseScheduleService.add(courseSchedules);
+				map.put("msg", "success");
+			}
 			
-			if(null==errors || errors.isEmpty()){
+			/*if(null==errors || errors.isEmpty()){
 				map.put("msg", "success");
 			}else{
 				map.put("msg", "fail");
 				map.put("errors", errors);
-			}
+			}*/
 		}
 		//mv.setViewName("save_result");
 		return map;
+	}
+	
+	/**
+	 * 查看课程表列表
+	 * @param page
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/listCourseSchedule")
+	public ModelAndView listCourseSchedule(Page page)throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		
+		String keyWord = pd.getString("KEYWORD");	//关键词检索 
+		if(null != keyWord && !"".equals(keyWord)){
+			keyWord = keyWord.trim();
+			pd.put("KEYWORD", keyWord);
+		}
+		page.setPd(pd);
+		List<CourseSchedule> courseScheduleList = courseScheduleService.listCourseScheduleGroup(page);	//列出课程配置
+		mv.setViewName("courseschedule/courseSchedule_list");
+		mv.addObject("courseScheduleList", courseScheduleList);
+		mv.addObject("pd", pd);
+		
+		return mv;
 	}
 	
 	/**
@@ -110,7 +157,7 @@ public class CourseScheduleController extends BaseController{
 		String type = pd.getString("type");			//是否存在指定月份的课程表
 		boolean isExisData = true; 
 		
-		Map<String,Object> parms = this.getMap();	//查询条件参数集合
+		PageData parms = this.getPd();	//查询条件参数集合
 		parms.put("courseScheduleId", courseScheduleId);
 		parms.put("courseDate", courseDate);
 		parms.put("schoolId", "");
@@ -197,7 +244,7 @@ public class CourseScheduleController extends BaseController{
 			mv.addObject("courseScheduleId", csId); //默认选中的班级课程表
 			mv.addObject("courseDate",  ymw[0]);
 		}
-		mv.setViewName("course/userCourseSchedule");
+		mv.setViewName("courseSchedule/userCourseSchedule");
 		mv.addObject("listCourseSchedule", listCourseSchedule);
 		return mv;
 	}
@@ -218,7 +265,7 @@ public class CourseScheduleController extends BaseController{
 		String type = pd.getString("type");			//是否存在指定月份的课程表
 		boolean isExisData = true; 
 		
-		Map<String,Object> parms = this.getMap();	//查询条件参数集合
+		PageData parms = this.getPd();	//查询条件参数集合
 		parms.put("courseDate", courseDate);
 		parms.put("schoolId", "");
 		
@@ -294,7 +341,7 @@ public class CourseScheduleController extends BaseController{
 		ModelAndView mv = this.getModelAndView();
 		//教师默认查看课程表是按当前时间所在的周查,如果当前日期没有课程表查看最新课程表
 		String[] ymw = this.getYMW(null, null, "today");
-		mv.setViewName("course/teacherCourseSchedule");
+		mv.setViewName("courseSchedule/teacherCourseSchedule");
 		mv.addObject("courseDate", ymw[0]);
 		mv.addObject("week", ymw[1]);
 		return mv;
@@ -361,31 +408,40 @@ public class CourseScheduleController extends BaseController{
 		}
 		
 		mv.addObject("listCourseSchedule", listCourseSchedule);
-		mv.setViewName("course/opertorCourseSchedule");
+		mv.setViewName("courseSchedule/opertorCourseSchedule");
 		//mv.setViewName("course/importCourseSchedule");
 		return mv;
 	}
 	
+	
 	/**
-	 * 打开上传课程表页面
+	 * <p>Title: goSetCourseSchedule</p>  
+	 * <p>Description: 跳转到设置课程表页</p>  
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/goUploadCourseSchedule")
-	public ModelAndView goUploadCourseSchedule()throws Exception{
+	@RequestMapping(value="/goSetCourseSchedule")
+	public ModelAndView goSetCourseSchedule()throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		mv.setViewName("course/uploadCourseSchedule");
+		PageData pd = this.getPageData();
+		String courseDate = pd.getString("courseDate");
+		CourseConfig courseConfig = new CourseConfig();
+		courseConfig.setCourseDate(courseDate);
+		mv.setViewName("courseconfig/courseConfig_edit");
+		mv.addObject("msg", "courseSchedule/setCourseSchedule");
+		mv.addObject("courseConfig", courseConfig);
 		return mv;
 	}
 	
 	/**
 	 * 配置课程表
+	 * @param map 
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/courseConfig")
-	@ResponseBody
-	public PageData courseConfig()throws Exception{
+	@RequestMapping(value="/setCourseSchedule")
+	public ModelAndView setCourseSchedule()throws Exception{
+		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		SimpleDateFormat sdfMonth = new SimpleDateFormat("yyyy-MM");
 		SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");
@@ -408,35 +464,44 @@ public class CourseScheduleController extends BaseController{
 		if(-1L==courseConfigId){
 			//添加课程表的配置
 			courseConfigService.add(courseConfig);
-			//添加使用的课程表（课程表与课程表项）
-			List<CourseSchedule> listCourseSchedule = courseScheduleService.listCourseScheduleWithItemByMap(pd2);//查询指定年月的课程表信息集合
-			courseScheduleRunService.add(listCourseSchedule);
-			
-			List<CourseItem> listCourseItemByMonth = new ArrayList<CourseItem>();
-			for(CourseSchedule cs : listCourseSchedule){
-				List<CourseItem> listCourseItem = cs.getLstCourseItem();
-				//通过设置的周数生成一月的课程信息
-				for(int i=1;i<=weeks;i++){
-					List<CourseItem> citems = CollectionUtil.deepCopy(listCourseItem);
-					for(CourseItem item : citems){
-						item.setCourseItemId(UuidUtil.get32UUID());
-						item.setWeek(i);
-					}
-					listCourseItemByMonth.addAll(citems);
-				}
-			}
-			courseScheduleRunService.addCourseItems(listCourseItemByMonth);//将生成的一月课程信息保存到运行课程表项中
+			handlerCourseItemRun(pd2,weeks,0);
 		}else{
 			//修改课程表的配置
 			courseConfig.setCourseConfigId(courseConfigId);
 			courseConfigService.updateByIdSelective(courseConfig);
-			//修改使用的课程表（课程表与课程表项）
-			//1:删除课程表项中指定年月的课程表项的信息
+			handlerCourseItemRun(pd2,weeks,1);
+		}
+		mv.addObject("msg","success");
+		mv.setViewName("save_result");
+		return mv;
+	}
+	
+	private void handlerCourseItemRun(PageData pd, int weeks, int type) throws Exception{
+		//处理运行的课程表与课程表项的数据信息
+		List<CourseSchedule> listCourseScheduleRun = courseScheduleService.listCourseScheduleWithItemByMap(pd);//查询指定年月的课程表信息集合
+		if(type==0){
+			courseScheduleRunService.add(listCourseScheduleRun);
+		}else{
+			courseScheduleRunService.deleteCourseItemRunByIds(listCourseScheduleRun);
 		}
 		
-		pd.put("msg", "success");
-		return pd;
+		List<CourseItem> listCourseItemByMonth = new ArrayList<CourseItem>();
+		for(CourseSchedule cs : listCourseScheduleRun){
+			List<CourseItem> listCourseItem = cs.getLstCourseItem();
+			//通过设置的周数生成一月的课程信息
+			for(int i=1;i<=weeks;i++){
+				List<CourseItem> citems = CollectionUtil.deepCopy(listCourseItem);
+				for(CourseItem item : citems){
+					item.setCourseItemId(UuidUtil.get32UUID());
+					item.setWeek(i);
+				}
+				listCourseItemByMonth.addAll(citems);
+			}
+		}
+		courseScheduleRunService.addCourseItems(listCourseItemByMonth);//将生成的一月课程信息保存到运行课程表项中
 	}
+	
+	
 	
 	private String[] getYMW(CourseConfig courseConfig, String weekNum, String type) throws Exception{
 		String[] ymw = new String[2];

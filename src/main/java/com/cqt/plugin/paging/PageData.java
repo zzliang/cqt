@@ -24,7 +24,7 @@ public class PageData extends HashMap implements Map{
 	public PageData(HttpServletRequest request){
 		this.request = request;
 		Map properties = request.getParameterMap();
-		Map returnMap = new HashMap(); 
+		Map returnMap = new HashMap<String,Object>();
 		Iterator entries = properties.entrySet().iterator(); 
 		Map.Entry entry; 
 		String name = "";  
@@ -50,7 +50,7 @@ public class PageData extends HashMap implements Map{
 	}
 	
 	public PageData() {
-		map = new HashMap();
+		map = new HashMap<String,Object>();
 	}
 	
 	@Override

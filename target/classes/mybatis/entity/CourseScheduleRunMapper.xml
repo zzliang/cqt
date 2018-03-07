@@ -31,8 +31,7 @@
 	</sql>
 
 	<!-- 查询课程表列表，课程表不包含课程表项内容 -->
-	<select id="listCourseScheduleRunByMap" parameterType="java.util.Map"
-		resultMap="BaseResultMap">
+	<select id="listCourseScheduleRunByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
 		SELECT
 		*
 		FROM
@@ -53,8 +52,7 @@
 		</if>
 	</select>
 
-	<select id="listCourseScheduleRunWithItemByMap" parameterType="java.util.Map"
-		resultMap="CourseScheduleWithItemRun">
+	<select id="listCourseScheduleRunWithItemByMap" parameterType="java.util.Map" resultMap="CourseScheduleWithItemRun">
 		SELECT
 		*
 		FROM
@@ -174,6 +172,14 @@
 		delete from t_course_schedule_run
 		where course_schedule_id = #{courseScheduleId}
 	</delete>
+	
+	<delete id="deleteCourseItemRunByIds" parameterType="java.util.List">
+		delete from t_course_item_run
+		where course_schedule_id in
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+			#{item.courseScheduleId}
+		</foreach>
+	</delete>
 
 	<insert id="insert" parameterType="CourseSchedule">
 		insert into t_course_schedule_run (course_schedule_id, title, e_title,
@@ -237,8 +243,7 @@
 		INSERT INTO t_course_schedule_run (
 		course_schedule_id, title, e_title, class_name, course_date, school_id, classes_id)
 		VALUES
-		<foreach collection="list" item="item" index="index"
-			separator=",">
+		<foreach collection="list" item="item" index="index" separator=",">
 			('${item.courseScheduleId}','${item.title}','${item.eTitle}','${item.className}','${item.courseDate}','${item.schoolId}','${item.classesId}')
 		</foreach>
 	</insert>

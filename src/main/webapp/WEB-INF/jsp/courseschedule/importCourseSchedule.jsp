@@ -38,10 +38,10 @@
 			    fm.append('excel', excel);
 			    $.ajax({
 			      type: "POST",
-			      url: "course/importCourseSchedule.do",
+			      url: "courseSchedule/importExcel.do",
 			      data: fm,
 			      contentType: false, //禁止设置请求类型
-		          processData: false, //禁止jquery对DAta数据的处理,默认会处理
+		          processData: false, //禁止jquery对data数据的处理,默认会处理
 			      success: function (data) {
 			        if("success"==data.msg){
 						$("#cqtwindow").hide();
@@ -50,6 +50,7 @@
 			        }else{
 			        	$.each(data.errors,function (index,error){
 			        		var errMsg = "<p><span>"+error+"</span></p>";
+			        		$("#errors").empty();
 			        		$("#errors").append(errMsg);
 			        	});
 			        }
@@ -84,7 +85,7 @@
 				<td style="text-align: center;">
 					<a class="btn btn-mini btn-primary" onclick="save();">导入</a>
 					<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
-					<a class="btn btn-mini btn-success" onclick="window.location.href='<%=basePath%>/user/downExcel.do'">下载模版</a>
+					<%-- <a class="btn btn-mini btn-success" onclick="window.location.href='<%=basePath%>/user/downExcel.do'">下载模版</a> --%>
 				</td>
 			</tr>
 		</table>
@@ -92,7 +93,7 @@
 		
 		<div id="cqtwindow2" class="center" style="display:none"><br/><img src="static/images/jzx.gif" /><br/><h4 class="lighter block green"></h4></div>
 		
-		<div id="errors" style="text-align:center;"></div>
+		<div id="errors" style="padding-top:10px;text-align:center;"></div>
 		
 	</form>
 	

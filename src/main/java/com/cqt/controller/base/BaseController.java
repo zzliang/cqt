@@ -40,18 +40,19 @@ public class BaseController {
 	}
 	
 	/**
+	 * 得到不带请求参数的PageData
+	 */
+	public PageData getPd(){
+		return new PageData();
+	}
+	
+	/**
 	 * 得到ModelAndView
 	 */
 	public ModelAndView getModelAndView(){
 		return new ModelAndView();
 	}
 	
-	/**
-	 * 得到Map做为查询条件集合
-	 */
-	public Map<String,Object> getMap(){
-		return new HashMap<String,Object>();
-	}
 	
 	/**
 	 * 得到request对象

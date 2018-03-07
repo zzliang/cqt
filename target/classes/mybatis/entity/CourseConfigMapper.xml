@@ -15,7 +15,7 @@
 	<!-- 分页查询课程信息列表 -->
 	<select id="courseConfigListPage" parameterType="Page" resultType="CourseConfig">
 		SELECT
-			course_config_id as courseConfigId, course_date as courseDate, start_date as startDate, end_date as endDate, weeks,end_date <![CDATA[ > ]]> CURDATE() as isEdit
+			course_config_id as courseConfigId, course_date as courseDate, start_date as startDate, end_date as endDate, weeks,start_date <![CDATA[ > ]]> CURDATE() as isEdit
 		FROM
 		t_course_config
 		<where>

@@ -12,15 +12,9 @@ public class CourseSchedule implements Serializable{
 
     private String eTitle;
 
-    //private String classNameLable;
-
     private String className;
 
-    //private String courseDateLable;
-
     private String courseDate;
-
-    //private String coursePlanLable;
 
     private Long schoolId;
 
@@ -29,6 +23,8 @@ public class CourseSchedule implements Serializable{
     private List<CourseItem> lstCourseItem;
     
     private List<List<CourseItem>> courseRowsAndCols;
+    
+    private Integer configStatus;
 
     public String getCourseScheduleId() {
         return courseScheduleId;
@@ -100,5 +96,13 @@ public class CourseSchedule implements Serializable{
 
 	public void setCourseRowsAndCols(List<List<CourseItem>> courseRowsAndCols) {
 		this.courseRowsAndCols = courseRowsAndCols;
+	}
+
+	public Integer getConfigStatus() {
+		return configStatus;
+	}
+
+	public void setConfigStatus(Integer configStatus) {
+		this.configStatus = configStatus;
 	}
 }

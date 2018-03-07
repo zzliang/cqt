@@ -49,7 +49,7 @@
 					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="window.location.href='<%=basePath%>/user/listtabUsers.do';" title="切换模式"><i id="nav-search-icon" class="icon-exchange"></i></a></td>
 					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="icon-download-alt"></i></a></td>
 					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="fromExcel();" title="从EXCEL导入"><i id="nav-search-icon" class="icon-cloud-upload"></i></a></td>
-					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="uploadCourseSchedule();" title="导入课程表"><i id="nav-search-icon" class="icon-cloud-upload"></i></a></td>
+					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="importCourseSchedule();" title="导入课程表"><i id="nav-search-icon" class="icon-cloud-upload"></i></a></td>
 					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="goCourseSchedule();" title="管理者查看课程表"><i id="nav-search-icon" class="icon-cloud-upload"></i></a></td>
 					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="goUserCourseSchedule();" title="职员查看课程表"><i id="nav-search-icon" class="icon-cloud-upload"></i></a></td>
 					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="goTeacherCourseSchedule();" title="教师查看课程表"><i id="nav-search-icon" class="icon-cloud-upload"></i></a></td>
@@ -446,17 +446,17 @@
 		}
 		
 		//打开上传excel页面
-		function uploadCourseSchedule(){
+		function importCourseSchedule(){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="课程表导入";
-			 diag.URL = '<%=basePath%>course/goUploadCourseSchedule.do';
+			 diag.Title ="导入课程表";
+			 diag.URL = '<%=basePath%>courseSchedule/goImport.do';
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('cqtwindow').style.display == 'none'){
-					 window.location.href='<%=basePath%>course/goViewCourseSchedule.do';
+					 <%-- window.location.href='<%=basePath%>courseSchedule/goViewCourseSchedule.do'; --%>
 				}
 				diag.close();
 			 };

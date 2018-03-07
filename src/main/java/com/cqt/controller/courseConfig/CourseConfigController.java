@@ -1,5 +1,9 @@
-package com.cqt.controller.course;
+package com.cqt.controller.courseConfig;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +17,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cqt.controller.base.BaseController;
 import com.cqt.entity.CourseConfig;
+import com.cqt.entity.CourseItem;
+import com.cqt.entity.CourseSchedule;
 import com.cqt.plugin.paging.Page;
 import com.cqt.plugin.paging.PageData;
 import com.cqt.service.course.CourseConfigService;
+import com.cqt.service.course.CourseScheduleRunService;
+import com.cqt.service.course.CourseScheduleService;
+import com.cqt.util.CollectionUtil;
+import com.cqt.util.UuidUtil;
 
 @Controller
 @RequestMapping(value="/course")
@@ -23,6 +33,10 @@ public class CourseConfigController extends BaseController{
 	
 	@Resource
 	public CourseConfigService courseConfigService;
+	@Resource
+	public CourseScheduleService courseScheduleService;
+	@Resource
+	public CourseScheduleRunService courseScheduleRunService;
 	/**
 	 * <p>Title: listCourse</p>  
 	 * <p>Description: 查看所有课程配置列表信息</p>  
@@ -43,55 +57,10 @@ public class CourseConfigController extends BaseController{
 		}
 		page.setPd(pd);
 		List<CourseConfig> courseConfigList = courseConfigService.listCourseConfig(page);	//列出课程配置
-		mv.setViewName("course/courseConfig_list");
+		mv.setViewName("courseconfig/courseConfig_list");
 		mv.addObject("courseConfigList", courseConfigList);
 		mv.addObject("pd", pd);
 		
-		return mv;
-	}
-	
-	@RequestMapping(value="/goViewCourseConfig")
-	public ModelAndView goViewCourseConfig()throws Exception{
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
-		String courseConfigId = pd.getString("courseConfigId");
-		CourseConfig courseConfig =courseConfigService.findById(Long.parseLong(courseConfigId));
-		mv.addObject("courseConfig", courseConfig);
-		mv.setViewName("course/courseConfig_view");
-		return mv;
-	}
-	
-	/**
-	 * <p>Title: goAddCourse</p>  
-	 * <p>Description: 跳转到新增分校页</p>  
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/goAddCourseConfig")
-	public ModelAndView goAddCourseConfig()throws Exception{
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
-		
-		mv.setViewName("course/courseConfig_edit");
-		mv.addObject("msg", "addCourseConfig");
-		mv.addObject("pd", pd);
-		return mv;
-	}
-	
-	/**
-	 * <p>Title: addCourse</p>  
-	 * <p>Description: 新增加课程配置</p>  
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/addCourseConfig")
-	public ModelAndView addCourseConfig(RedirectAttributes attr)throws Exception{
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
-		CourseConfig courseConfig = new CourseConfig();
-		
-		courseConfigService.add(courseConfig);
-		mv.setViewName("redirect:/course/listCourseConfig");
 		return mv;
 	}
 	
@@ -102,8 +71,8 @@ public class CourseConfigController extends BaseController{
 		Long courseConfigId = pd.getLong("courseConfigId");
 		CourseConfig courseConfig = courseConfigService.findById(courseConfigId);
 		mv.addObject("courseConfig",courseConfig);
-		mv.addObject("msg", "editCourseConfig");
-		mv.addObject("pd", pd);
+		mv.addObject("msg", "courseSchedule/setCourseSchedule");
+		mv.setViewName("courseconfig/courseConfig_edit");
 		return mv;
 	}
 	
@@ -116,7 +85,11 @@ public class CourseConfigController extends BaseController{
 	@RequestMapping(value="/editCourseConfig")
 	public ModelAndView editCourseConfig(CourseConfig courseConfig)throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(courseConfig.getStartDate());
+		cal.add(Calendar.DAY_OF_MONTH, 7*courseConfig.getWeeks());
+		Date eDate = cal.getTime();
+		courseConfig.setEndDate(eDate);
 		courseConfigService.updateById(courseConfig);
 		mv.setViewName("redirect:/course/listCourseConfig");
 		return mv;
@@ -158,6 +131,4 @@ public class CourseConfigController extends BaseController{
 		}
 		return pd;
 	}
-	
-	
 }

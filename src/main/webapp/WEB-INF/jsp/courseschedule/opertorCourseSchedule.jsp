@@ -10,7 +10,7 @@
 <head>
 <base href="<%=basePath%>">
 <meta charset="utf-8" />
-<title>课程表信息</title>
+<title>课程表导入信息</title>
 <script type="text/javascript" src="static/js/jquery-1.9.1.min.js"></script>
 </head>
 <body>
@@ -45,13 +45,13 @@
 	        </table>
 		</div>
 		
-		<div style="text-align: center">
+		<%-- <div style="text-align: center">
 			<p>
 				<span>开始日期：</span><span><input type="date" name="startDate" id="startDate" /></span>
 				<span>周次：</span><span><input type="text" name="weeks" id="weeks" /></span>
 				<span><input type="button" name="courseSetting" id="courseSetting" onclick="javascript:courseSetting('${courseConfig.courseConfigId}');" value="设置" /></span>
 			</p>
-		</div>
+		</div> --%>
     </div>  
     
     <script type="text/javascript">
@@ -73,7 +73,7 @@
     
     function ajaxViewCourseSchedule(courseScheduleId,courseDate){
     	$.ajax({ 
-    		url: "course/ajaxViewCourseSchedule.do", 
+    		url: "courseSchedule/ajaxViewCourseSchedule.do", 
     		context: document.body, 
     		dataType:"json",
     		data:{"courseScheduleId":courseScheduleId,"courseDate":courseDate},
@@ -136,13 +136,13 @@
     	var weeks = $("#weeks").val();
     	//alert(ccid+"-"+courseDate+"-"+startDate+"-"+weeks);
     	$.ajax({ 
-    		url: "course/courseConfig.do", 
+    		url: "course/setCourseSchedule.do", 
     		context: document.body, 
     		dataType:"json",
     		data:{"courseDate":courseDate,"courseConfigId":courseConfigId,"startDate":startDate,"weeks":weeks},
     		success: function(data){
     			if(data.msg=="success"){
-    				alert("设置成功");
+    				window.location.href='<%=basePath%>course/listCourseConfig.do';
     			}
     		},
     		error:function(){

@@ -21,7 +21,14 @@ public class CourseScheduleServiceImpl implements CourseScheduleService {
 	/** 分页查询课程表列表信息  */
 	@Override
 	public List<CourseSchedule> listCourseSchedule(Page page) throws Exception {
-		List<CourseSchedule> courseScheduleList = (List<CourseSchedule>)dao.findForList("CourseScheduleMapper.CourseScheduleListPage", page);
+		List<CourseSchedule> courseScheduleList = (List<CourseSchedule>)dao.findForList("CourseScheduleMapper.courseScheduleListPage", page);
+		return courseScheduleList;
+	}
+	
+	/** 按日期分组查询课程表基本信息 */
+	@Override
+	public List<CourseSchedule> listCourseScheduleGroup(Page page) throws Exception {
+		List<CourseSchedule> courseScheduleList = (List<CourseSchedule>)dao.findForList("CourseScheduleMapper.courseScheduleGroupListPage", page);
 		return courseScheduleList;
 	}
 	
@@ -60,6 +67,14 @@ public class CourseScheduleServiceImpl implements CourseScheduleService {
 		String maxCourseDate = (String)dao.findForObject("CourseScheduleMapper.selectMaxCourseDate", null);
 		return maxCourseDate;
 	}
+	
+	/** 查询记录数 */
+	@Override
+	public int findCount(Map<String, Object> map) throws Exception {
+		Integer count = (Integer)dao.findForObject("CourseScheduleMapper.selectCountByMap", map);
+		return count==null?0:count.intValue();
+	}
+
 	
 	/** 根据班级名称与课程表年月查询班级不同月份的课程表 */
 	@Override
@@ -113,5 +128,4 @@ public class CourseScheduleServiceImpl implements CourseScheduleService {
 		List<CourseItem> courseItemList = (List<CourseItem>)dao.findForList("CourseItemMapper.listCourseItemByMap", map);
 		return courseItemList;
 	}
-
 }

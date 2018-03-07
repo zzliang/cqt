@@ -19,6 +19,8 @@ public interface CourseScheduleService {
 	CourseSchedule findByMap(Map<String, Object> map) throws Exception;
 	
 	String findMaxCourseDate() throws Exception;
+	
+	int findCount(Map<String,Object> map) throws Exception;
     
 	CourseSchedule findNewCourseSchedule(Map<String,Object> map) throws Exception;
 	
@@ -35,4 +37,6 @@ public interface CourseScheduleService {
     int updateById(CourseSchedule course) throws Exception;
 
 	List<CourseItem> listCourseItemByMap(Map<?, ?> map) throws Exception;
+
+	List<CourseSchedule> listCourseScheduleGroup(Page page) throws Exception;
 }

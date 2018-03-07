@@ -74,6 +74,13 @@ public class CourseScheduleServiceRunImpl implements CourseScheduleRunService{
 		int count = (Integer)dao.delete("CourseScheduleMapper.deleteById", courseScheduleId);
 		return count;
 	}
+	
+	/** 删除运行的课程项表中的课程项信息 */
+	@Override
+	public int deleteCourseItemRunByIds(List<CourseSchedule> listCourseSchedule) throws Exception {
+		int count = (Integer)dao.delete("CourseScheduleRunMapper.deleteCourseItemRunByIds", listCourseSchedule);
+		return count;
+	}
 
 	@Override
 	public int add(CourseSchedule courseSche) throws Exception {
