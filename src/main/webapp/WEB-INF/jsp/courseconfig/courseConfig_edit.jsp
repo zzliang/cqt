@@ -27,7 +27,7 @@
 		<script type="text/javascript" src="static/js/jquery-ui-1.10.2.custom.min.js"></script>
 	</head>
 <body>
-	<form action="${msg }.do" id="courseConfigForm" name="courseConfigForm" method="post">
+	<form action="${action }.do" id="courseConfigForm" name="courseConfigForm" method="post">
 		<input type="hidden" id="courseConfigId" name="courseConfigId" value="${courseConfig.courseConfigId }" />
 		<div id="cqtwindow">
 		<table>

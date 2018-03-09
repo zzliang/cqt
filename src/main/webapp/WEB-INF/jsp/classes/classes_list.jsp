@@ -38,6 +38,7 @@
 						<th>序号</th>
 						<th>班级名称</th>
 						<th>班级年份</th>
+						<th>创建日期</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -55,6 +56,7 @@
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 								<td><a href="javascript:void(0);" onclick="viewClasses('${classes.classesId }');" title="查看">${classes.classesName }</a></td>
 								<td>${classes.year }</td>
+								<td><fmt:formatDate value="${classes.createDate }" pattern="yyyy-MM-dd" /></td>
 								<td style="width: 60px;">
 									<div class='hidden-phone visible-desktop btn-group'>
 										<a class='btn btn-mini btn-info' title="编辑" onclick="editClasses('${classes.classesId }');"><i class='icon-edit'></i></a>

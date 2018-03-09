@@ -52,6 +52,11 @@ public class EmployeeController extends BaseController{
 		return mv;
 	}
 	
+	/**
+	 * 去查看职工信息
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/goViewEmployee")
 	public ModelAndView goViewEmployee()throws Exception{
 		ModelAndView mv = this.getModelAndView();
@@ -64,8 +69,7 @@ public class EmployeeController extends BaseController{
 	}
 	
 	/**
-	 * <p>Title: goAddU</p>  
-	 * <p>Description: 跳转到新增员工页</p>  
+	 * 去添加职员信息
 	 * @return
 	 * @throws Exception
 	 */
@@ -87,8 +91,8 @@ public class EmployeeController extends BaseController{
 	}
 	
 	/**
-	 * <p>Title: addEmployee</p>  
-	 * <p>Description: 新增加员工</p>  
+	 * 添加职员信息
+	 * @param employee
 	 * @return
 	 * @throws Exception
 	 */
@@ -104,7 +108,7 @@ public class EmployeeController extends BaseController{
 	}
 	
 	/**
-	 * 去编辑员工信息
+	 * 去编辑职员信息
 	 * @return
 	 * @throws Exception
 	 */
@@ -120,6 +124,12 @@ public class EmployeeController extends BaseController{
 		return mv;
 	}
 	
+	/**
+	 * 编辑职员信息
+	 * @param employee
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/editEmployee")
 	public ModelAndView editEmployee(Employee employee)throws Exception{
 		ModelAndView mv = this.getModelAndView();
@@ -130,7 +140,7 @@ public class EmployeeController extends BaseController{
 	}
 	
 	/**
-	 * 删除员工
+	 * 删除职员信息
 	 * @param employee
 	 * @return
 	 * @throws Exception
@@ -147,6 +157,11 @@ public class EmployeeController extends BaseController{
 		return mv;
 	}
 	
+	/**
+	 * 删除选择的所有职员信息
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/deleteAllEmployee")
 	@ResponseBody
 	public Map<String,Object> deleteAllEmployee()throws Exception{

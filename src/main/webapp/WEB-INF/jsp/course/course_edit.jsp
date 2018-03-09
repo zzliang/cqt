@@ -27,17 +27,22 @@
 		<script type="text/javascript" src="static/js/jquery-ui-1.10.2.custom.min.js"></script>
 		
 		<script type="text/javascript">
+			$(top.hangge());
 			//保存
 			function save(){
 				var groupName = $("#courseGroupSelect option:selected").text()
 				$("#courseGroupName").val(groupName);
 				$("#courseForm").submit();
+				$("#cqtwindow").hide();
+				$("#cqtwindow2").show();
 			}
 		</script>
 	</head>
 <body>
-	<form action="course/${msg }.do" id="courseForm" name="courseForm" method="post">
+	<form action="${action }.do" id="courseForm" name="courseForm" method="post">
 		<input type="hidden" id="courseGroupName" name="courseGroupName" value=""/>
+		<input type="hidden" id="courseId" name="courseId" value="${course.courseId }"/>
+		<div id="cqtwindow" style="margin:10px">
 		<table>
 			<tr>
 				<td><label>课程组选择：</label></td>
@@ -46,7 +51,7 @@
 						<option value="">请选择课程组</option>
 						<c:forEach items="${courseGroupList }" var="item" varStatus="st">
 							<c:choose>
-								<c:when test="item.courseGroupId==course.courseGroup.courseGroupId">
+								<c:when test="${item.courseGroupId==course.courseGroup.courseGroupId }">
 									<option value="${item.courseGroupId }" selected="selected">${item.courseGroupName }</option>
 								</c:when>
 								<c:otherwise>
@@ -64,12 +69,15 @@
 			
 			
 			<tr>
-				<td style="text-align: center;">
+				<td style="text-align: center;" colspan="2">
 					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
-					<a class="btn btn-mini btn-danger" onclick="javascript:history.back(-1);">取消</a>
+					<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
 				</td>
 			</tr>
 		</table>
+		</div>
+		
+		<div id="cqtwindow2" class="center" style="display:none"><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green"></h4></div>
 	</form>
 	
 	<!-- 引入 -->

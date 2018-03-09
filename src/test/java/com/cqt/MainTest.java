@@ -27,7 +27,7 @@ public class MainTest {
 	}
 	
 	public static String getRights(){
-		int maxNum = 44;
+		int maxNum = 45;
 		List<String> ids = new ArrayList<String>();
 		for(int i=1;i<=maxNum;i++){
 			ids.add(i+"");

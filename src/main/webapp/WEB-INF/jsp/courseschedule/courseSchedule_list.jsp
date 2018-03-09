@@ -19,7 +19,7 @@
   <div class="row-fluid">
 	<div class="row-fluid">
 			<!-- 检索  -->
-			<form action="courseSchedule/listCourseSchedule.do" name="courseScheduleForm" id="courseScheduleForm" method="post" >
+			<form action="courseSchedule/list.do" name="courseScheduleForm" id="courseScheduleForm" method="post" >
 			<table>
 				<tr>
 					<td>

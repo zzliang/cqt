@@ -17,7 +17,7 @@
 	<div>
 		<div style="text-align: center">
 			<select id="courseListNameSelect" onchange="findCourseSchedule()" style="width:300px;">
-				<c:forEach var="cs" items="${listCourseSchedule }" varStatus="stu">
+				<c:forEach var="cs" items="${courseScheduleList }" varStatus="stu">
 					<c:choose>
 						<c:when test="${cs.courseScheduleId == courseScheduleId}">
 							<option id="${cs.courseScheduleId }" value="${cs.courseDate }" selected>${cs.className }</option>
@@ -62,18 +62,18 @@
     function loadCourseSchedule(){
     	var courseScheduleId = "${courseScheduleId}";
     	var courseDate="${courseDate}";
-    	ajaxViewCourseSchedule(courseScheduleId,courseDate);
+    	ajaxOpertorCourseSchedule(courseScheduleId,courseDate);
     }
     
     function findCourseSchedule(){
     	var courseScheduleId = $("#courseListNameSelect").find("option:selected").attr("id");
     	var courseDate = $("#courseListNameSelect").val();
-    	ajaxViewCourseSchedule(courseScheduleId,courseDate);
+    	ajaxOpertorCourseSchedule(courseScheduleId,courseDate);
     }
     
-    function ajaxViewCourseSchedule(courseScheduleId,courseDate){
+    function ajaxOpertorCourseSchedule(courseScheduleId,courseDate){
     	$.ajax({ 
-    		url: "courseSchedule/ajaxViewCourseSchedule.do", 
+    		url: "courseSchedule/ajaxOpertorCourseSchedule.do", 
     		context: document.body, 
     		dataType:"json",
     		data:{"courseScheduleId":courseScheduleId,"courseDate":courseDate},
@@ -116,7 +116,11 @@
 	           				if(col.zIndex==0){
 	           					trs+="<td align='center' colspan='5'><span>"+col.courseName+"</span></td>";
 	           				}else{
-	            				trs+="<td align='center' width='200px'><p><span>"+col.courseName+"</span></p><p><span>("+col.courseEname+")</span></p><p><span>"+col.teacherName+"</span></p></td>";
+	            				if(null!=col.courseName && ""!=col.courseName){
+	            					trs+="<td align='center' width='200px'><p><span>"+col.courseName+"</span></p><p><span>("+col.courseEname+")</span></p><p><span>"+col.teacherName+"</span></p><p><span>"+col.headmaster+"</span></p></td>";
+	           					}else{
+	           						trs+="<td align='center' width='200px'></td>";
+	           					}
 	           				}
 	            		});
 	            		trs+="</tr>";

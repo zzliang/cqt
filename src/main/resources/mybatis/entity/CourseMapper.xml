@@ -127,7 +127,7 @@
 	<update id="updateById" parameterType="Course">
 		update t_course
 		set course_name = #{courseName},
-		course_group_id = #{courseGroupId},
+		course_group_id = #{courseGroup.courseGroupId},
 		school_id = #{schoolId}
 		where course_id = #{courseId}
 	</update>

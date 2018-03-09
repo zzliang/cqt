@@ -21,6 +21,8 @@ public class CourseItem implements Serializable{
 
     private String teacherName;
     
+    private String headmaster;
+    
     private Integer week;
     
     /*增加班级名称，不对应到数据库表*/
@@ -104,5 +106,13 @@ public class CourseItem implements Serializable{
 
 	public void setClassName(String className) {
 		this.className = className;
+	}
+
+	public String getHeadmaster() {
+		return headmaster;
+	}
+
+	public void setHeadmaster(String headmaster) {
+		this.headmaster = headmaster;
 	}
 }

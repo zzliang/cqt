@@ -59,7 +59,7 @@ public class StringUtil {
         if (str!=null) {
             Pattern p = Pattern.compile("\n");
             Matcher m = p.matcher(str);
-            dest = m.replaceFirst(flag);
+            dest = m.replaceAll(flag);
         }
         return dest;
     }

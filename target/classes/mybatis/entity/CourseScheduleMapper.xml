@@ -22,15 +22,18 @@
 			<result column="course_name" property="courseName" />
 			<result column="course_ename" property="courseEname" />
 			<result column="teacher_name" property="teacherName" />
+			<result column="headmaster" property="headmaster" />
 		</collection>
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		course_schedule_id, title, e_title, class_name,course_date, school_id, class_id
+		course_schedule_id, title, e_title, class_name,course_date,
+		school_id, class_id
 	</sql>
 
 	<!-- 分页查询课程表列表 -->
-	<select id="courseScheduleListPage" parameterType="Page" resultMap="CourseScheduleWithItem">
+	<select id="courseScheduleListPage" parameterType="Page"
+		resultMap="CourseScheduleWithItem">
 		SELECT
 		*
 		FROM
@@ -53,24 +56,29 @@
 			order by #{pd.orderCol}
 		</if>
 	</select>
-	
-	<select id="courseScheduleGroupListPage" parameterType="Page" resultType="CourseSchedule">
-		SELECT 
-		tcs.course_schedule_id AS courseScheduleId, tcs.title, tcs.e_title AS eTitle, 
-		tcs.class_name AS className,tcs.course_date AS courseDate, tcs.school_id AS schoolId, tcs.classes_id AS classesId,
-		IFNULL(tcc.weeks,0) AS configStatus 
-		FROM t_course_schedule tcs LEFT JOIN t_course_config tcc ON tcs.course_date=tcc.course_date 
+
+	<select id="courseScheduleGroupListPage" parameterType="Page"
+		resultType="CourseSchedule">
+		SELECT
+		tcs.course_schedule_id AS courseScheduleId, tcs.title, tcs.e_title AS eTitle,
+		tcs.class_name AS className,tcs.course_date AS courseDate, tcs.school_id AS
+		schoolId, tcs.classes_id AS classesId,
+		IFNULL(tcc.weeks,0) AS
+		configStatus
+		FROM t_course_schedule tcs LEFT JOIN t_course_config tcc ON
+		tcs.course_date=tcc.course_date
 		<where>
 			<if test="null != pd.courseDate and '' != pd.courseDate"> 		<!-- 通过年月查询某年某月的课程表 -->
 				and tcs.course_date=#{pd.courseDate}
 			</if>
 		</where>
-		GROUP BY tcs.course_date 
-		ORDER BY tcs.course_date 
+		GROUP BY tcs.course_date
+		ORDER BY tcs.course_date
 	</select>
 
 	<!-- 查询课程表列表，课程表不包含课程表项内容 -->
-	<select id="listCourseScheduleByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+	<select id="listCourseScheduleByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
 		SELECT
 		*
 		FROM
@@ -92,7 +100,8 @@
 	</select>
 
 	<!-- 查询课程表列表，课程表包含课程表项内容 -->
-	<select id="listCourseScheduleWithItemByMap" parameterType="java.util.Map" resultMap="CourseScheduleWithItem">
+	<select id="listCourseScheduleWithItemByMap" parameterType="java.util.Map"
+		resultMap="CourseScheduleWithItem">
 		SELECT
 		*
 		FROM
@@ -118,14 +127,16 @@
 		</if>
 	</select>
 
-	<select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+	<select id="selectById" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM t_course_schedule
 		WHERE course_schedule_id = #{courseScheduleId}
 	</select>
 
-	<select id="selectCourseScheduleWithItemByMap" parameterType="java.util.Map" resultMap="CourseScheduleWithItem">
+	<select id="selectCourseScheduleWithItemByMap" parameterType="java.util.Map"
+		resultMap="CourseScheduleWithItem">
 		SELECT
 		*
 		FROM
@@ -148,7 +159,8 @@
 		</where>
 	</select>
 
-	<select id="selectCourseScheduleListPage" parameterType="page" resultMap="BaseResultMap">
+	<select id="selectCourseScheduleListPage" parameterType="page"
+		resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM t_course_schedule
@@ -161,11 +173,13 @@
 
 	<!-- 查询最大的年月的课程表 -->
 	<select id="selectMaxCourseDate" resultType="java.lang.String">
-		SELECT MAX(course_date) FROM t_course_schedule
+		SELECT
+		MAX(course_date) FROM t_course_schedule
 	</select>
-	
+
 	<!-- 查询记录数 -->
-	<select id="selectCountByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+	<select id="selectCountByMap" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
 		SELECT COUNT(course_schedule_id) FROM t_course_schedule
 		<where>
 			<if test="null != courseDate and '' != courseDate">
@@ -175,17 +189,21 @@
 	</select>
 
 	<!-- 根据班级名称与课程表年月查询班级不同月份的课程表 -->
-	<select id="selectNewCourseSchedule" parameterType="java.util.Map" resultMap="BaseResultMap">
+	<select id="selectNewCourseSchedule" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
 		SELECT
 		*
 		FROM
 		t_course_schedule
-		WHERE course_date = #{courseDate}
-				AND class_name IN (SELECT class_name FROM t_course_schedule WHERE course_schedule_id = #{courseScheduleId})
+		WHERE course_date =
+		#{courseDate}
+		AND class_name IN (SELECT class_name FROM t_course_schedule WHERE
+		course_schedule_id = #{courseScheduleId})
 	</select>
 
 	<!-- 根据班级名称与课程表年月查询某个教师所对应班级的课程表 -->
-	<select id="selectNewCourseScheduleByTeacher" parameterType="java.util.Map" resultMap="BaseResultMap">
+	<select id="selectNewCourseScheduleByTeacher" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
 		SELECT tcs.* FROM t_course_schedule tcs
 		LEFT JOIN t_course_item tci ON
 		tcs.course_schedule_id=tci.course_schedule_id
@@ -194,7 +212,8 @@
 				AND course_date = #{courseDate}
 			</if>
 			<if test="null != courseScheduleId and '' != courseScheduleId">
-				AND class_name IN (SELECT class_name FROM t_course_schedule WHERE
+				AND class_name IN (SELECT class_name FROM
+				t_course_schedule WHERE
 				course_schedule_id = #{courseScheduleId})
 			</if>
 		</where>
@@ -226,7 +245,8 @@
 	<insert id="insertCourseScheduleList" parameterType="java.util.List"
 		useGeneratedKeys="true" keyProperty="course_schedule_id">
 		INSERT INTO t_course_schedule (
-		course_schedule_id, title, e_title, class_name, course_date, school_id, classes_id)
+		course_schedule_id, title, e_title,
+		class_name, course_date, school_id, classes_id)
 		VALUES
 		<!-- <foreach collection="list" item="item" index="index" separator=","> 
 			(#{item.courseScheduleId},#{item.title},#{item.eTitle},#{item.className},#{item.courseDate},#{item.schoolId},#{item.classesId}) 
@@ -240,7 +260,7 @@
 	<insert id="insertCourseItemList" parameterType="java.util.List"
 		useGeneratedKeys="true" keyProperty="course_item_id">
 		INSERT INTO t_course_item (
-		course_item_id,course_schedule_id,z_index,start_time,end_time,course_name,course_ename,teacher_name
+		course_item_id,course_schedule_id,z_index,start_time,end_time,course_name,course_ename,teacher_name,headmaster
 		) VALUES
 		<foreach collection="list" item="item" index="index"
 			separator=",">
@@ -249,7 +269,7 @@
 				</foreach> -->
 			<foreach collection="item.lstCourseItem" item="item2" index="index"
 				separator=",">
-				('${item2.courseItemId}','${item2.courseScheduleId}','${item2.zIndex}','${item2.startTime}','${item2.endTime}','${item2.courseName}','${item2.courseEname}','${item2.teacherName}')
+				('${item2.courseItemId}','${item2.courseScheduleId}','${item2.zIndex}','${item2.startTime}','${item2.endTime}','${item2.courseName}','${item2.courseEname}','${item2.teacherName}','${item2.headmaster}')
 			</foreach>
 		</foreach>
 	</insert>

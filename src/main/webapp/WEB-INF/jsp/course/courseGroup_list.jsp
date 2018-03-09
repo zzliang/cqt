@@ -3,8 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,16 +12,13 @@
 <!-- jsp文件头和头部 -->
 <%@ include file="../system/admin/top.jsp"%>
 </head>
-
-<script type="text/javascript" src="static/js/jquery-1.9.1.min.js"></script>
 <body>
-
 	<div class="container-fluid" id="main-container">
 		<div id="page-content" class="clearfix">
 			<div class="row-fluid">
 				<div class="row-fluid">
-					<!-- 检索  -->
-					<form action="school/list.do" method="post" name="schoolForm" id="schoolForm">
+					<form action="courseGroup/list.do" name="courseGroupForm" id="courseGroupForm" method="post">
+						<!-- 检索  -->
 						<table>
 							<tr>
 								<td><span class="input-icon"> <input autocomplete="off" id="nav-search-input" type="text" name="KEYWORD" value="${pd.KEYWORD }" placeholder="这里输入关键词" /> <i id="nav-search-icon"
@@ -31,24 +27,11 @@
 							</tr>
 						</table>
 						<table id="table_report" class="table table-striped table-bordered table-hover">
-
 							<thead>
 								<tr>
 									<th></th>
 									<th>序号</th>
-									<th>编码</th>
-									<th>学校名称</th>
-									<th>省份名称</th>
-									<th>地址</th>
-									<th>邮箱1</th>
-									<!-- <th>邮箱2</th> -->
-									<th>电话1</th>
-									<!-- <th>电话2</th> -->
-									<th>邮编</th>
-									<th>传真</th>
-									<th>网址</th>
-									<!-- <th>统一社会信用代码</th> -->
-									<th>创办时间</th>
+									<th>课程组</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -56,25 +39,18 @@
 							<tbody>
 								<!-- 开始循环 -->
 								<c:choose>
-									<c:when test="${not empty schoolList}">
-										<c:forEach items="${schoolList}" var="school" varStatus="vs">
+									<c:when test="${not empty courseGroupList}">
+										<c:forEach items="${courseGroupList}" var="courseGroup" varStatus="vs">
 											<tr>
-												<td class='center' style="width: 30px;"><label><input type='checkbox' name='ids' value="${school.schoolId }"/><span class="lbl"></span></label></td>
+												<td class='center' style="width: 30px;"><label><input type='checkbox' name='ids' value="${courseGroup.courseGroupId }" /><span class="lbl"></span></label></td>
 												<td class='center' style="width: 30px;">${vs.index+1}</td>
-												<td>${school.schoolCode }</td>
-												<td><a href="javascript:void(0);" onclick="viewSchool('${school.schoolId }');" title="查看">${school.schoolName }</a></td>
-												<td>${school.provinceName }</td>
-												<td>${school.address }</td>
-												<td>${school.email1 }</td>
-												<td>${school.tel1 }</td>
-												<td>${school.post }</td>
-												<td>${school.fax }</td>
-												<td>${school.web }</td>
-												<td><fmt:formatDate value="${school.createDate }" pattern="yyyy-MM-dd" /></td>
+												<%-- <td><a href="javascript:void(0);" onclick="editCourseGroup('${courseGroup.courseGroupId}');" title="编辑">${course.courseGroup.courseGroupName }</a></td> --%>
+												<%-- <td><a href="javascript:void(0);" onclick="viewCourse('${course.courseId }');" title="查看">${course.courseName }</a></td> --%>
+												<td>${courseGroup.courseGroupName }</td>
 												<td style="width: 60px;">
 													<div class='hidden-phone visible-desktop btn-group'>
-														<a class='btn btn-mini btn-info' title="编辑" onclick="editSchool('${school.schoolId }');"><i class='icon-edit'></i></a>
-														<a class='btn btn-mini btn-danger' title="删除" onclick="delSchool('${school.schoolId }','${school.schoolName }');"><i class='icon-trash'></i></a>
+														<a class='btn btn-mini btn-info' title="编辑" onclick="editCourseGroup('${courseGroup.courseGroupId }');"><i class='icon-edit'></i></a> 
+														<a class='btn btn-mini btn-danger' title="删除" onclick="delCourseGroup('${courseGroup.courseGroupId }','${courseGroup.courseGroupName }');"><i class='icon-trash'></i></a>
 													</div>
 												</td>
 											</tr>
@@ -93,8 +69,8 @@
 							<table style="width: 100%;">
 								<tr>
 									<td style="vertical-align: top;">
-										<a class="btn btn-small btn-success" onclick="addSchool();">新增</a>
-										<a title="批量删除" class="btn btn-small btn-danger" onclick="delAll('确定要删除选中的数据吗?');"><iclass='icon-trash'></i></a>
+										<a class="btn btn-small btn-success" onclick="addCourseGroup();">新增课程组</a>
+										<a title="批量删除" class="btn btn-small btn-danger" onclick="delAll('确定要删除选中的数据吗?');"><i class='icon-trash'></i></a>
 									</td>
 									<td style="vertical-align: top;"><div class="pagination" style="float: right; padding-top: 0px; margin-top: 0px;">${page.pageStr}</div></td>
 								</tr>
@@ -110,7 +86,7 @@
 	<a href="#" id="btn-scroll-up" class="btn btn-small btn-inverse"><i class="icon-double-angle-up icon-only">返回顶部</i></a>
 
 	<!-- 引入 -->
-	<script type="text/javascript">window.jQuery || document.write("<script src='static/js/jquery-1.9.1.min.js'>\x3C/script>");</script>
+	<script type="text/javascript" src="static/js/jquery-1.9.1.min.js"></script>
 	<script src="static/js/bootstrap.min.js"></script>
 	<script src="static/js/ace-elements.min.js"></script>
 	<script src="static/js/ace.min.js"></script>
@@ -128,18 +104,36 @@
 		//检索
 		function search(){
 			top.jzts();
-			$("#schoolForm").submit();
+			$("#courseGroupForm").submit();
 		}
 		
-		//添加分校信息
-		function addSchool(){
-			<%--  top.jzts();
+		//添加课程组信息
+		function addCourseGroup(){
+			top.jzts();
+			var diag = new top.Dialog();
+			diag.Drag=true;
+			diag.Title ="添加课程组";
+			diag.URL = '<%=basePath%>courseGroup/goAdd.do';
+			diag.Width = 400;
+			diag.Height = 300;
+			diag.CancelEvent = function(){ //关闭事件
+				if(diag.innerFrame.contentWindow.document.getElementById('cqtwindow').style.display == 'none'){
+					nextPage('${page.currentPage}');
+				}
+				diag.close();
+			};
+			diag.show();
+		}
+		
+		//修改课程组信息
+		function editCourseGroup(courseGroupId){
+			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>school/goAdd.do';
-			 diag.Width = 500;
-			 diag.Height = 600;
+			 diag.Title ="编辑";
+			 diag.URL = '<%=basePath%>courseGroup/goEdit.do?courseGroupId='+courseGroupId;
+			 diag.Width = 400;
+			 diag.Height = 300;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('cqtwindow').style.display == 'none'){
 					 if('${page.currentPage}' == '0'){
@@ -151,54 +145,16 @@
 				}
 				diag.close();
 			 };
-			 diag.show(); --%>
-			 //window.location.href='<%=basePath%>school/goAdd.do';
-			 $(location).attr('href', '<%=basePath%>school/goAdd.do');
-			 //cqtPost('<%=basePath%>school/goAdd.do',{aa:'11',bb:'22'});
-		}
-		
-		//查看分校信息
-		function viewSchool(schoolId){
-			 top.jzts();
-			 var diag = new top.Dialog();
-			 diag.Drag=true;
-			 diag.Title ="查看";
-			 diag.URL = '<%=basePath%>school/goView.do?schoolId='+schoolId;
-			 diag.Width = 500;
-			 diag.Height = 500;
-			 diag.CancelEvent = function(){ //关闭事件
-				 if(diag.innerFrame.contentWindow.document.getElementById('cqtwindow').style.display == 'none'){
-					//nextPage('${page.currentPage}');
-				}
-				diag.close();
-			 };
 			 diag.show();
 		}
 		
-		//编辑分校信息
-		function editSchool(schoolId){
-			 top.jzts();
-			 var diag = new top.Dialog();
-			 diag.Drag=true;
-			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>school/goEdit.do?schoolId='+schoolId;
-			 diag.Width = 500;
-			 diag.Height = 500;
-			 diag.CancelEvent = function(){ //关闭事件
-				 if(diag.innerFrame.contentWindow.document.getElementById('cqtwindow').style.display == 'none'){
-					nextPage('${page.currentPage}');
-				}
-				diag.close();
-			 };
-			 diag.show();
-		}
 		
-		//删除分校信息
-		function delSchool(schoolId,msg){
+		//删除
+		function delCourseGroup(courseGroupId,msg){
 			bootbox.confirm("确定要删除["+msg+"]吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>school/delete.do?schoolId="+schoolId+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>courseGroup/delete.do?courseGroupId="+courseGroupId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						nextPage('${page.currentPage}');
 					});
@@ -206,7 +162,7 @@
 			});
 		}
 		
-		//批量删除选择的分校信息
+		//批量操作
 		function delAll(msg){
 			bootbox.confirm(msg, function(result) {
 				if(result) {
@@ -239,11 +195,11 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>school/deleteAll.do?tm='+new Date().getTime(),
-						    	data: {schoolIds:ids},
-								dataType:'json',
-								cache: false,
-								success: function(data){
+								url: '<%=basePath%>courseGroup/deleteAll.do?tm='+ new Date().getTime(),
+								data : {courseGroupIds : ids},
+								dataType : 'json',
+								cache : false,
+								success : function(data) {
 									nextPage('${page.currentPage}');
 								}
 							});
@@ -252,22 +208,21 @@
 				}
 			});
 		}
-		</script>
+	</script>
 
 	<script type="text/javascript">
-		$(function() {
-			//复选框
-			$('table th input:checkbox').on('click' , function(){
-				var that = this;
-				$(this).closest('table').find('tr > td:first-child input:checkbox')
-				.each(function(){
+	$(function() {
+		//复选框
+		$('table th input:checkbox').on('click',function() {
+			var that = this;
+			$(this).closest('table').find('tr > td:first-child input:checkbox').each(
+				function() {
 					this.checked = that.checked;
 					$(this).closest('tr').toggleClass('selected');
 				});
-			});
-		})
-		</script>
-
+		});
+	});
+	</script>
 </body>
 </html>
 

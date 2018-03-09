@@ -2,20 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="CourseItemMapper">
 	<resultMap id="BaseResultMap" type="CourseItem">
-		<id column="course_item_id" jdbcType="VARCHAR" property="courseItemId" />
-		<result column="course_schedule_id" jdbcType="VARCHAR"
-			property="courseScheduleId" />
-		<result column="z_index" jdbcType="INTEGER" property="zIndex" />
-		<result column="start_time" jdbcType="VARCHAR" property="startTime" />
-		<result column="end_time" jdbcType="VARCHAR" property="endTime" />
-		<result column="course_name" jdbcType="VARCHAR" property="courseName" />
-		<result column="course_ename" jdbcType="VARCHAR" property="courseEname" />
-		<result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+		<id column="course_item_id" property="courseItemId" />
+		<result column="course_schedule_id" property="courseScheduleId" />
+		<result column="z_index" property="zIndex" />
+		<result column="start_time" property="startTime" />
+		<result column="end_time" property="endTime" />
+		<result column="course_name" property="courseName" />
+		<result column="course_ename" property="courseEname" />
+		<result column="teacher_name" property="teacherName" />
+		<result column="headmaster" property="headmaster" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		course_item_id, course_schedule_id, z_index, start_time, end_time, course_name,
-		course_ename,
-		teacher_name
+		course_ename,teacher_name,headmaster
 	</sql>
 
 	<select id="selectById" parameterType="java.lang.String"
@@ -23,7 +22,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from t_course_item
-		where course_item_id = #{courseItemId,jdbcType=VARCHAR}
+		where course_item_id = #{courseItemId}
 	</select>
 
 	<select id="listCourseItemByMap" parameterType="java.util.Map"
@@ -47,6 +46,9 @@
 			<if test="null != teacherName and '' != teacherName"> 		<!-- 以教师名字模糊查找 -->
 				and INSTR(tci.teacher_name,#{teacherName})
 			</if>
+			<if test="null != headmaster and '' != headmaster"> 		<!-- 以教师名字模糊查找 -->
+				and INSTR(tci.headmaster,#{headmaster})
+			</if>
 		</where>
 		<if test="null != orderCol and '' != orderCol">
 			order by #{orderCol}
@@ -55,18 +57,18 @@
 
 	<delete id="deleteById" parameterType="java.lang.String">
 		delete from t_course_item
-		where course_item_id = #{courseItemId,jdbcType=VARCHAR}
+		where course_item_id = #{courseItemId}
 	</delete>
 
 	<insert id="insert" parameterType="CourseItem">
 		insert into t_course_item (course_item_id, course_schedule_id, z_index,
 		start_time, end_time, course_name,
-		course_ename, teacher_name)
-		values (#{courseItemId,jdbcType=VARCHAR},
-		#{courseScheduleId,jdbcType=VARCHAR}, #{zIndex,jdbcType=INTEGER},
-		#{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR},
-		#{courseName,jdbcType=VARCHAR},
-		#{courseEname,jdbcType=VARCHAR}, #{teacherName,jdbcType=VARCHAR})
+		course_ename, teacher_name, headmaster)
+		values (#{courseItemId},
+		#{courseScheduleId}, #{zIndex},
+		#{startTime}, #{endTime},
+		#{courseName},
+		#{courseEname}, #{teacherName}, #{headmaster})
 	</insert>
 
 	<insert id="insertSelective" parameterType="CourseItem">
@@ -96,31 +98,37 @@
 			<if test="teacherName != null">
 				teacher_name,
 			</if>
+			<if test="headmaster != null">
+				headmaster,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="courseItemId != null">
-				#{courseItemId,jdbcType=VARCHAR},
+				#{courseItemId},
 			</if>
 			<if test="courseScheduleId != null">
-				#{courseScheduleId,jdbcType=VARCHAR},
+				#{courseScheduleId},
 			</if>
 			<if test="zIndex != null">
-				#{zIndex,jdbcType=INTEGER},
+				#{zIndex},
 			</if>
 			<if test="startTime != null">
-				#{startTime,jdbcType=VARCHAR},
+				#{startTime},
 			</if>
 			<if test="endTime != null">
-				#{endTime,jdbcType=VARCHAR},
+				#{endTime},
 			</if>
 			<if test="courseName != null">
-				#{courseName,jdbcType=VARCHAR},
+				#{courseName},
 			</if>
 			<if test="courseEname != null">
-				#{courseEname,jdbcType=VARCHAR},
+				#{courseEname},
 			</if>
 			<if test="teacherName != null">
-				#{teacherName,jdbcType=VARCHAR},
+				#{teacherName},
+			</if>
+			<if test="headmaster != null">
+				#{headmaster},
 			</if>
 		</trim>
 	</insert>
@@ -129,39 +137,43 @@
 		update t_course_item
 		<set>
 			<if test="courseScheduleId != null">
-				course_schedule_id = #{courseScheduleId,jdbcType=VARCHAR},
+				course_schedule_id = #{courseScheduleId},
 			</if>
 			<if test="zIndex != null">
-				z_index = #{zIndex,jdbcType=INTEGER},
+				z_index = #{zIndex},
 			</if>
 			<if test="startTime != null">
-				start_time = #{startTime,jdbcType=VARCHAR},
+				start_time = #{startTime},
 			</if>
 			<if test="endTime != null">
-				end_time = #{endTime,jdbcType=VARCHAR},
+				end_time = #{endTime},
 			</if>
 			<if test="courseName != null">
-				course_name = #{courseName,jdbcType=VARCHAR},
+				course_name = #{courseName},
 			</if>
 			<if test="courseEname != null">
-				course_ename = #{courseEname,jdbcType=VARCHAR},
+				course_ename = #{courseEname},
 			</if>
 			<if test="teacherName != null">
-				teacher_name = #{teacherName,jdbcType=VARCHAR},
+				teacher_name = #{teacherName},
+			</if>
+			<if test="headmaster != null">
+				headmaster = #{headmaster},
 			</if>
 		</set>
-		where course_item_id = #{courseItemId,jdbcType=VARCHAR}
+		where course_item_id = #{courseItemId}
 	</update>
 
 	<update id="updateById" parameterType="CourseItem">
 		update t_course_item
-		set course_schedule_id = #{courseScheduleId,jdbcType=VARCHAR},
-		z_index = #{zIndex,jdbcType=INTEGER},
-		start_time = #{startTime,jdbcType=VARCHAR},
-		end_time = #{endTime,jdbcType=VARCHAR},
-		course_name = #{courseName,jdbcType=VARCHAR},
-		course_ename = #{courseEname,jdbcType=VARCHAR},
-		teacher_name = #{teacherName,jdbcType=VARCHAR}
-		where course_item_id = #{courseItemId,jdbcType=VARCHAR}
+		set course_schedule_id = #{courseScheduleId},
+		z_index = #{zIndex},
+		start_time = #{startTime},
+		end_time = #{endTime},
+		course_name = #{courseName},
+		course_ename = #{courseEname},
+		teacher_name = #{teacherName},
+		headmaster = #{headmaster}
+		where course_item_id = #{courseItemId}
 	</update>
 </mapper>

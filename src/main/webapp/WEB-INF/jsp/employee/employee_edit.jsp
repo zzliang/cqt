@@ -27,7 +27,7 @@
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		
 <script type="text/javascript">
-	$(top.hangge());
+	//$(top.hangge());
 	
 	//保存
 	function save(){

@@ -17,7 +17,7 @@
 </style>
 </head>
 <body>
-	<div>
+	<div id="course_schedule_div">
 		<div style="text-align: center">
 			<p><span>【课表安排】</span></p>
 			<p><span>【时间】</span><span id="csCourseDate"></span></p>
@@ -42,9 +42,18 @@
     });
     
     function loadCourseSchedule(){
-    	var courseDate = "${courseDate}";
-    	var weekNum = "${week}";
-    	ajaxTeacherCourseSchedule(courseDate,weekNum,'today');
+    	var status = "${status}";
+    	//处理在没有任何课程表时或者是上传了课程表还未设置课程表配置时，运行的课程表中无任何数据的情况 
+    	if(status=="fail"){
+    		var msg = "${msg}"
+       		$("#course_schedule_div").empty();
+       		var html = "<div style='text-align:center;color:red'>"+msg+"</div>"
+       		$("#course_schedule_div").html(html);
+    	}else{
+	    	var courseDate = "${courseDate}";
+	    	var weekNum = "${week}";
+	    	ajaxTeacherCourseSchedule(courseDate,weekNum,'today');
+    	}
     }
 
     //处理上周，本周，下周
@@ -58,7 +67,7 @@
     
     function ajaxTeacherCourseSchedule(courseDate,weekNum,type){
     	$.ajax({ 
-    		url: "course/ajaxTeacherCourseSchedule.do", 
+    		url: "courseSchedule/ajaxTeacherCourseSchedule.do", 
     		context: document.body, 
     		dataType:"json",
     		data:{"courseDate":courseDate,"type":type,"weekNum":weekNum},
@@ -99,7 +108,7 @@
 	            			}
 	           				
            					if(null!=col.courseName && ""!=col.courseName){
-            					trs+="<td align='center' width='200px'><p><span>"+col.className+"</span></p><p><span>"+col.courseName+"</span></p><p><span>("+col.courseEname+")</span></p><p><span>"+col.teacherName+"</span></p></td>";
+            					trs+="<td align='center' width='200px'><p><span>"+col.className+"</span></p><p><span>"+col.courseName+"</span></p><p><span>("+col.courseEname+")</span></p><p><span>"+col.teacherName+"</span></p><p><span>"+col.headmaster+"</span></p></td>";
            					}else{
            						trs+="<td align='center' width='200px'></td>";
            					}

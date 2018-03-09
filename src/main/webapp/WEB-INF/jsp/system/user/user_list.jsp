@@ -15,15 +15,9 @@
 <body>
 		
 <div class="container-fluid" id="main-container">
-
-
 <div id="page-content" class="clearfix">
-						
   <div class="row-fluid">
-
-
 	<div class="row-fluid">
-	
 			<!-- 检索  -->
 			<form action="user/listUsers.do" method="post" name="userForm" id="userForm">
 			<table>
@@ -50,14 +44,12 @@
 					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="icon-download-alt"></i></a></td>
 					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="fromExcel();" title="从EXCEL导入"><i id="nav-search-icon" class="icon-cloud-upload"></i></a></td>
 					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="importCourseSchedule();" title="导入课程表"><i id="nav-search-icon" class="icon-cloud-upload"></i></a></td>
-					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="goCourseSchedule();" title="管理者查看课程表"><i id="nav-search-icon" class="icon-cloud-upload"></i></a></td>
+					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="goOpertorCourseSchedule();" title="管理者查看课程表"><i id="nav-search-icon" class="icon-cloud-upload"></i></a></td>
 					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="goUserCourseSchedule();" title="职员查看课程表"><i id="nav-search-icon" class="icon-cloud-upload"></i></a></td>
 					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="goTeacherCourseSchedule();" title="教师查看课程表"><i id="nav-search-icon" class="icon-cloud-upload"></i></a></td>
 				</tr>
 			</table>
 			<!-- 检索  -->
-		
-		
 			<table id="table_report" class="table table-striped table-bordered table-hover">
 				
 				<thead>
@@ -79,7 +71,6 @@
 				</thead>
 										
 				<tbody>
-					
 				<!-- 开始循环 -->	
 				<c:choose>
 					<c:when test="${not empty userList}">
@@ -122,42 +113,32 @@
 						</tr>
 					</c:otherwise>
 				</c:choose>
-					
-				
 				</tbody>
 			</table>
 			
-		<div class="page-header position-relative">
-		<c:if test="${pd.userType == 'super' }">
-		<table style="width:100%;">
-			<tr>
-				<td style="vertical-align:top;">
-					<a class="btn btn-small btn-success" onclick="add();">新增</a>
-					<!-- <a title="批量发送电子邮件" class="btn btn-small btn-info" onclick="makeAll('确定要给选中的用户发送邮件吗?');"><i class="icon-envelope-alt"></i></a>
-					<a title="批量发送短信" class="btn btn-small btn-warning" onclick="makeAll('确定要给选中的用户发送短信吗?');"><i class="icon-envelope"></i></a> -->
-					<a title="批量删除" class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" ><i class='icon-trash'></i></a>
-				</td>
-				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
-			</tr>
-		</table>
-		</c:if>
-		</div>
+			<div class="page-header position-relative">
+				<c:if test="${pd.userType == 'super' }">
+				<table style="width:100%;">
+					<tr>
+						<td style="vertical-align:top;">
+							<a class="btn btn-small btn-success" onclick="add();">新增</a>
+							<!-- <a title="批量发送电子邮件" class="btn btn-small btn-info" onclick="makeAll('确定要给选中的用户发送邮件吗?');"><i class="icon-envelope-alt"></i></a>
+							<a title="批量发送短信" class="btn btn-small btn-warning" onclick="makeAll('确定要给选中的用户发送短信吗?');"><i class="icon-envelope"></i></a> -->
+							<a title="批量删除" class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" ><i class='icon-trash'></i></a>
+						</td>
+						<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
+					</tr>
+				</table>
+				</c:if>
+			</div>
 		</form>
 	</div>
- 
- 
- 
- 
-	<!-- PAGE CONTENT ENDS HERE -->
   </div><!--/row-->
-	
 </div><!--/#page-content-->
 </div><!--/.fluid-container#main-container-->
 		
 		<!-- 返回顶部  -->
-		<a href="#" id="btn-scroll-up" class="btn btn-small btn-inverse">
-			<i class="icon-double-angle-up icon-only"></i>
-		</a>
+		<a href="#" id="btn-scroll-up" class="btn btn-small btn-inverse"><i class="icon-double-angle-up icon-only">返回顶部</i></a>
 		
 		<!-- 引入 -->
 		<script type="text/javascript">window.jQuery || document.write("<script src='static/js/jquery-1.9.1.min.js'>\x3C/script>");</script>
@@ -173,7 +154,6 @@
 		
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script><!--提示框-->
 		<script type="text/javascript">
-		
 		$(top.hangge());
 		
 		//检索
@@ -182,8 +162,7 @@
 			$("#userForm").submit();
 		}
 		
-		
-		//去发送电子邮件页面
+		<%-- //去发送电子邮件页面
 		function sendEmail(EMAIL){
 			 top.jzts();
 			 var diag = new top.Dialog();
@@ -211,8 +190,9 @@
 				diag.close();
 			 };
 			 diag.show();
-		}
-		//新增
+		} --%>
+		
+		//添加系统管理用户信息
 		function add(){
 			 top.jzts();
 			 var diag = new top.Dialog();
@@ -254,7 +234,7 @@
 			 diag.show();
 		}
 		
-		//用户分配角色
+		//分配角色
 		function editRole(userId,userType){
 			 top.jzts();
 			 var diag = new top.Dialog();
@@ -273,7 +253,7 @@
 			 diag.show();
 		}
 		
-		//编辑用户信息
+		//编辑系统管理用户信息
 		function editUser(userId){
 			 top.jzts();
 			 var diag = new top.Dialog();
@@ -291,7 +271,7 @@
 			 diag.show();
 		}
 		
-		//删除
+		//删除系统管理用户
 		function delUser(userId,msg){
 			bootbox.confirm("确定要删除["+msg+"]吗?", function(result) {
 				if(result) {
@@ -304,7 +284,7 @@
 			});
 		}
 		
-		//批量操作
+		//批量删除选中的系统管理用户
 		function makeAll(msg){
 			bootbox.confirm(msg, function(result) {
 				if(result) {
@@ -343,7 +323,6 @@
 				            bg:'#AE81FF',
 				            time:8
 				        });
-						
 						return;
 					}else{
 						if(msg == '确定要删除选中的数据吗?'){
@@ -366,26 +345,19 @@
 						}else if(msg == '确定要给选中的用户发送短信吗?'){
 							sendSms(phones);
 						}
-						
-						
 					}
 				}
 			});
 		}
-		
 		</script>
 		
 		<script type="text/javascript">
-		
 		$(function() {
-			
 			//日期框
 			$('.date-picker').datepicker();
-			
 			//下拉框
 			$(".chzn-select").chosen(); 
 			$(".chzn-select-deselect").chosen({allow_single_deselect:true}); 
-			
 			//复选框
 			$('table th input:checkbox').on('click' , function(){
 				var that = this;
@@ -394,12 +366,10 @@
 					this.checked = that.checked;
 					$(this).closest('tr').toggleClass('selected');
 				});
-					
 			});
-			
 		});
 		
-		//导出excel
+		<%-- //导出excel
 		function toExcel(){
 			var USERNAME = $("#nav-search-input").val();
 			var lastLoginStart = $("#lastLoginStart").val();
@@ -429,23 +399,21 @@
 				diag.close();
 			 };
 			 diag.show();
-		}
+		} --%>
 		
 		function goUserCourseSchedule(){
-			//goViewCourseSchedule
-			window.location.href='<%=basePath%>course/goUserCourseSchedule.do';
+			window.location.href='<%=basePath%>courseSchedule/goUserCourseSchedule.do';
 		}
 		
 		function goTeacherCourseSchedule(){
-			window.location.href='<%=basePath%>course/goTeacherCourseSchedule.do';
+			window.location.href='<%=basePath%>courseSchedule/goTeacherCourseSchedule.do';
 		}
 		
-		function goCourseSchedule(){
-			//goViewCourseSchedule
-			window.location.href='<%=basePath%>course/goViewCourseSchedule.do';
+		function goOpertorCourseSchedule(){
+			window.location.href='<%=basePath%>courseSchedule/goOpertorCourseSchedule.do';
 		}
 		
-		//打开上传excel页面
+		//导入Excel类型的课程表内容
 		function importCourseSchedule(){
 			 top.jzts();
 			 var diag = new top.Dialog();
@@ -456,13 +424,12 @@
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('cqtwindow').style.display == 'none'){
-					 <%-- window.location.href='<%=basePath%>courseSchedule/goViewCourseSchedule.do'; --%>
+					 <%-- window.location.href='<%=basePath%>courseSchedule/goOpertorCourseSchedule.do'; --%>
 				}
 				diag.close();
 			 };
 			 diag.show();
 		}
-		
 		</script>
 		
 	</body>

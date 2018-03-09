@@ -1,6 +1,7 @@
 package com.cqt.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Classes implements Serializable{
 	private static final long serialVersionUID = -3285923857281205536L;
@@ -10,8 +11,10 @@ public class Classes implements Serializable{
     private String classesName;
 
     private String year;
-
+    
     private Long schoolId;
+    
+    private Date createDate;
 
     public Long getClassesId() {
         return classesId;
@@ -44,4 +47,12 @@ public class Classes implements Serializable{
     public void setSchoolId(Long schoolId) {
         this.schoolId = schoolId;
     }
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 }

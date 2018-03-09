@@ -56,7 +56,7 @@
 		</script>
 	</head>
 <body>
-	<form action="school/${msg}.do" name="schoolForm" id="schoolForm" method="post">
+	<form action="school/${action}.do" name="schoolForm" id="schoolForm" method="post">
 		<input type="hidden" name="schoolId" id="schoolId" value="${school.schoolId }"/>
 		<input type="hidden" name="provinceName" id="provinceName" value=""/>
 		
@@ -128,7 +128,7 @@
 			</tr>
 			
 			<tr>
-				<td style="text-align: center;">
+				<td style="text-align: center;" colspan="2">
 					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
 					<a class="btn btn-mini btn-danger" onclick="window.history.back()">取消</a>
 				</td>

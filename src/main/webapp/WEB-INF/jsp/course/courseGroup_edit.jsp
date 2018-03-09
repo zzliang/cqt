@@ -37,7 +37,7 @@
 		</script>
 	</head>
 <body>
-	<form action="course/${msg }.do" id="courseGroupForm" name="courseGroupForm" method="post">
+	<form action="${action }.do" id="courseGroupForm" name="courseGroupForm" method="post">
 		<input type="hidden" id="courseGroupId" name="courseGroupId" value="${courseGroup.courseGroupId }" />
 		<div id="cqtwindow" style="margin:10px">
 		<table>
@@ -48,7 +48,7 @@
 			
 			
 			<tr>
-				<td style="text-align: center;">
+				<td style="text-align:center;" colspan="2">
 					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
 					<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
 				</td>

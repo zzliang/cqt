@@ -54,31 +54,31 @@ public class ParseExcel {
 			Workbook wb = ExcelCommons.getWorkBook(fi, filename);
 			
 			for(int num=sheetnum;num<wb.getNumberOfSheets();num++){
-				Sheet sheet = wb.getSheetAt(num); 							//sheet 从0开始
+				Sheet sheet = wb.getSheetAt(num); 								//sheet 从0开始
 				listCombineCell = ExcelCommons.getCombineCell(sheet);
-				int rowNum = sheet.getLastRowNum() + 1; 					//取得最后一行的行号
+				int rowNum = sheet.getLastRowNum() + 1; 						//取得最后一行的行号
 				//创建课程表对象
 				CourseSchedule cs = new CourseSchedule();
-				String courseScheduleId = UuidUtil.get32UUID();				//自动生成课程表ID
+				String courseScheduleId = UuidUtil.get32UUID();					//自动生成课程表ID
 				cs.setCourseScheduleId(courseScheduleId);					
 				Object sid = parms.get("schoolId");
 				Object cid = parms.get("classesId");
-				cs.setSchoolId(sid==null?0L:Long.parseLong(sid.toString())); //所属学校ID
-				cs.setClassesId(cid==null?0L:Long.parseLong(cid.toString()));//所属班级ID
-				List<CourseItem> items = new ArrayList<CourseItem>();  //课程表内容
+				cs.setSchoolId(sid==null?0L:Long.parseLong(sid.toString())); 	//所属学校ID
+				cs.setClassesId(cid==null?0L:Long.parseLong(cid.toString()));	//所属班级ID
+				List<CourseItem> items = new ArrayList<CourseItem>();  			//课程表内容
 				cs.setLstCourseItem(items);
 	
-				for (int i=startrow; i <rowNum; i++) {						//行循环开始
-					Row row = sheet.getRow(i); 								//行
-					int cellNum = row.getLastCellNum(); 					//每行的最后一个单元格位置
-					cellNum=cellNum>6?6:cellNum;							//限制只读取6列数据
+				for (int i=startrow; i <rowNum; i++) {							//行循环开始
+					Row row = sheet.getRow(i); 									//行
+					int cellNum = row.getLastCellNum(); 						//每行的最后一个单元格位置
+					cellNum=cellNum>6?6:cellNum;								//限制只读取6列数据
 					
 					String sTime = null;
 					String eTime = null;
-					for (int j = startcol; j < cellNum; j++) {				//列循环开始
-						Cell cell = row.getCell(j);							//列
+					for (int j = startcol; j < cellNum; j++) {					//列循环开始
+						Cell cell = row.getCell(j);								//列
 						
-						if((i==0 || i==1 || i==3) && j==0){					//读取课表的第一行,第二行,第四行数据
+						if((i==0 || i==1 || i==3) && j==0){						//读取课表的第一行,第二行,第四行数据
 							String cellValue = ExcelCommons.getCellStringValue(cell);
 							switch (i) {
 							case 0://中文标题
@@ -123,6 +123,7 @@ public class ParseExcel {
 								item.setCourseName(cellValue);
 								item.setCourseEname("");
 								item.setTeacherName("");
+								item.setHeadmaster("");
 								item.setStartTime(sTime);
 								item.setEndTime(eTime);
 								item.setzIndex(0);
@@ -152,19 +153,30 @@ public class ParseExcel {
 								case 4:
 								case 5:
 									//log.debug("第"+(i+1)+"行,第"+(j+1)+"列");
-									String cellStr = StringUtil.replaceFirstEnter(cellValue, "");
-									cellStr = StringUtil.replaceAllEnter(cellStr, "/");
+									//String cellStr = StringUtil.replaceFirstEnter(cellValue, "");
+									//cellStr = StringUtil.replaceAllEnter(cellStr, "/");
+									String cellStr = StringUtil.replaceAllEnter(cellValue, "#");
 									cellStr = StringUtil.replaceFlag(cellStr, "");
 									if(null!=cellStr && !"".equals(cellStr)){
-										int index1 = cellStr.lastIndexOf("(");
-										int index2 = cellStr.lastIndexOf(")");
-										String courseName = cellStr.substring(0, index1);
-										String coursEname = cellStr.substring(index1+1,index2);
-										String teacherName = cellStr.substring(index2+1);
+										String[] arrays = cellStr.split("#");
+										int index1 = arrays[0].lastIndexOf("(");
+										int index2 = arrays[0].lastIndexOf(")");
+										String courseName = arrays[0].substring(0, index1);
+										String coursEname = arrays[0].substring(index1+1,index2);
+										
+										String teacherName = "";
+										if(arrays.length>1){
+											teacherName = arrays[1];
+										}
+										String headmaster = "";
+										if(arrays.length>2){
+											headmaster = arrays[2];
+										}
 										CourseItem item = new CourseItem();
 										item.setCourseName(courseName);
 										item.setCourseEname(coursEname);
 										item.setTeacherName(teacherName);
+										item.setHeadmaster(headmaster);
 										item.setStartTime(sTime);
 										item.setEndTime(eTime);
 										item.setzIndex(j);
@@ -176,6 +188,7 @@ public class ParseExcel {
 										item.setCourseName("");
 										item.setCourseEname("");
 										item.setTeacherName("");
+										item.setHeadmaster("");
 										item.setStartTime(sTime);
 										item.setEndTime(eTime);
 										item.setzIndex(j);

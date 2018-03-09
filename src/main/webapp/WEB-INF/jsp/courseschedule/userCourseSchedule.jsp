@@ -17,10 +17,10 @@
 </style>
 </head>
 <body>
-	<div>
+	<div id="course_schedule_div">
 		<div style="text-align: center">
 			<select id="courseListNameSelect" onchange="findCourseSchedule()" style="width:300px;">
-				<c:forEach var="cs" items="${listCourseSchedule }">
+				<c:forEach var="cs" items="${courseScheduleList }">
 					<c:choose>
 						<c:when test="${cs.courseScheduleId == courseScheduleId}">
 							<option id="${cs.courseScheduleId }" value="${cs.courseDate }" selected>${cs.className }</option>
@@ -62,9 +62,18 @@
     });
     
     function loadCourseSchedule(){
-    	var courseScheduleId = "${courseScheduleId}";
-    	var courseDate = "${courseDate}";
-    	ajaxUserCourseSchedule(courseScheduleId,courseDate,'today','0');
+    	var status = "${status}";
+    	//处理在没有任何课程表时或者是上传了课程表还未设置课程表配置时，运行的课程表中无任何数据的情况 
+    	if(status=="fail"){
+    		var msg = "${msg}"
+    		$("#course_schedule_div").empty();
+    		var html = "<div style='text-align:center;color:red'>"+msg+"</div>"
+    		$("#course_schedule_div").html(html);
+    	}else{
+	    	var courseScheduleId = "${courseScheduleId}";
+	    	var courseDate = "${courseDate}";
+	    	ajaxUserCourseSchedule(courseScheduleId,courseDate,'today','0');
+    	}
     }
     
     function findCourseSchedule(){
@@ -84,7 +93,7 @@
     
     function ajaxUserCourseSchedule(courseScheduleId,courseDate,type,weekNum){
     	$.ajax({ 
-    		url: "course/ajaxUserCourseSchedule.do", 
+    		url: "courseSchedule/ajaxUserCourseSchedule.do", 
     		context: document.body, 
     		dataType:"json",
     		data:{"courseScheduleId":courseScheduleId,"courseDate":courseDate,"type":type,"weekNum":weekNum},
@@ -133,7 +142,7 @@
 	           					trs+="<td align='center' colspan='5'><span>"+col.courseName+"</span></td>";
 	           				}else{
 	            				if(null!=col.courseName && ""!=col.courseName){
-	            					trs+="<td align='center' width='200px'><p><span>"+col.courseName+"</span></p><p><span>("+col.courseEname+")</span></p><p><span>"+col.teacherName+"</span></p></td>";
+	            					trs+="<td align='center' width='200px'><p><span>"+col.courseName+"</span></p><p><span>("+col.courseEname+")</span></p><p><span>"+col.teacherName+"</span></p><p><span>"+col.headmaster+"</span></p></td>";
 	           					}else{
 	           						trs+="<td align='center' width='200px'></td>";
 	           					}

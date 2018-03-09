@@ -27,16 +27,16 @@ public class TestExcelParse {
 		for(CourseSchedule cs : courseSchedules){
 			System.out.println(cs.getClassName());
 			for(CourseItem ci:cs.getLstCourseItem()){
-				System.out.println(ci.getTeacherName());
+				System.out.println(ci.getTeacherName()+"^^^^^^"+ci.getHeadmaster());
 			}
 			System.out.println("**********************");
 		}
-		System.out.println("=======================================");
+		/*System.out.println("=======================================");
 		
 		
 		String ss = "(Arts&Crafts)杨国颖/梁丽/江慧涛";
 		int index1 = ss.indexOf("(");
 		int index2 = ss.indexOf(")");
-		System.out.println(index1 + "==" + index2);
+		System.out.println(index1 + "==" + index2);*/
 	}
 }

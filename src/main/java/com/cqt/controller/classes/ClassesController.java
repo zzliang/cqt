@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cqt.commons.SessionContext;
 import com.cqt.controller.base.BaseController;
 import com.cqt.entity.Classes;
 import com.cqt.plugin.paging.Page;
@@ -22,9 +23,9 @@ public class ClassesController extends BaseController{
 	
 	@Resource
 	public ClassesService classesService;
+	
 	/**
-	 * <p>Title: listClasses</p>  
-	 * <p>Description: 查看分校所有班级信息</p>  
+	 * 查看班级列表信息
 	 * @param page
 	 * @return
 	 * @throws Exception
@@ -41,13 +42,14 @@ public class ClassesController extends BaseController{
 			pd.put("KEYWORD", keyWord);
 		}
 		
-		pd.put("分校ID", "");
+		Long schoolId = SessionContext.getUser().getSchoolId();
+		pd.put("shoolId", schoolId);
 		page.setPd(pd);
-		List<Classes> classesList = classesService.listClasses(page);			//列出分校班级列表
-		mv.setViewName("classes/classes_list");
+		List<Classes> classesList = classesService.listClasses(page);	//列出分校班级列表
 		mv.addObject("classesList", classesList);
 		mv.addObject("pd", pd);
 		
+		mv.setViewName("classes/classes_list");
 		return mv;
 	}
 	

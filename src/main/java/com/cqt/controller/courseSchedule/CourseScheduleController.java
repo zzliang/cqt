@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cqt.commons.CQTUtil;
 import com.cqt.commons.Const;
 import com.cqt.commons.E;
+import com.cqt.commons.SessionContext;
 import com.cqt.commons.excel.ParseExcel;
 import com.cqt.controller.base.BaseController;
 import com.cqt.entity.CourseConfig;
@@ -121,8 +122,8 @@ public class CourseScheduleController extends BaseController{
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/listCourseSchedule")
-	public ModelAndView listCourseSchedule(Page page)throws Exception{
+	@RequestMapping(value="/list")
+	public ModelAndView list(Page page)throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -221,31 +222,36 @@ public class CourseScheduleController extends BaseController{
 	}
 	
 	/**
-	 * 职员查看课程表信息
-	 * 1：职员查看的课程表展示为按班级显示一周的所有教师课程按排
+	 * 去查看职员课程表
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/goUserCourseSchedule")
 	public ModelAndView goUserCourseSchedule() throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		List<CourseSchedule> listCourseSchedule = null;
+		List<CourseSchedule> courseScheduleList = null;
 		PageData pd = this.getPageData();
-		//教师默认查看课程表是按当前时间所在的周查,如果当前日期没有课程表查看最新课程表
+		//职员默认查看课程表是按当前时间所在的周查看,如果当前日期没有课程表查看最新课程表
 		String[] ymw = this.getYMW(null, null, "today");
-		pd.put("courseDate", ymw[0]);
-		
-		//获取老师相关班级课程表信息,不包含课程内容，并按课程表的英文名称排序
-		pd.put("schoolId", "");
-		listCourseSchedule = courseScheduleRunService.listCourseScheduleRunByMap(pd);//查询指定年月的课程表班级信息
-		if(null != listCourseSchedule && !listCourseSchedule.isEmpty()){
-			listCourseSchedule = CQTUtil.sortListCourseSchedule(listCourseSchedule);
-			String csId = listCourseSchedule.get(0).getCourseScheduleId();
-			mv.addObject("courseScheduleId", csId); //默认选中的班级课程表
-			mv.addObject("courseDate",  ymw[0]);
+		if(null!=ymw){
+			pd.put("courseDate", ymw[0]);
+			
+			//获取老师相关班级课程表信息,不包含课程内容，并按课程表的英文名称排序
+			pd.put("schoolId", SessionContext.getUser().getSchoolId());
+			courseScheduleList = courseScheduleRunService.listCourseScheduleRunByMap(pd);//查询指定年月的课程表班级信息
+			if(null != courseScheduleList && !courseScheduleList.isEmpty()){
+				courseScheduleList = CQTUtil.sortListCourseSchedule(courseScheduleList);
+				String csId = courseScheduleList.get(0).getCourseScheduleId();
+				mv.addObject("courseScheduleId", csId); //默认选中的班级课程表
+				mv.addObject("courseDate",  ymw[0]);
+			}
+			mv.addObject("courseScheduleList", courseScheduleList);
+		}else{
+			//处理在没有任何课程表时或者是上传了课程表还未设置课程表配置时，运行的课程表中无任何数据的情况 
+			mv.addObject("status", "fail");
+			mv.addObject("msg", "未找到任何课程表信息，请检查是否上传过课程表或上传了课程表还未设置！");
 		}
-		mv.setViewName("courseSchedule/userCourseSchedule");
-		mv.addObject("listCourseSchedule", listCourseSchedule);
+		mv.setViewName("courseschedule/userCourseSchedule");
 		return mv;
 	}
 	
@@ -258,7 +264,7 @@ public class CourseScheduleController extends BaseController{
 	@ResponseBody
 	public Map<String,Object>  ajaxTeacherCourseSchedule() throws Exception{
 		Map<String,Object> result = new HashMap<String,Object>();
-		List<CourseSchedule> listCourseSchedule = null;
+		List<CourseSchedule> list = null;
 		PageData pd = this.getPageData();
 		String courseDate = pd.getString("courseDate");
 		String weekNum = pd.getString("weekNum");	//标识用户点击的是上周，本周，下周哪个按钮
@@ -291,15 +297,15 @@ public class CourseScheduleController extends BaseController{
 				weekNum = ymw[1];
 				pd.put("courseDate", courseDate);
 				pd.put("week", weekNum);
-				pd.put("teacherName", "梁丽");
+				pd.put("teacherName", "魏苗");
 				List<CourseItem> listTeacherWeekCourse = new ArrayList<CourseItem>();
-				listCourseSchedule = courseScheduleRunService.listCourseScheduleRunWithItemByMap(pd);//获取教师一周的所有课程信息
-				if(null == listCourseSchedule || listCourseSchedule.isEmpty()){
+				list = courseScheduleRunService.listCourseScheduleRunWithItemByMap(pd);//获取教师一周的所有课程信息
+				if(null == list || list.isEmpty()){
 					//如果不存在指定时间的课表信息给出提示信息
 					isExisData = false;
 					result.put("msg", "未找到所要查找月份的课程表信息，请确认相应月份的课程表正常上传！");
 				}else{
-					for(CourseSchedule cs:listCourseSchedule){
+					for(CourseSchedule cs:list){
 						List<CourseItem> lstCourseItem = cs.getLstCourseItem();
 						for(CourseItem ci:lstCourseItem){
 							ci.setClassName(cs.getClassName());
@@ -331,8 +337,7 @@ public class CourseScheduleController extends BaseController{
 	}
 	
 	/**
-	 * 教师查看课程表信息
-	 * 1：教师查看的课程表的展示为当前教师一周的所有班级课程信息
+	 * 去查看教师课程表
 	 * @return
 	 * @throws Exception
 	 */
@@ -341,9 +346,15 @@ public class CourseScheduleController extends BaseController{
 		ModelAndView mv = this.getModelAndView();
 		//教师默认查看课程表是按当前时间所在的周查,如果当前日期没有课程表查看最新课程表
 		String[] ymw = this.getYMW(null, null, "today");
-		mv.setViewName("courseSchedule/teacherCourseSchedule");
-		mv.addObject("courseDate", ymw[0]);
-		mv.addObject("week", ymw[1]);
+		if(null!=ymw){
+			mv.addObject("courseDate", ymw[0]);
+			mv.addObject("week", ymw[1]);
+		}else{
+			//处理在没有任何课程表时或者是上传了课程表还未设置课程表配置时，运行的课程表中无任何数据的情况 
+			mv.addObject("status", "fail");
+			mv.addObject("msg", "未找到任何课程表信息，请检查是否上传过课程表或上传了课程表还未设置！");
+		}
+		mv.setViewName("courseschedule/teacherCourseSchedule");
 		return mv;
 	}
 	
@@ -352,9 +363,9 @@ public class CourseScheduleController extends BaseController{
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/ajaxViewCourseSchedule")
+	@RequestMapping(value="/ajaxOpertorCourseSchedule")
 	@ResponseBody
-	public Map<String,Object> ajaxViewCourseSchedule() throws Exception{
+	public Map<String,Object> ajaxOpertorCourseSchedule() throws Exception{
 		Map<String,Object> result = new HashMap<String,Object>();
 		PageData pd = this.getPageData();
 		String courseScheduleId = pd.getString("courseScheduleId");
@@ -385,38 +396,37 @@ public class CourseScheduleController extends BaseController{
 	}
 	
 	/**
-	 * 管理者查看导入的课程表信息
+	 * 去查看管理员课程表
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/goViewCourseSchedule")
-	public ModelAndView goViewCourseSchedule() throws Exception{
+	@RequestMapping(value="/goOpertorCourseSchedule")
+	public ModelAndView goOpertorCourseSchedule() throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		List<CourseSchedule> listCourseSchedule = null;
+		List<CourseSchedule> courseScheduleList = null;
 		PageData pd = this.getPageData();
 		//导入成功后查看上传的课程表信息
 		String cDate = courseScheduleService.findMaxCourseDate();
 		pd.put("courseDate", cDate);
 		//查看上传的课程表信息,不包含课程内容，并按课程表的英文名称排序(条件：学校ID,课程表的年月)
 		pd.put("schoolId", "1");
-		listCourseSchedule = courseScheduleService.listCourseScheduleByMap(pd);
-		listCourseSchedule = CQTUtil.sortListCourseSchedule(listCourseSchedule);
-		if(null != listCourseSchedule && !listCourseSchedule.isEmpty()){
-			String csId = listCourseSchedule.get(0).getCourseScheduleId();
+		courseScheduleList = courseScheduleService.listCourseScheduleByMap(pd);
+		courseScheduleList = CQTUtil.sortListCourseSchedule(courseScheduleList);
+		if(null != courseScheduleList && !courseScheduleList.isEmpty()){
+			String csId = courseScheduleList.get(0).getCourseScheduleId();
 			mv.addObject("courseScheduleId", csId);
 			mv.addObject("courseDate", cDate);
 		}
+		mv.addObject("courseScheduleList", courseScheduleList);
 		
-		mv.addObject("listCourseSchedule", listCourseSchedule);
-		mv.setViewName("courseSchedule/opertorCourseSchedule");
+		mv.setViewName("courseschedule/opertorCourseSchedule");
 		//mv.setViewName("course/importCourseSchedule");
 		return mv;
 	}
 	
 	
 	/**
-	 * <p>Title: goSetCourseSchedule</p>  
-	 * <p>Description: 跳转到设置课程表页</p>  
+	 * 去设置课程表的显示方式
 	 * @return
 	 * @throws Exception
 	 */
@@ -427,15 +437,15 @@ public class CourseScheduleController extends BaseController{
 		String courseDate = pd.getString("courseDate");
 		CourseConfig courseConfig = new CourseConfig();
 		courseConfig.setCourseDate(courseDate);
-		mv.setViewName("courseconfig/courseConfig_edit");
-		mv.addObject("msg", "courseSchedule/setCourseSchedule");
+		mv.addObject("action", "courseSchedule/setCourseSchedule");
 		mv.addObject("courseConfig", courseConfig);
+		
+		mv.setViewName("courseconfig/courseConfig_edit");
 		return mv;
 	}
 	
 	/**
-	 * 配置课程表
-	 * @param map 
+	 * 设置课程表的显示方式
 	 * @return
 	 * @throws Exception
 	 */
@@ -476,17 +486,24 @@ public class CourseScheduleController extends BaseController{
 		return mv;
 	}
 	
+	/**
+	 * 内部处理课程表数据
+	 * @param pd
+	 * @param weeks
+	 * @param type
+	 * @throws Exception
+	 */
 	private void handlerCourseItemRun(PageData pd, int weeks, int type) throws Exception{
 		//处理运行的课程表与课程表项的数据信息
-		List<CourseSchedule> listCourseScheduleRun = courseScheduleService.listCourseScheduleWithItemByMap(pd);//查询指定年月的课程表信息集合
+		List<CourseSchedule> courseScheduleRunList = courseScheduleService.listCourseScheduleWithItemByMap(pd);//查询指定年月的课程表信息集合
 		if(type==0){
-			courseScheduleRunService.add(listCourseScheduleRun);
+			courseScheduleRunService.add(courseScheduleRunList);
 		}else{
-			courseScheduleRunService.deleteCourseItemRunByIds(listCourseScheduleRun);
+			courseScheduleRunService.deleteCourseItemRunByIds(courseScheduleRunList);
 		}
 		
 		List<CourseItem> listCourseItemByMonth = new ArrayList<CourseItem>();
-		for(CourseSchedule cs : listCourseScheduleRun){
+		for(CourseSchedule cs : courseScheduleRunList){
 			List<CourseItem> listCourseItem = cs.getLstCourseItem();
 			//通过设置的周数生成一月的课程信息
 			for(int i=1;i<=weeks;i++){
@@ -501,8 +518,14 @@ public class CourseScheduleController extends BaseController{
 		courseScheduleRunService.addCourseItems(listCourseItemByMonth);//将生成的一月课程信息保存到运行课程表项中
 	}
 	
-	
-	
+	/**
+	 * 通过课程表配置信息计算要显示X年X月X周的课程表信息
+	 * @param courseConfig
+	 * @param weekNum
+	 * @param type
+	 * @return
+	 * @throws Exception
+	 */
 	private String[] getYMW(CourseConfig courseConfig, String weekNum, String type) throws Exception{
 		String[] ymw = new String[2];
 		if(E.WEEK_TYPE.PREV.name().toLowerCase().equals(type)){
@@ -514,6 +537,7 @@ public class CourseScheduleController extends BaseController{
 			//Integer week = 1;
 			if(null == ccfg){//如果当前日期的课程表未配置使用最新的课程表信息显示，并显示为第一周
 				String cDate = courseScheduleRunService.findMaxCourseDate();
+				if(null==cDate)return null;
 				ccfg = courseConfigService.findByCourseDate(cDate);
 				weekNum = "1";
 			}else{

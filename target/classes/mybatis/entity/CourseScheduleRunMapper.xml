@@ -22,6 +22,7 @@
 			<result column="course_name" property="courseName" />
 			<result column="course_ename" property="courseEname" />
 			<result column="teacher_name" property="teacherName" />
+			<result column="headmaster" property="headmaster" />
 			<result column="week" property="week" />
 		</collection>
 	</resultMap>
@@ -152,8 +153,7 @@
 
 	<!-- 查询最大的年月的课程表 -->
 	<select id="selectMaxCourseDate" resultType="java.lang.String">
-		SELECT
-		MAX(course_date) FROM t_course_schedule_run
+		SELECT MAX(course_date) FROM t_course_schedule_run
 	</select>
 
 	<!-- 根据班级名称与课程表年月查询班级不同月份的课程表 -->

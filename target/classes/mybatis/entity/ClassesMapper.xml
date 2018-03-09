@@ -2,14 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ClassesMapper">
 	<resultMap id="BaseResultMap" type="Classes">
-		<id column="classes_id" jdbcType="BIGINT" property="classesId" />
-		<result column="classes_name" jdbcType="VARCHAR" property="classesName" />
-		<result column="year" jdbcType="VARCHAR" property="year" />
-		<result column="school_id" jdbcType="BIGINT" property="schoolId" />
+		<id column="classes_id" property="classesId" />
+		<result column="classes_name" property="classesName" />
+		<result column="year" property="year" />
+		<result column="school_id" property="schoolId" />
+		<result column="create_date" property="createDate" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		classes_id, classes_name, year, school_id
+		classes_id, classes_name, year, school_id, createDate
 	</sql>
 
 	<!-- 分页查询班级信息列表 -->
@@ -24,6 +25,29 @@
 			<if test="null != pd.classesName and '' != pd.classesName">
 				AND classes_name = #{pd.classesName}
 			</if>
+			<if test="null != pd.schoolId and '' != pd.schoolId">
+				AND school_id = #{pd.schoolId}
+			</if>
+		</where>
+		<if test="null != pd.orderCol and '' != pd.orderCol">
+			ORDER BY #{pd.orderCol}
+		</if>
+	</select>
+	
+	<select id="classesList" parameterType="pd" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM t_classes
+		<where>
+			<if test="null != pd.classesId and '' != pd.classesId">
+				AND classes_id = #{pd.classesId}
+			</if>
+			<if test="null != pd.classesName and '' != pd.classesName">
+				AND classes_name = #{pd.classesName}
+			</if>
+			<if test="null != pd.schoolId and '' != pd.schoolId">
+				AND school_id = #{pd.schoolId}
+			</if>
 		</where>
 		<if test="null != pd.orderCol and '' != pd.orderCol">
 			ORDER BY #{pd.orderCol}
@@ -35,12 +59,12 @@
 		select
 		<include refid="Base_Column_List" />
 		from t_classes
-		where classes_id = #{classesId,jdbcType=BIGINT}
+		where classes_id = #{classesId}
 	</select>
 
 	<delete id="deleteById" parameterType="java.lang.Long">
 		delete from t_classes
-		where classes_id = #{classesId,jdbcType=BIGINT}
+		where classes_id = #{classesId}
 	</delete>
 
 	<delete id="deleteByIds" parameterType="java.util.List">
@@ -56,9 +80,9 @@
 		keyProperty="classes_id">
 		insert into t_classes (classes_id, classes_name, year,
 		school_id)
-		values (#{classesId,jdbcType=BIGINT}, #{classesName,jdbcType=VARCHAR},
-		#{year,jdbcType=VARCHAR},
-		#{schoolId,jdbcType=BIGINT})
+		values (#{classesId}, #{classesName},
+		#{year},
+		#{schoolId})
 	</insert>
 
 	<insert id="insertSelective" parameterType="Classes"
@@ -80,16 +104,16 @@
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="classesId != null">
-				#{classesId,jdbcType=BIGINT},
+				#{classesId},
 			</if>
 			<if test="classesName != null">
-				#{classesName,jdbcType=VARCHAR},
+				#{classesName},
 			</if>
 			<if test="year != null">
-				#{year,jdbcType=VARCHAR},
+				#{year},
 			</if>
 			<if test="schoolId != null">
-				#{schoolId,jdbcType=BIGINT},
+				#{schoolId},
 			</if>
 		</trim>
 	</insert>
@@ -98,23 +122,23 @@
 		update t_classes
 		<set>
 			<if test="classesName != null">
-				classes_name = #{classesName,jdbcType=VARCHAR},
+				classes_name = #{classesName},
 			</if>
 			<if test="year != null">
-				year = #{year,jdbcType=VARCHAR},
+				year = #{year},
 			</if>
 			<if test="schoolId != null">
-				school_id = #{schoolId,jdbcType=BIGINT},
+				school_id = #{schoolId},
 			</if>
 		</set>
-		where classes_id = #{classesId,jdbcType=BIGINT}
+		where classes_id = #{classesId}
 	</update>
 
 	<update id="updateById" parameterType="Classes">
 		update t_classes
-		set classes_name = #{classesName,jdbcType=VARCHAR},
-		year = #{year,jdbcType=VARCHAR},
-		school_id = #{schoolId,jdbcType=BIGINT}
-		where classes_id = #{classesId,jdbcType=BIGINT}
+		set classes_name = #{classesName},
+		year = #{year},
+		school_id = #{schoolId}
+		where classes_id = #{classesId}
 	</update>
 </mapper>
