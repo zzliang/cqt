@@ -2,20 +2,20 @@
 <div class="navbar navbar-inverse">
 		  <div class="navbar-inner">
 		   <div class="container-fluid">
-			  <a class="brand"><small><i class="icon-leaf"></i> ${pd.SYSNAME}</small> </a>
+			  <a class="brand" style=" display: inline-block;background: #5db26c; height: 50px; margin: 15px 20px;"><small style="color:#fff;"><i class="icon-leaf"></i> ${pd.SYSNAME}</small> </a>
 			  
-			  <ul class="nav ace-nav pull-right">
+			  <ul class="nav ace-nav pull-right" style="background: #fff; height: 50px; margin: 15px 20px;">
 		
 					
 					
-					<li class="purple" onclick="creatw();">
+					<li class="" onclick="creatw();">
 						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-bell-alt icon-animated-bell icon-only"></i>
 						</a>
 					</li>
 					
 					
-					<li class="light-blue user-profile">
+					<li class="user-profile">
 						<a class="user-menu dropdown-toggle" href="javascript:;" data-toggle="dropdown">
 							<img alt="CQT" src="static/avatars/user.jpg" class="nav-user-photo" />
 							<span id="user_info"></span>

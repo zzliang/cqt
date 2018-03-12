@@ -34,7 +34,7 @@
 				
 				<thead>
 					<tr>
-						<th></th>
+						<th><label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label></th>
 						<th>序号</th>
 						<th>班级名称</th>
 						<th>班级年份</th>
@@ -137,8 +137,8 @@
 				}
 				diag.close();
 			 };
+			 //windows.location.href='<%=basePath%>classes/goAddClasses.do';
 			 diag.show();
-			 <%-- windows.location.href='<%=basePath%>classes/goAddClasses.do'; --%>
 		}
 		
 		//查看详情

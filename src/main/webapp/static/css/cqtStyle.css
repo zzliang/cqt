@@ -1,0 +1,1113 @@
+html,body{
+	width: 100%;
+	font-family:"Microsoft YaHei",Helvetica;
+	color: #4b4b4b;
+	background: #fff;
+	height: 100%;
+}
+*{margin: 0;padding: 0;border: 0;font:12px/1.5 Microsoft Yahei,sans-serif; word-wrap:break-word;}
+.textL {
+	text-align: left !important;
+}
+.textR {
+	text-align: right !important;
+}
+.textC {
+	text-align: center !important;
+}
+.z {
+	float: left;
+}
+.y {
+	float: right;
+}
+.block {
+	display: block;
+}
+.fNone {
+	float: none !important;
+}
+.boxsizing {
+	box-sizing: border-box;
+}
+.borNone {
+	border: none;
+}
+.borB_none {
+	border-bottom: none !important;
+}
+.cl:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+.cl{zoom:1;}
+.paddingB0 {
+	padding-bottom: 0 !important;
+}
+p { margin: 0;}
+label { margin-bottom: 0;}
+.icon-bell-alt:before { color:#5db26c;}
+#main-container { width: auto; margin: 0 auto;}
+.navbar-inverse .navbar-inner { height: 80px; background: #fff; border-bottom:2px solid #e0e0e0;}
+.icon-caret-down:before { color:#999;}
+.ace-nav>li { background:#fff; border: none;}
+.navbar-inverse .brand, .navbar-inverse .navbar-text, .navbar-inverse .navbar-link, .navbar-inverse .brand, .navbar-inverse .nav>li>a { color:#888;}
+.navbar-inverse .brand, .navbar-inverse .navbar-text, .navbar-inverse .navbar-link, .navbar-inverse .brand, .navbar-inverse .nav>li>a:hover { color: #888;}
+a:hover { text-decoration: none;}
+#sidebar:before { border: none;}
+.benma_ui_tab { width: 100%;}
+#nav-search-input { border-color: #d1d1d1; height:32px !important; border-radius:3px !important; box-sizing: border-box; width: 180px;}
+.icon-search:before { color: #999;}
+#nav-search-icon { line-height: 28px;}
+.pagination ul>li>a, .pager>li>a { color: #5db26c;}
+.benma_ui_tab .tab_hr { background-color: #5db26c !important;}
+
+
+
+.com-box {
+	text-align: center;
+	padding: 60px 0;
+}
+.wrapper {
+	width: 100%;
+	max-width: 1920px;
+	margin: 0 auto;
+}
+.wrap {
+	width: 1300px !important;
+	margin: 0 auto;
+}
+.loginBg {
+	background: #f3f3f3;
+	width: 100%;
+	height: 100%;
+}
+.fullW {
+	width: 100%;
+}
+.lessW {
+	width: 1100px;
+	margin: 0 auto;
+}
+.cover {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #ececec;
+	opacity: 0.8;
+	z-index: 22;
+	display: none;
+}
+/*弹窗*/
+.comAlert {
+	position: fixed;
+	top: 20%;
+	left: 50%;
+	margin-left: -240px;
+	z-index: 23;
+	width: 440px;
+	box-shadow: 0 0 5px #ddd;
+	padding: 10px 20px;
+	background: #fff;
+	display: none;
+}
+.alertTit {
+	text-align: left;
+	color: #555;
+	font-size: 14px;
+	padding: 5px 0;
+}
+.alertList li {
+	display: block;
+	padding: 10px 0;
+}
+.alertList_l {
+	float: left;
+	width: 70px;
+	padding-right: 10px;
+	text-align: left;
+	color: #4b4b4b;
+	font-size: 12px;
+	line-height: 32px;
+}
+.alertList_r {
+	float: left;
+	max-width: 360px;
+}
+.alertList li .checkbox-holder .radiobox span.radio-word {
+	width: 50px;
+}
+.alertList li .checkbox-holder .radiobox {
+	padding: 8px 0 4px 0;
+}
+.aloneOpe {
+	padding: 0 !important;
+	line-height: 20px !important;
+}
+.comAlert .btnBox {
+	padding: 15px 0 20px 0;
+}
+
+.alertTitBox {
+	position: relative;
+	text-align: center;
+	height: 56px;
+}
+.alertTitBox .alertTit {
+	font-size: 14px;
+	color: #b6b6b6;
+	line-height: 36px;
+	border-bottom: 1px solid #ececec;
+	text-align: center;
+}
+.alertClose {
+	position: absolute;
+	top: 3px;
+	right: -53px;
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	background: url(../images/close.png) no-repeat center center;
+	background-size: 100% 100%;
+	cursor: pointer;
+}
+.alertCon {
+	padding: 15px 20px 10px 20px;
+}
+.alertAsk {
+	color: #555;
+	font-size: 14px;
+	text-align: left;
+	font-weight: normal;
+}
+.alertTip {
+	color: #b6b6b6;
+	padding: 10px 0;
+}
+.comAlert .btnBoxC {
+	text-align: center;
+}
+.comAlert .btnBoxC .comBtn {
+	margin: 0 5px;
+}
+
+
+
+
+/*index start*/
+.totalNum {
+	padding: 20px 14px;
+	color: #555;
+	text-align: left;
+}
+.comTable {
+	width: 100%;
+	border-collapse: collapse;
+	border-top: 1px solid #eeecec;
+}
+.comTable tr {
+	border-bottom: 1px solid #eeecec;
+}
+.comTable tr th {
+	color: #8ca76c;
+}
+.comTable tr td,.comTable tr th {
+	border-left: 1px solid #eeecec;
+}
+.comTable tr th,.comTable tr td {
+	height: 32px;
+	line-height: 32px;
+	text-align: left;
+	padding: 0 10px;
+	vertical-align: middle;
+}
+.comTable tbody tr:nth-child(even) {
+	background: #f7fcfa;
+}
+.comTable tbody tr:nth-child(odd) {
+	background: #fff;
+}
+.comTable tbody tr td:first-child,.comTable thead tr th:first-child {
+	border-left: none;
+}
+.comTable tr td.textC {
+	text-align: center;
+}
+.tipIcon {
+	display: inline-block;
+	width: 16px;
+    height: 16px;
+    margin-left: 10px;
+    background: url(../images/tip.png) no-repeat center center;
+    background-size: 100% 100%;
+    position: relative;
+    top: 5px;
+}
+.tip-remind {
+	position:absolute; 
+	text-align: center;
+	padding: 14px;
+	background: #fff;
+	color: #4b4b4b;
+	height:auto; 
+	display: block;
+    z-index: 1011;
+    max-width: 200px;
+    word-break: break-word;
+    -webkit-box-shadow:0 0 7px #ccc;  
+    -moz-box-shadow:0 0 7px #ccc;    
+    -o--webkit-box-shadow:0 0 7px #ccc;
+    -ms--webkit-box-shadow:0 0 7px #ccc;
+    box-shadow:0 0 7px #ccc; 
+    border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+.tipTit {
+	text-align: left;
+	padding-bottom: 10px;
+	font-weight: bold;
+}
+.tipCon {
+	color: #4b4b4b;
+	line-height: 22px;
+	text-align: left;
+}
+
+/*index end*/
+
+/*TimetableQuery start*/
+.comTit {
+	padding: 14px 0;
+	font-weight: bold;
+	font-size: 14px;
+	border-bottom: 1px solid #dadada;
+	color: #555;
+}
+.comTit>a {
+	font-size: 14px;
+	display: block;
+	color: #5555;
+	font-weight: bold;
+}
+.seleConBox {
+	/*margin-bottom: 8px;*/
+	padding-bottom: 8px;
+}
+.seleTit {
+	line-height: 34px;
+	padding-right: 12px;
+	/*padding-left: 18px;*/
+	font-size: 14px;
+	/*min-width: 56px;*/
+}
+.rightCon {
+	font-size: 14px;
+	color: #4b4b4b;
+	line-height: 20px;
+	padding: 6px 0;
+	float: left;
+	max-width: 750px;
+	padding-right: 40px;
+}
+.rightCon span {
+	font-size: 14px;
+	color: #4b4b4b;
+}
+.seleBox {
+	position: relative;
+	margin-right: 22px;
+}
+.seleCon {
+	position: relative;
+	z-index: 3;
+	width: 178px;
+	height: 32px;
+	border: 1px solid #d1d1d1;
+	border-radius: 3px;
+	overflow: hidden;
+}
+.seleInp {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 158px;
+	height: 32px;
+	z-index: 4;
+	background: transparent;
+	border: none;
+	padding: 0 10px;
+	font-size: 12px;
+	color: #555;
+}
+.seleJt {
+	position: absolute;
+	right: 12px;
+	top: 13px;
+	z-index: 5;
+	display: inline-block;
+	width: 8px;
+	height: 6px;
+	background: url(../images/navJt.png) no-repeat center center;
+	cursor: pointer;
+}
+.seleDownBox {
+	position: absolute;
+	top: 34px;
+	left: 0;
+	z-index: 10;
+	min-width: 100%;
+	width: auto;
+	box-shadow: 0 0 8px #ccc;
+	background: #fff;
+	display: none;
+}
+.seleDownTit {
+	background: #e1fae6;
+	padding-left: 10px;
+	color: #5db26c;
+	height: 34px;
+	line-height: 34px;
+}
+.seleList {
+}
+.seleList li {
+	line-height: 34px;
+	padding-left: 10px;
+	color: #888;
+	cursor: pointer;
+}
+.seleList li:hover {
+	background: #f2fcf4;
+}
+.classTime {
+	line-height: 14px;
+	padding: 10px 0;
+}
+.searchBox {
+	height: 34px;
+}
+.serPosi {
+	position: relative;
+	width: 202px;
+	height: 34px;
+}
+.serInp {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 194px;
+	padding-left: 6px;
+	border: 1px solid #d1d1d1;
+	border-radius: 3px;
+	height: 32px;
+	line-height: 32px;
+	line-height: 32px;
+	font-size: 12px;
+	color: #3b3b3b;
+	z-index: 3;
+	background: transparent;
+	
+}
+.serInp::-webkit-input-placeholder { /* WebKit browsers */
+　　  color:#999999;
+}
+.serInp:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+　　  color:#999999;
+}
+.serInp::-moz-placeholder { /* Mozilla Firefox 19+ */
+　　  color:#999999;
+}
+.serInp:-ms-input-placeholder { /* Internet Explorer 10+ */
+　　  color:#999999;
+}
+.serIcon {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	z-index: 4;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+}
+.btnBox {
+	padding: 24px 0;
+}
+
+.comBtn {
+	display: inline-block;
+	height: 36px;
+	line-height: 36px;
+	border: none;
+	font-size: 14px;
+	border-radius: 3px;
+	background: #5db26c;
+	color: #fff;
+	margin-right: 12px;
+	width: 110px;
+	text-align: center;
+}
+.comCancelBtn {
+	background: #e5e5e5;
+	color: #aaa;
+}
+.comBtn:hover { color: #fff;}
+.btnWAuto {
+	width: auto;
+	padding: 0 20px;
+	height: 34px;
+	line-height: 34px;
+	margin: 0 10px;
+	
+}
+.waitPlane {
+	
+}
+
+/*单选/多选按钮样式开始*/
+/*.button-holder .regular-radio,.checkbox-holder .regular-radio {
+	display: none;
+}*/
+.regular-radio {
+	display: none;
+}
+.radiobox label{
+	margin-right: 6px;
+	position: relative;
+	top: 3px;
+}
+.regular-radio + label {
+	-webkit-appearance: none;
+	background: url(../images/radio_normal.png) no-repeat;
+	background-size: 100% 100%;
+	width: 13px;
+	height: 13px;
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+	border: none;
+}
+.regular-radio:checked + label:after {
+	content: ' ';
+	width: 13px;
+	height: 13px;
+	border-radius: 50px;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	background: url(../images/radio_selected.png) no-repeat;
+	background-size: 100% 100%;
+	left: 0;
+	cursor: pointer;
+	border: none;
+}
+/*.radio-word-black {
+	color: #000 !important;
+}*/
+.regular-radio:checked + label {
+	color: #99a1a7;
+}
+.radiobox {
+	display: inline-block;
+}
+.checkbox-holder label{
+	margin-right: 6px;
+	position: relative;
+	top: 4px;
+}
+.checkbox-holder input.regular-radio + label {
+	-webkit-appearance: none;
+	background: url(../images/cb_normal.png) no-repeat left center;
+	background-size: 13px auto;
+	height: 16px;
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+	border: none;
+	padding: 0;
+	position: relative;
+	top: -1px;
+	padding-left: 20px;
+}
+.checkbox-holder input.regular-radio:checked + label:after {
+	content: ' ';
+	height: 16px;
+	border-radius: 0 !important;
+	overflow: visible;
+	position: absolute;
+	top: 0;
+	background: url(../images/cb_selected.png) no-repeat left center !important;
+	background-size: 13px auto;
+	left: 0;
+	cursor: pointer;
+	border: none;
+	padding: 0;
+}
+
+/*.checkbox-holder .radio-word-black {
+	color: #000 !important;
+}*/
+.checkbox-holder input.regular-radio:checked + label {
+	color: #99a1a7;
+}
+.checkbox-holder .radiobox {
+	display: inline-block;
+	margin-right: 0;
+}
+.powers-tdcheck {
+	padding: 0 !important;
+	text-align: center !important;
+}
+.powers-checkbox input.regular-radio + label,.powers-tdcheck input.regular-radio + label {
+	top: 3px !important;
+}
+.checkbox-holder .radiobox span.radio-word {
+    line-height: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-word;
+    min-width: 40px;
+    display: inline-block;
+}
+
+
+.timeInp {
+	width: 118px;
+	height: 32px;
+	z-index: 6;
+	background: transparent;
+	border: 1px solid #dedede;
+	padding: 0 10px;
+	font-size: 12px;
+	color: #555;
+	cursor: pointer;
+	margin: 0 15px;
+}
+.timeInp:focus {
+	border-color: #afc2ec;
+}
+.setOpera {
+	color: #008ed2;
+	padding: 0 9px;
+	line-height: 34px;
+	font-size: 12px;
+	display: inline-block !important;
+}
+.w60 {
+	width: 60px;
+}
+
+.contentHolder { position:relative; margin:0px auto; padding:0px; width: 1000px; max-height: 270px; overflow: hidden; }
+.contentHolder .content { min-width: 1300px; height: auto; }
+.scrollTable {
+	width: auto;
+}
+.paddingT12 {
+	padding-top: 12px;
+}
+.pageBox {
+	padding: 20px 0;
+	text-align: center;
+}
+.pageList {
+	display: inline-block;
+}
+.pageList li {
+	float: left;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 3px;
+	background: #f5f5f7;
+	margin: 0 12px;
+}
+.pageList li a {
+	padding: 0 18px;
+	display: block;
+	color: #555;
+	line-height: 40px;
+}
+.pageList li.pageActive {
+	background: #fff;
+}
+.borBtn {
+	border: 1px solid #008ED2;
+	background: #fff;
+	height: 32px;
+	line-height: 32px;
+	color: #008ED2;
+}
+
+
+/*14,18 start*/
+.dataBox {
+	border-bottom: 1px solid #dadada;
+}
+.dataList {
+	overflow: hidden;
+	zoom: 1;
+	border-bottom: 1px solid #f0eeee;
+}
+.dataList:last-child {
+	border-bottom: none;
+}
+.dataL {
+	margin: 7px 0;
+	font-size: 12px;
+	color: #9da1c4;
+	height: 36px;
+	line-height: 36px;
+	text-align: left;
+	float: left;
+	width: 130px;
+	border-right: 1px solid #f0eeee;
+}
+.dataR {
+	float: left;
+}
+.dataRcon {
+	padding-top: 7px;
+	padding-bottom: 7px;
+	padding-left: 15px;
+	/*margin-bottom: 12px;*/
+	font-size: 14px;
+	color: #555;
+	/*height: 36px;*/
+	line-height: 36px;
+	max-width: 840px;
+}
+.dataRBor {
+	
+	/*border-left: 1px solid #f0eeee;*/
+}
+
+.dataRcon span {
+	line-height: 36px;
+	font-size: 14px;
+	color: #555;
+}
+.dataRcon a {
+	display: block;
+	line-height: 36px;
+}
+.dataBtnBox {
+	padding: 30px 0 20px 150px;
+}
+.dataRcon .checkbox-holder .radiobox,.dataRcon .button-holder .radiobox {
+	height: 36px;
+	float: left;
+	padding-right: 10px;
+}
+.dataRcon .checkbox-holder,.dataRcon .button-holder {
+	overflow: hidden;
+	zoom: 1;
+}
+.dataRcon .checkbox-holder,.dataRcon .button-holder,.dataRcon .radiobox,.dataRcon .checkbox-holder .radiobox span.radio-word,.dataRcon .button-holder .radiobox span.radio-word  {
+	line-height: 36px;
+	/*height: 36px;*/
+}
+.dataRcon .checkbox-holder input.regular-radio + label {
+	position: relative;
+	top: -10px;
+}
+.chooseCourse .checkbox-holder .radiobox span.radio-word {
+	width: 130px;
+}
+/*.dataChoList {
+	overflow: hidden;
+	zoom: 1;
+	padding: 14px 5px 10px 5px;
+	border-bottom: 1px solid #dadada;
+}
+.dataChoList li {
+	float: left;
+	margin: 0 5px;
+}
+.dataChoList li a {
+	display: block;
+	padding: 6px 15px;
+	font-size: 14px;
+}
+.dataChoList li.dataActive {
+	background: #008ed2;
+	border-radius: 3px;
+}
+.dataChoList li.dataActive a {
+	color: #fff;
+}*/
+.visible {
+	overflow: visible;
+}
+.fixedNav {
+	/*position: fixed;
+	top: 50px;*/
+	width: 180px;
+	/*display: none;*/
+	float: left;
+}
+.fixedNavList {
+	/*border-top: 1px solid #f0efef;*/
+	width: 100%;
+	padding-top: 10px;
+}
+.fixedNavList li {
+	display: block;
+	text-align: left;
+}
+.fixedNavList li a {
+	color: #4b4b4b;
+	display: block;
+	width: 100%;
+	height: 35px;
+	line-height: 35px;
+}
+.sNavList {
+	display: block;
+}
+.sNavList li a {
+	padding-left: 15px;
+	box-sizing: border-box;
+}
+.fixedNavList .sNavActive>a {
+	color: #5db26c;
+	font-weight: 600;
+}
+.fixedNavList>li{
+	border-bottom: 1px solid #f0efef;
+	padding: 5px 0;
+}
+.fixedNavList>li>a {
+	position: relative;
+	font-weight: 600;
+}
+.navJt {
+	position: absolute;
+	top: 13px;
+	right: 10px;
+	display: inline-block;
+	width: 9px;
+	height: 6px;
+	background: url(../images/navJt2.png) no-repeat center center;
+	background-size: 9px 6px;
+	-webkit-transition: -webkit-transform 0.2s ease-in;
+    -moz-transition: -moz-transform 0.2s ease-in;
+    -o-transition: -o-transform 0.2s ease-in;
+    -ms-transition: -ms-transform 0.2s ease-in;
+}
+.JtActive {
+    -webkit-transform: rotateZ(180deg);
+    -moz-transform: rotateZ(180deg);
+    -o-transform: rotateZ(180deg);
+    -ms-transform: rotateZ(180deg);
+    transform: rotateZ(180deg);
+}
+.btnTbox { text-align: center;}
+.chaTbtn {
+	display: inline-block;
+	margin: 0 5px;
+	height: 18px;
+	line-height: 16px;
+	color: #c6b317;
+	font-size: 12px;
+	border: 1px solid #c6b317;
+	border-radius: 3px;
+	padding: 0 5px;
+	box-sizing: border-box;
+}
+.deTbtn {
+	display: inline-block;
+	height: 18px;
+	margin: 0 5px;
+	line-height: 16px;
+	color: #f64c64;
+	font-size: 12px;
+	border: 1px solid #f64c64;
+	border-radius: 3px;
+	padding: 0 5px;
+	box-sizing: border-box;
+}
+.subTit {
+	border-bottom: 1px solid #dadada;
+	padding: 15px 0 10px 0;
+}
+.waitPlane .seleBox {
+	padding-bottom: 12px;
+}
+.seleW90 .seleCon {
+	width: 88px;
+}
+.seleW90 .seleInp {
+	width: 68px;
+}
+/*.seleW90 .seleDownBox {
+	width: 90px;
+}*/
+.seleW120 .seleCon {
+	width: 118px;
+}
+.seleW120 .seleInp {
+	width: 98px;
+}
+/*.seleW120 .seleDownBox {
+	width: 120px;
+}*/
+.seleW150 .seleCon {
+	width: 148px;
+}
+.seleW150 .seleInp {
+	width: 128px;
+}
+/*.seleW150 .seleDownBox {
+	width: 150px;
+}*/
+.marR0 {
+	margin-right: 0;
+}
+.marB0 {
+	margin-bottom: 0;
+}
+.tabAddBtn {
+	display: inline-block;
+	width: 34px;
+	height: 34px;
+	background: url(../images/add.png) no-repeat center center;
+	background-size: 100% 100%;
+}
+.w120 { width: 120px;}
+.padR0 { padding-right: 0;}
+.tdGap tr td { padding: 5px 10px;}
+.checkBlock .checkbox-holder .radiobox, .checkBlock .button-holder .radiobox {
+	float: none;
+	display: block;
+}
+.checkBlock .checkbox-holder .radiobox span.radio-word,.checkBlock .button-holder .radiobox span.radio-word {
+	width: auto;
+}
+.choWay {
+	padding-left: 10px;
+}
+.dataWord { line-height: 36px;}
+.w150 { width: 150px;}
+.padL10 { padding-left: 10px;}
+.btnWAuto2 {
+	width: auto;
+    padding: 0 20px;
+    height: 34px;
+    line-height: 34px;
+    margin: 0 10px 0 0;
+}
+.padL5 {
+	padding-left: 5px;
+}
+.SeleGap .seleBox {
+	margin: 0 10px;
+}
+.SeleGap .setOpera {
+	position: relative;
+	top: 1px;
+}
+.w90 { width: 90px;}
+.dataRcon .dataTip {
+	line-height: 36px;
+	font-size: 12px;
+	color: #888;
+}
+.marL0 { margin-left: 0;}
+.w130 { width: 130px;}
+.SeleGap .marL0 { margin-left: 0;}
+.posiR16 {
+	position: relative;
+	top: 16px;
+}
+.comTable tr td.padLR0 { padding: 0;}
+.tdList li {
+	line-height: 32px;
+	border-bottom: 1px solid #eeecec;
+}
+.tdList li a {
+	padding: 0 10px;
+}
+.tdList li:last-child {
+	border: none;
+}
+.perNum {
+	width: 120px;
+}
+.perNumInpBox {
+	display: none;
+	width: 120px;
+}
+.perNumInp {
+	width: 50px;
+	height: 26px;
+	padding: 0 10px;
+	border: 1px solid #dbdbdb;
+}
+.padR10 { padding-right: 10px;}
+.padT25 { padding-top: 25px;}
+.printTit {
+	text-align: center;
+	font-size: 16px;
+	color: #2d2d2d;
+	padding: 30px 0 40px 0;
+	font-weight: 600;
+}
+.printTable {
+	margin: 0 auto 40px auto;
+}
+.printTable tr td {
+	background: #fff;
+	border:1px solid #ddd;
+	height: 30px;
+	text-align: center;
+	vertical-align: middle;
+}
+.printTip {
+	padding: 10px;
+	text-align: left;
+}
+.printTip p {
+	text-indent: 24px;
+	line-height: 24px;
+	padding: 10px 0;
+	font-size: 14px;
+}
+.liBorNone {
+	border-bottom: 1px solid #f0efef;
+}
+.liBorNone>li {
+	border-color: transparent;
+}
+.schedule td {
+	color: #9da1c4;
+}
+.scheTit {
+	width: 600px;
+	margin: 0 auto;
+	text-align: left;
+	padding: 0 0 15px 0;
+}
+.printTable tr td.tdTextL {
+	text-align: left;
+	padding: 0 10px;
+}
+.schoolTip {
+	width: 800px;
+	margin: 0 auto;
+}
+.schoolTip p {
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 32px;
+}
+.padT50 { padding-top: 50px !important;}
+.printFoot {
+	margin: 0 auto;
+	padding: 40px 0;
+	max-width: 1000px;
+}
+.footDet {
+	width: 44%;
+	padding: 0 3%;
+}
+.footDet p {
+	text-align: left;
+	line-height: 26px;
+	color: #666;
+}
+.footHref {
+	color: #008ED2;
+	padding-right: 20px;
+}
+.printTop {
+	padding: 25px 0 10px 0;
+	border-bottom: 1px solid #dadada;
+}
+.scheBox {}
+.scheChild {
+	width: 50%;
+}
+.scheTable {
+	width: 98%;
+	margin: 0 1%;
+}
+.meaningBox {
+	padding: 30px 1%;
+}
+.meanImg {
+	display: block;
+	width: 100%;
+}
+.printW {
+	padding: 10px 5% 30px 5%;
+}
+.padB20 {
+	padding-bottom: 20px;
+}
+.padLR10 {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.printDet {
+	padding: 15px 10px;
+	text-align: right;
+}
+.printDet span {
+	font-size: 14px;
+}
+.spanW100 {
+	display: inline-block;
+	width: 100px;
+}
+.printDet2 {
+	padding: 0 6%;
+}
+.scoreData .timeInp {
+	margin: 0;
+	width: 158px;
+}
+.scoreWord {
+	padding-right: 10px;
+	width: 140px;
+	text-align: right;
+}
+.seleActive {
+	background: #f2f6ff;
+}
+.w170 { 
+	width: 170px;
+}
+.scoreInp {
+	
+}
+.w30 {
+	width: 30px;
+}
+
+.tabDiv {
+	display: block;
+	line-height: 22px;
+}
+
+
+
+
+.comTable tr th .checkbox-holder,.comTable tr td .checkbox-holde { height: 30px;}
+.comTable tr th .radiobox input.regular-radio + label,.comTable tr td .radiobox input.regular-radio + label { height: 30px; line-height: 30px;}
+.comTable tr th .radiobox span.radio-word,.comTable tr td .radiobox span.radio-word { line-height: 30px; height: 30px;}
+.comTable tr td.moTd { text-align: center; padding: 6px 10px;}
+.comTable tr th .checkbox-holder input.regular-radio:checked + label:after,.comTable tr td .checkbox-holder input.regular-radio:checked + label:after { height: 30px;}
+
+
+
+
+
+
+
+
+
+
+
+
+

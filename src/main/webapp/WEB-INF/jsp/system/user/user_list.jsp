@@ -369,17 +369,17 @@
 			});
 		});
 		
-		<%-- //导出excel
-		function toExcel(){
+		//导出excel
+		<%-- function toExcel(){
 			var USERNAME = $("#nav-search-input").val();
 			var lastLoginStart = $("#lastLoginStart").val();
 			var lastLoginEnd = $("#lastLoginEnd").val();
 			var ROLE_ID = $("#role_id").val();
 			window.location.href='<%=basePath%>user/excel.do?USERNAME='+USERNAME+'&lastLoginStart='+lastLoginStart+'&lastLoginEnd='+lastLoginEnd+'&ROLE_ID='+ROLE_ID;
-		}
+		} --%>
 		
 		//打开上传excel页面
-		function fromExcel(){
+		<%-- function fromExcel(){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
@@ -424,7 +424,7 @@
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('cqtwindow').style.display == 'none'){
-					 <%-- window.location.href='<%=basePath%>courseSchedule/goOpertorCourseSchedule.do'; --%>
+					//window.location.href='<%=basePath%>courseSchedule/goOpertorCourseSchedule.do';
 				}
 				diag.close();
 			 };

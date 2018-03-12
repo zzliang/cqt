@@ -24,13 +24,13 @@ var locat = (window.location+'').split('/');
 
 		$(function(){
 			//换肤
-			$("#skin-colorpicker").ace_colorpicker().on("change",function(){
-				var b=$(this).find("option:selected").data("class");
-				hf(b);
-				var url = locat+'/head/setSKIN.do?skin='+b+'&tm='+new Date().getTime();
-				$.get(url,function(data){});
-			
-			});
+//			$("#skin-colorpicker").ace_colorpicker().on("change",function(){
+//				var b=$(this).find("option:selected").data("class");
+//				hf(b);
+//				var url = locat+'/head/setSKIN.do?skin='+b+'&tm='+new Date().getTime();
+//				$.get(url,function(data){});
+//			
+//			});
 		});
 
 		var _userId;

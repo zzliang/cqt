@@ -21,3 +21,6 @@
 	<script type="text/javascript" src="plugins/attention/zDialog/zDialog.js"></script>
 	<!--引入弹窗组件end-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+	<link rel="stylesheet" href="static/css/cqtStyle.css" />
+	<script type="text/javascript" src="static/js/common.js"></script>
+	

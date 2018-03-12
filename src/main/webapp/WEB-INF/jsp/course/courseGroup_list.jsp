@@ -19,20 +19,31 @@
 				<div class="row-fluid">
 					<form action="courseGroup/list.do" name="courseGroupForm" id="courseGroupForm" method="post">
 						<!-- 检索  -->
-						<table>
+						<table class="comTable">
 							<tr>
 								<td><span class="input-icon"> <input autocomplete="off" id="nav-search-input" type="text" name="KEYWORD" value="${pd.KEYWORD }" placeholder="这里输入关键词" /> <i id="nav-search-icon"
 										class="icon-search"></i>
 								</span></td>
 							</tr>
 						</table>
-						<table id="table_report" class="table table-striped table-bordered table-hover">
+						<table id="table_report" class="comTable">
 							<thead>
 								<tr>
-									<th></th>
-									<th>序号</th>
-									<th>课程组</th>
+									<th width="50"></th>
+									<th width="80">
+										<div class="checkbox-holder">
+											<p class="radiobox">
+												<input type="checkbox" id="selAll" name="selAll" onclick="CheckedAll()"  class="regular-radio">
+												<label for="selAll">
+													<span class="radio-word">全选</span>
+												</label>
+											</p>
+										</div>
+									</th>
+									<th width="80">序号</th>
+									<th width="500">课程组</th>
 									<th class="center">操作</th>
+									<th width="50"></th>
 								</tr>
 							</thead>
 
@@ -42,17 +53,27 @@
 									<c:when test="${not empty courseGroupList}">
 										<c:forEach items="${courseGroupList}" var="courseGroup" varStatus="vs">
 											<tr>
-												<td class='center' style="width: 30px;"><label><input type='checkbox' name='ids' value="${courseGroup.courseGroupId }" /><span class="lbl"></span></label></td>
+												<td></td>
+												<td class='center' style="width: 30px;">
+												<div class="checkbox-holder">
+													<p class="radiobox">
+														<input type="checkbox" id="radio-2-a" name="radio-1-set" onclick="setSelectAll();" class="regular-radio">
+														<label for="radio-2-a">
+														</label>
+													</p>
+												</div>
+												</td>
 												<td class='center' style="width: 30px;">${vs.index+1}</td>
 												<%-- <td><a href="javascript:void(0);" onclick="editCourseGroup('${courseGroup.courseGroupId}');" title="编辑">${course.courseGroup.courseGroupName }</a></td> --%>
 												<%-- <td><a href="javascript:void(0);" onclick="viewCourse('${course.courseId }');" title="查看">${course.courseName }</a></td> --%>
 												<td>${courseGroup.courseGroupName }</td>
 												<td style="width: 60px;">
 													<div class='hidden-phone visible-desktop btn-group'>
-														<a class='btn btn-mini btn-info' title="编辑" onclick="editCourseGroup('${courseGroup.courseGroupId }');"><i class='icon-edit'></i></a> 
-														<a class='btn btn-mini btn-danger' title="删除" onclick="delCourseGroup('${courseGroup.courseGroupId }','${courseGroup.courseGroupName }');"><i class='icon-trash'></i></a>
+														<a class='chaTbtn' title="编辑" onclick="editCourseGroup('${courseGroup.courseGroupId }');">修改</a> 
+														<a class='deTbtn' title="删除" onclick="delCourseGroup('${courseGroup.courseGroupId }','${courseGroup.courseGroupName }');">删除</a>
 													</div>
 												</td>
+												<td></td>
 											</tr>
 										</c:forEach>
 									</c:when>
@@ -66,15 +87,14 @@
 						</table>
 
 						<div class="page-header position-relative">
-							<table style="width: 100%;">
-								<tr>
-									<td style="vertical-align: top;">
-										<a class="btn btn-small btn-success" onclick="addCourseGroup();">新增课程组</a>
-										<a title="批量删除" class="btn btn-small btn-danger" onclick="delAll('确定要删除选中的数据吗?');"><i class='icon-trash'></i></a>
-									</td>
-									<td style="vertical-align: top;"><div class="pagination" style="float: right; padding-top: 0px; margin-top: 0px;">${page.pageStr}</div></td>
-								</tr>
-							</table>
+							
+							<div class="btnBox">
+								<a href="#" class="comBtn" onclick="addCourseGroup();">新增课程组</a>
+								<a href="#" class="comBtn" onclick="delAll('确定要删除选中的数据吗?');">批量删除</a>
+							</div>
+							
+							<td style="vertical-align: top;"><div class="pagination" style="float: right; padding-top: 0px; margin-top: 0px;">${page.pageStr}</div></td>
+								
 						</div>
 					</form>
 				</div>
@@ -211,18 +231,51 @@
 	</script>
 
 	<script type="text/javascript">
-	$(function() {
-		//复选框
-		$('table th input:checkbox').on('click',function() {
-			var that = this;
-			$(this).closest('table').find('tr > td:first-child input:checkbox').each(
-				function() {
-					this.checked = that.checked;
-					$(this).closest('tr').toggleClass('selected');
-				});
-		});
-	});
+	
 	</script>
+	
+	<script type="text/javascript">
+			function CheckedAll(){
+				var obj=document.getElementsByName("radio-1-set"); 
+				if(document.getElementById("selAll").checked == false){
+					for(var i = 0; i<obj.length;i++){
+						obj[i].checked=false; 
+
+					}
+				}
+				else{
+					for(var i=0; i<obj.length; i++) 
+					{	  
+						obj[i].checked=true; 
+					}	
+				}
+			}
+			//当选中所有的时候，全选按钮会勾上 
+			function setSelectAll() 
+			{ 
+				var obj=document.getElementsByName("radio-1-set"); 
+				var count = obj.length; 
+				var selectCount = 0; 
+
+				for(var i = 0; i < count; i++) 
+				{ 
+					if(obj[i].checked == true) 
+					{ 
+						selectCount++;	
+					} 
+				} 
+				if(count == selectCount) 
+				{	
+					document.all.selAll.checked = true; 
+				} 
+				else 
+				{ 
+					document.all.selAll.checked = false; 
+				} 
+			}
+		</script>
+	
+	
 </body>
 </html>
 

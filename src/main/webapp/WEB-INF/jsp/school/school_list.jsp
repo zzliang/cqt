@@ -34,7 +34,7 @@
 
 							<thead>
 								<tr>
-									<th></th>
+									<th class="center"><label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label></th>
 									<th>序号</th>
 									<th>编码</th>
 									<th>学校名称</th>
@@ -94,7 +94,7 @@
 								<tr>
 									<td style="vertical-align: top;">
 										<a class="btn btn-small btn-success" onclick="addSchool();">新增</a>
-										<a title="批量删除" class="btn btn-small btn-danger" onclick="delAll('确定要删除选中的数据吗?');"><iclass='icon-trash'></i></a>
+										<a title="批量删除" class="btn btn-small btn-danger" onclick="delAll('确定要删除选中的数据吗?');"><i class='icon-trash'></i></a>
 									</td>
 									<td style="vertical-align: top;"><div class="pagination" style="float: right; padding-top: 0px; margin-top: 0px;">${page.pageStr}</div></td>
 								</tr>
@@ -256,7 +256,7 @@
 
 	<script type="text/javascript">
 		$(function() {
-			//复选框
+			//复选框全选
 			$('table th input:checkbox').on('click' , function(){
 				var that = this;
 				$(this).closest('table').find('tr > td:first-child input:checkbox')
