@@ -69,7 +69,7 @@
 												<td>${courseGroup.courseGroupName }</td>
 												<td style="width: 60px;">
 													<div class='hidden-phone visible-desktop btn-group'>
-														<a class='chaTbtn' title="编辑" onclick="editCourseGroup('${courseGroup.courseGroupId }');">修改</a> 
+														<a class='chaTbtn' title="修改" onclick="editCourseGroup('${courseGroup.courseGroupId }');">修改</a> 
 														<a class='deTbtn' title="删除" onclick="delCourseGroup('${courseGroup.courseGroupId }','${courseGroup.courseGroupName }');">删除</a>
 													</div>
 												</td>
@@ -87,13 +87,11 @@
 						</table>
 
 						<div class="page-header position-relative">
-							
-							<div class="btnBox">
+							<div class="z btnBox">
 								<a href="#" class="comBtn" onclick="addCourseGroup();">新增课程组</a>
 								<a href="#" class="comBtn" onclick="delAll('确定要删除选中的数据吗?');">批量删除</a>
 							</div>
-							
-							<td style="vertical-align: top;"><div class="pagination" style="float: right; padding-top: 0px; margin-top: 0px;">${page.pageStr}</div></td>
+							<div class="y pagination" style="float: right; padding-top: 0px; margin-top: 0px;">${page.pageStr}</div>
 								
 						</div>
 					</form>

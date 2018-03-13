@@ -3,7 +3,19 @@
 		  <div class="navbar-inner">
 		   <div class="container-fluid">
 			  <a class="brand" style=" display: inline-block;background: #5db26c; height: 50px; margin: 15px 20px;"><small style="color:#fff;"><i class="icon-leaf"></i> ${pd.SYSNAME}</small> </a>
-			  
+			  <div class="y seleBox topSele">
+				<div class="seleCon">
+					<input type="text" class="seleInp" value="选择幼儿园分院" readonly="readonly"/>
+					<span class="seleJt"></span>
+				</div>
+				<div class="seleDownBox">
+					<div class="seleDownTit">选择分院</div>
+					<ul class="seleList">
+						<li>分院1</li>
+						<li>分院2</li>
+					</ul>
+				</div>
+			</div>
 			  <ul class="nav ace-nav pull-right" style="background: #fff; height: 50px; margin: 15px 20px;">
 		
 					
@@ -30,8 +42,13 @@
 						</ul>
 					</li>
 			  </ul><!--/.ace-nav-->
+			  
 		   </div><!--/.container-fluid-->
 		  </div><!--/.navbar-inner-->
+		  
+		  
+		  
+		  
 		</div><!--/.navbar-->
 	
 	

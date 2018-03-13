@@ -41,7 +41,9 @@ html,body{
 .paddingB0 {
 	padding-bottom: 0 !important;
 }
+.pagination { padding: 24px 0 !important;}
 p { margin: 0;}
+li { list-style:none;}
 label { margin-bottom: 0;}
 .icon-bell-alt:before { color:#5db26c;}
 #main-container { width: auto; margin: 0 auto;}
@@ -50,7 +52,7 @@ label { margin-bottom: 0;}
 .ace-nav>li { background:#fff; border: none;}
 .navbar-inverse .brand, .navbar-inverse .navbar-text, .navbar-inverse .navbar-link, .navbar-inverse .brand, .navbar-inverse .nav>li>a { color:#888;}
 .navbar-inverse .brand, .navbar-inverse .navbar-text, .navbar-inverse .navbar-link, .navbar-inverse .brand, .navbar-inverse .nav>li>a:hover { color: #888;}
-a:hover { text-decoration: none;}
+a:hover { text-decoration: none; cursor:pointer;}
 #sidebar:before { border: none;}
 .benma_ui_tab { width: 100%;}
 #nav-search-input { border-color: #d1d1d1; height:32px !important; border-radius:3px !important; box-sizing: border-box; width: 180px;}
@@ -58,8 +60,10 @@ a:hover { text-decoration: none;}
 #nav-search-icon { line-height: 28px;}
 .pagination ul>li>a, .pager>li>a { color: #5db26c;}
 .benma_ui_tab .tab_hr { background-color: #5db26c !important;}
-
-
+.btn-mini { height: 36px; padding: 0 30px; font-size: 14px; border-radius: 5px; color: #fff;}
+.btn-primary { background: #5db36c;}
+.btn-danger { background: #e5e5e5; color: #999;}
+.pagination .btn-mini { height: 20px;}
 
 .com-box {
 	text-align: center;
@@ -326,18 +330,19 @@ a:hover { text-decoration: none;}
 	border-radius: 3px;
 	overflow: hidden;
 }
+
 .seleInp {
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 158px;
-	height: 32px;
+	height: 32px !important;
 	z-index: 4;
-	background: transparent;
-	border: none;
-	padding: 0 10px;
-	font-size: 12px;
-	color: #555;
+	background: transparent !important;
+	border: none !important;
+	padding: 0 10px !important;
+	font-size: 12px !important;
+	color: #555 !important;
 }
 .seleJt {
 	position: absolute;
@@ -803,6 +808,7 @@ a:hover { text-decoration: none;}
     transform: rotateZ(180deg);
 }
 .btnTbox { text-align: center;}
+
 .chaTbtn {
 	display: inline-block;
 	margin: 0 5px;
@@ -1098,7 +1104,7 @@ a:hover { text-decoration: none;}
 .comTable tr th .radiobox span.radio-word,.comTable tr td .radiobox span.radio-word { line-height: 30px; height: 30px;}
 .comTable tr td.moTd { text-align: center; padding: 6px 10px;}
 .comTable tr th .checkbox-holder input.regular-radio:checked + label:after,.comTable tr td .checkbox-holder input.regular-radio:checked + label:after { height: 30px;}
-
+.topSele { margin: 25px 0;}
 
 
 
