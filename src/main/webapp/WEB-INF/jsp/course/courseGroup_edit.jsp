@@ -21,6 +21,7 @@
 		<link rel="stylesheet" href="static/css/ace.min.css" />
 		<link rel="stylesheet" href="static/css/ace-responsive.min.css" />
 		<link rel="stylesheet" href="static/css/ace-skins.min.css" />
+		<link rel="stylesheet" href="static/css/cqtStyle.css" />
 		<script type="text/javascript" src="static/js/jquery-1.9.1.min.js"></script>
 		<!--提示框-->
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
@@ -40,7 +41,17 @@
 	<form action="${action }.do" id="courseGroupForm" name="courseGroupForm" method="post">
 		<input type="hidden" id="courseGroupId" name="courseGroupId" value="${courseGroup.courseGroupId }" />
 		<div id="cqtwindow" style="margin:10px">
-		<table>
+		<div class="aleCon">
+			<div class="cl aleCbox">
+				<span class="aleLtit">课程组名称</span>
+				<input type="text" placeholder="" value="" class="aleRinp"/>
+			</div>
+		</div>
+		<div class="aleBtnBox aleBtnL">
+			<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
+			<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
+		</div>
+		<%-- <table>
 			<tr>
 				<td><label>课程组名称：</label></td>
 				<td><input type="text" id="courseGroupName" name="courseGroupName" value="${courseGroup.courseGroupName }"/></td>
@@ -49,11 +60,10 @@
 			
 			<tr>
 				<td style="text-align:center;" colspan="2">
-					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
-					<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
+					
 				</td>
 			</tr>
-		</table>
+		</table> --%>
 		</div>
 		
 		<div id="cqtwindow2" class="center" style="display:none"><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green"></h4></div>

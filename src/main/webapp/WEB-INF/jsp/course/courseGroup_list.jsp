@@ -162,8 +162,8 @@
 					 }
 				}
 				diag.close();
-			 };
-			 diag.show();
+			 }; 
+			 diag.show();		 
 		}
 		
 		

@@ -3,7 +3,6 @@ html,body{
 	font-family:"Microsoft YaHei",Helvetica;
 	color: #4b4b4b;
 	background: #fff;
-	height: 100%;
 }
 *{margin: 0;padding: 0;border: 0;font:12px/1.5 Microsoft Yahei,sans-serif; word-wrap:break-word;}
 .textL {
@@ -63,7 +62,7 @@ a:hover { text-decoration: none; cursor:pointer;}
 .btn-mini { height: 36px; padding: 0 30px; font-size: 14px; border-radius: 5px; color: #fff;}
 .btn-primary { background: #5db36c;}
 .btn-danger { background: #e5e5e5; color: #999;}
-.pagination .btn-mini { height: 20px;}
+.pagination .btn-mini { height: 20px;box-sizing: content-box;}
 
 .com-box {
 	text-align: center;
@@ -1106,11 +1105,13 @@ a:hover { text-decoration: none; cursor:pointer;}
 .comTable tr th .checkbox-holder input.regular-radio:checked + label:after,.comTable tr td .checkbox-holder input.regular-radio:checked + label:after { height: 30px;}
 .topSele { margin: 25px 0;}
 
-
-
-
-
-
+.aleCon { padding: 0 10px;}
+.aleCbox { padding-bottom:24px;}
+.aleLtit { line-height: 36px; float:left; padding-right:10px; width: 70px;}
+.aleRinp { float:left; height:36px !important; box-sizing:border-box; border:1px solid #d9d9d9; width:200px; color:#333 !important; margin-bottom:0 !important;}
+.aleBtnBox { overflow:hidden; text-align:center; padding: 10px 0 20px 0;}
+.aleBtnL { padding-left:92px; text-align:left;}
+.aleBtnL a:first-child { margin-right:12px;}
 
 
 
