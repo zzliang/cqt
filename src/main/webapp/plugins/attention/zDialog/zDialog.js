@@ -218,7 +218,7 @@ Dialog.prototype.create = function () {
     var html = '\
   <table id="_DialogTable_' + this.ID + '" width="' + (this.Width + 26) + '" cellspacing="0" cellpadding="0" onselectstart="return false;" style="-moz-user-select: none; font-size:12px; line-height:1.4;">\
     <tr id="_Draghandle_' + this.ID + '" style="' + (this.Drag ? "cursor: move;" : "") + '">\
-      <td height="50" style="background:#fff; text-align:center; position:relative;"><div style="position: absolute; left:0; top:0; z-index:6; width:100%; height: 50px;padding: 5px 0 0 16px; font-weight: bold; font-size:14px; color:#666; border-bottom:1px solid #cdcdcd;"><span id="_Title_' + this.ID + '" style=" font-size:14px; color:#666; line-height: 50px;">' + this.Title + '</span></div>\
+      <td height="50" style="background:#fff; text-align:center; position:relative;"><div style="position: absolute; left:0; top:0; z-index:6; width:100%; height: 50px; font-weight: bold; font-size:14px; color:#666; border-bottom:1px solid #cdcdcd;"><span id="_Title_' + this.ID + '" style=" font-size:14px; color:#666; line-height: 50px;">' + this.Title + '</span></div>\
         <div onclick="Dialog.getInstance(\'' + this.ID + '\').cancelButton.onclick.apply(Dialog.getInstance(\'' + this.ID + '\').cancelButton,[]);" onmouseout="this.style.backgroundImage=\'url(' + IMAGESPATH2 + 'close.png)\'" onmouseover="this.style.backgroundImage=\'url(' + IMAGESPATH2 + 'close.png)\'" style="position:absolute; right: -50px; top: -12px; z-index:5;margin: 1px 4px 0; background-size: 28px 28px; *margin-top:5px; [;margin-top:5px;];position: relative; cursor: pointer; float: right; height: 28px; width: 28px; background-image: url(' + IMAGESPATH2 + 'close.png);' + (this.ShowCloseButton ? "" : "display:none;") + '"><a id="_forTab_' + this.ID + '" href="#;" style="font-size:30px; color: #999;"></a></div></td>\
     </tr>\
     <tr valign="top">\
@@ -260,6 +260,7 @@ Dialog.prototype.create = function () {
         topDoc.getElementsByTagName("BODY")[0].appendChild(div);
     }
     div.style.position = "absolute";
+    div.style.boxShadow = "0 0 15px #969696";
     div.style.left = "-9999px";
     div.style.top = "-9999px";
     div.innerHTML = html;
@@ -472,7 +473,7 @@ Dialog.getBgdiv = function () {
         bgdiv.id = "_DialogBGDiv";
         bgdiv.style.cssText = "position:absolute;left:0px;top:0px;width:100%;height:100%;z-index:9999";
         var bgIframeBox = '<div style="position:relative;width:100%;height:100%;">';
-		var bgIframeMask = '<div id="_DialogBGMask" style="position:absolute;background-color:#333;opacity:0.4;filter:alpha(opacity=40);width:100%;height:100%;"></div>';
+		var bgIframeMask = '<div id="_DialogBGMask" style="position:absolute;background-color:rgba(240,240,240,0.8);opacity:0.7;filter:alpha(opacity=70);width:100%;height:100%;"></div>';
 		var bgIframe = isIE?'<iframe src="about:blank" style="filter:alpha(opacity=0);" width="100%" height="100%"></iframe>':'';
 		bgdiv.innerHTML=bgIframeBox+bgIframeMask+bgIframe+'</div>';
         topDoc.getElementsByTagName("BODY")[0].appendChild(bgdiv);
